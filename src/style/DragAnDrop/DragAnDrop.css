@@ -1,0 +1,37 @@
+.etiqueta{
+    border-radius: 5px;
+    border: 1px solid rgb(110, 110, 110);
+ padding: 8px;
+    height: 90%;
+    width: 210px;
+    background-color: white;
+}
+.position{
+    display: flex;
+    gap: 5px;
+}
+
+.tittle{
+    border-radius: 5px;
+    border: 1px solid rgb(110, 110, 110);
+    width: 90px;
+   font-size: 13px;
+   padding: 5px;
+   background-color: white;
+}
+.fondo{
+ background-image: url("https://firebasestorage.googleapis.com/v0/b/mampara-e5ebb.appspot.com/o/carton1.jpg?alt=media&token=39d8f8df-2548-4b7e-99b0-b69a62ed0306&_gl=1*1sc6y0o*_ga*MTg4MjI1MDA3NC4xNjk3MDM3OTc5*_ga_CW55HF8NVT*MTY5NzczMjE4Mi40LjEuMTY5NzczMjIxNy4yNS4wLjA.");
+   /* background-image: url("../../../public/img/fondo.svg"); */
+   background-repeat: no-repeat;
+    background-size: cover;
+    padding: 5px;
+}
+.tamañoLetra{
+    font-size: 12px;
+}
+
+.titulosTyle{
+
+  font-weight: bold;
+
+}
