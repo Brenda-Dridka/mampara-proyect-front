@@ -1,0 +1,21 @@
+.styleHover:hover {
+    background-color: #ACAD99 !important;
+
+}
+.styleHover2:hover {
+   
+    color: #ffffff !important ;
+}
+.styleTable{
+    background-color: #025e73 !important;
+    color: #ffff !important;
+}
+
+.positionTable{
+    margin: 2rem;
+}
+
+.posicionamientoEtiquetas{
+    display: flex;
+    justify-content:center;
+}

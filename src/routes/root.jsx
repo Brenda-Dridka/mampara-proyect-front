@@ -29,6 +29,7 @@ import { ImSpinner9 } from "react-icons/im";
 import { SiLaravelnova } from "react-icons/si";
 import { BiSolidTimeFive } from "react-icons/bi";
 import { BiSolidTimer } from "react-icons/bi";
+import { HiMiniCloud } from "react-icons/hi2";
 //import { EtiquetasMampara } from "../DragAnDrop/EtiquetasMampara";
 //import ImportDocument from "../cargaDocument/importDocument";
 //import ImplementacionDrag from "../DragAnDrop/ImplementacionDrag";
@@ -111,7 +112,7 @@ const data = [
     icon: <DesktopMacIcon />,
     link: "/",
   },
-  {
+  /*   {
     id: "02",
     name: "Extrusion",
     icon: <FaList />,
@@ -122,7 +123,7 @@ const data = [
     name: "Graficado",
     icon: <HiChartBar />,
     link: "/graficado",
-  },
+  }, */
   {
     id: "04",
     name: "Terminado",
@@ -170,6 +171,12 @@ const data = [
     name: "SETUP",
     icon: <BiSolidTimer />,
     link: "/setup",
+  },
+  {
+    id: "12",
+    name: "Productos",
+    icon: <HiMiniCloud color="blue" />,
+    link: "/productos",
   },
 ];
 
@@ -249,7 +256,7 @@ export default function MiniDrawer() {
         </List>
         <Divider />
       </Drawer>
-      <Box>
+      <Box className="margenGlobal">
         <DrawerHeader />
         <Outlet />
         {/*  <div

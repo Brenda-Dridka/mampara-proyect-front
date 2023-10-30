@@ -55,7 +55,7 @@ export default function PositionedPopper({ etiqueta, onDelete }) {
               <IconButton onClick={handleDelete}>
                 <DeleteIcon />
               </IconButton>
-
+              ;
               <IconButton size="small">
                 <MdPendingActions color="#FFCC00" />
               </IconButton>

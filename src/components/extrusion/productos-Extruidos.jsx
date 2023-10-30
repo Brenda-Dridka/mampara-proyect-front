@@ -8,7 +8,30 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { useState, useEffect } from "react";
+import "../../style/tablas/global.css";
 
+//personalizacion de tenma
+
+import Checkbox from "@mui/material/Checkbox";
+import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
+import { blue } from "@mui/material/colors";
+
+// Importacion de tema personalizado
+
+const CustomCheckbox = styled(Checkbox)(({ theme }) => ({
+  color: theme.status.danger,
+  "&.Mui-checked": {
+    color: theme.status.danger,
+  },
+}));
+
+const theme = createTheme({
+  status: {
+    danger: blue[900],
+  },
+});
+
+//
 const columns = [
   { id: "clave", label: "Clave", minWidth: 170 },
   { id: "nombre", label: "Nombre", minWidth: 170 },
@@ -17,6 +40,7 @@ const columns = [
   { id: "hora_programada", label: "Hora Programada", minWidth: 100 },
   { id: "fecha_real", label: "Fecha Real", minWidth: 100 },
   { id: "hora_real", label: "Hora Real", minWidth: 100 },
+  { id: "cantidad", label: "Cantidad", minWidth: 100 },
 ];
 
 export default function StickyHeadTable() {
@@ -46,58 +70,66 @@ export default function StickyHeadTable() {
   };
 
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden" }}>
-      <TableContainer>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead style={{ backgroundColor: "red !important" }}>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {productos
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((productos) => {
-                return (
-                  <TableRow
-                    hover
-                    role="checkbox"
-                    tabIndex={-1}
-                    key={productos.id}
+    <div>
+      <h2>Productos Extruidos</h2>
+      <Paper sx={{ width: "100%", overflow: "hidden" }}>
+        <TableContainer>
+          <Table stickyHeader aria-label="sticky table">
+            <TableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    align={column.align}
+                    className="styleTable"
                   >
-                    {columns.map((column) => {
-                      const value = productos[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === "number"
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={productos.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </Paper>
+                    {column.label}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {productos
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((productos) => {
+                  return (
+                    <TableRow
+                      /* hover */
+                      className="styleHover "
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={productos.id}
+                    >
+                      {columns.map((column) => {
+                        const value = productos[column.id];
+                        return (
+                          <TableCell
+                            key={column.id}
+                            align={column.align}
+                            className="styleHover2"
+                          >
+                            {column.format && typeof value === "number"
+                              ? column.format(value)
+                              : value}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100]}
+          component="div"
+          count={productos.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+    </div>
   );
 }
