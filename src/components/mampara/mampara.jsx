@@ -43,6 +43,16 @@ export default function Component2() {
       etiquetasAgregadas.filter((item) => item.id !== tagId)
     );
   };
+  // Función para formatear la fecha
+  function formatDateWithoutTime(date) {
+    // Convierte la fecha en un objeto Date
+    const parsedDate = new Date(date);
+    // Formatea la fecha como "DD/MM/AAAA"
+    const formattedDate = `${parsedDate.getDate()}/${
+      parsedDate.getMonth() + 1
+    }/${parsedDate.getFullYear()}`;
+    return formattedDate;
+  }
   return (
     <div style={{ display: "flex", gap: "2rem", flexDirection: "column" }}>
       <AgregarProducto />
@@ -60,22 +70,30 @@ export default function Component2() {
                 {etiquetasAgregadas.map((item) => (
                   <div key={item.id} className="etiqueta">
                     <div className="m-3 cursor-draggable">
-                      <div className="espaciadoEtiqueta">
-                        <div className="card-body titulosTyle">
+                      <div className="espaciadoEtiqueta posicionamientoEtiquetas">
+                        <div className="card-body titulosTyle ">
                           {item.nombre}
                         </div>
                         <BotonOption
                           etiqueta={item}
                           onDelete={handleTagDelete}
                         />
-                        {/* <DeleteTagButton
-                          }
-                        /> */}
                       </div>
                       <hr className="linea-etiqueta" />
+                      <strong>
+                        {console.log("Valor de polvos:", item.polvos)}
+                        {item.polvos === true && (
+                          <p className="tamañoLetra posicionamientoEtiquetas spaciadoEtiquetaLetras">
+                            POLVOS
+                          </p>
+                        )}
+                      </strong>
                       <hr className="linea-etiqueta" />
-                      <div className="position">
-                        <p className="tamañoLetra">{item.fecha}</p>
+                      <div className="position spaciadoEtiquetaLetras">
+                        <p className="tamañoLetra ">
+                          {formatDateWithoutTime(item.fecha)}
+                        </p>
+
                         <p className="tamañoLetra">{item.clave}</p>
                         <p className="tamañoLetra">{item.kilos}kg</p>
                       </div>
@@ -97,16 +115,30 @@ export default function Component2() {
                 {etiquetasAbajo1.map((item) => (
                   <div key={item.id} className="etiqueta">
                     <div className="m-3 cursor-draggable">
-                      <div className="espaciadoEtiqueta">
-                        <div className="card-body titulosTyle">
+                      <div className="espaciadoEtiqueta posicionamientoEtiquetas">
+                        <div className="card-body titulosTyle ">
                           {item.nombre}
                         </div>
-                        <BotonOption />
+                        <BotonOption
+                          etiqueta={item}
+                          onDelete={handleTagDelete}
+                        />
                       </div>
                       <hr className="linea-etiqueta" />
+                      <strong>
+                        {console.log("Valor de polvos:", item.polvos)}
+                        {item.polvos === true && (
+                          <p className="tamañoLetra posicionamientoEtiquetas spaciadoEtiquetaLetras">
+                            POLVOS
+                          </p>
+                        )}
+                      </strong>
                       <hr className="linea-etiqueta" />
-                      <div className="position">
-                        <p className="tamañoLetra">{item.fecha}</p>
+                      <div className="position spaciadoEtiquetaLetras">
+                        <p className="tamañoLetra ">
+                          {formatDateWithoutTime(item.fecha)}
+                        </p>
+
                         <p className="tamañoLetra">{item.clave}</p>
                         <p className="tamañoLetra">{item.kilos}kg</p>
                       </div>

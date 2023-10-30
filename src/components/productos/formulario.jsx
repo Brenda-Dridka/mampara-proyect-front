@@ -39,6 +39,7 @@ export default function AlertDialog() {
   const [selectedArticle, setSelectedArticle] = useState(null);
   const [date, setDate] = useState(null);
   const [kilos, setKilos] = useState("");
+  const [polvos, setPolvos] = useState(false); // Agregar el estado para "polvos"
 
   useEffect(() => {
     fetch("http://localhost:3000/api/v1/productos")
@@ -104,6 +105,9 @@ export default function AlertDialog() {
   const handleKilosChange = (event) => {
     setKilos(event.target.value);
   };
+  const handlePolvosChange = (event) => {
+    setPolvos(event.target.checked);
+  };
 
   const handleSave = () => {
     // Verificar que se han seleccionado un artículo, una fecha y kilos
@@ -118,6 +122,7 @@ export default function AlertDialog() {
       fecha: date,
       clave: selectedArticle.clave,
       kilos: kilos,
+      polvos: polvos,
     };
 
     // Hacer la solicitud POST a la API
@@ -198,9 +203,12 @@ export default function AlertDialog() {
             </div>
             <hr className="linea-etiqueta " />
             <div className="posicionamientoEtiquetas">
-              <DemoItem label="El producto llevara polvos?">
-                <FormControlLabel control={<Checkbox />} label="POLVOS" />
-              </DemoItem>
+              <FormControlLabel
+                control={
+                  <Checkbox checked={polvos} onChange={handlePolvosChange} />
+                }
+                label="POLVOS"
+              />
             </div>
             <hr className="linea-etiqueta" />
             <div style={{ display: "flex", gap: "0.3rem" }}>

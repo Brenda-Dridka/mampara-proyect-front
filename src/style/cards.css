@@ -1,8 +1,12 @@
 .linea-etiqueta{
     height: 2px;
     background-color: rgb(126, 126, 126);
+    margin: 0px;
 }
 
 .separacionCard{
     margin-top: 3% !important;
+}
+.spaciadoEtiquetaLetras{
+    margin: 0px;
 }
