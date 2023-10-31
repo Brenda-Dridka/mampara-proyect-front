@@ -12,16 +12,13 @@ import Autocomplete from "@mui/material/Autocomplete";
 import FormControl from "@mui/material/FormControl";
 import CircularProgress from "@mui/material/CircularProgress";
 import "../../style/cards.css";
-//implementacion de fechasx
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useState, useEffect } from "react";
-//importacion de swith
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import FormLabel from "@mui/material/FormLabel";
 
 // Importa axios para hacer la solicitud POST
 import axios from "axios";
@@ -123,6 +120,8 @@ export default function AlertDialog() {
       clave: selectedArticle.clave,
       kilos: kilos,
       polvos: polvos,
+      estado: "activo", // Estado por defecto "activo"
+      extrusor: " ",
     };
 
     // Hacer la solicitud POST a la API

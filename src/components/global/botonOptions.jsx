@@ -1,23 +1,28 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Popper from "@mui/material/Popper";
-import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
 import Fade from "@mui/material/Fade";
 import Paper from "@mui/material/Paper";
 import { SlOptionsVertical } from "react-icons/sl";
 import IconButton from "@mui/material/IconButton";
-import { BsArrowDownUp } from "react-icons/bs";
-import { BsXCircleFill } from "react-icons/bs";
 import { MdPendingActions } from "react-icons/md";
-import EditarEtiqueta from "../Etiquetas/editarProducto";
-import EliminacioEtiquetas from "../Etiquetas/eliminarEtiqueta";
-import DeleteTagButton from "../Etiquetas/eliminarEtiqueta";
 import axios from "axios";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 export default function PositionedPopper({ etiqueta, onDelete }) {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [open, setOpen] = React.useState(false);
+  const [placement, setPlacement] = React.useState();
+  const [labelColor, setLabelColor] = React.useState("#ffffff"); // Estado para el color de la etiqueta
+
+  const handleClick = (newPlacement) => (event) => {
+    setAnchorEl(event.currentTarget);
+    setOpen((prev) => placement !== newPlacement || !prev);
+    setPlacement(newPlacement);
+  };
+
   const handleDelete = () => {
     if (etiqueta) {
       // Realiza una solicitud DELETE para eliminar la etiqueta utilizando Axios
@@ -36,14 +41,46 @@ export default function PositionedPopper({ etiqueta, onDelete }) {
         });
     }
   };
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [open, setOpen] = React.useState(false);
-  const [placement, setPlacement] = React.useState();
 
-  const handleClick = (newPlacement) => (event) => {
-    setAnchorEl(event.currentTarget);
-    setOpen((prev) => placement !== newPlacement || !prev);
-    setPlacement(newPlacement);
+  const handleSetPending = () => {
+    if (etiqueta) {
+      // Realiza una solicitud PUT para actualizar el estado a "pendiente"
+      axios
+        .put(`http://localhost:3000/api/v1/etiquetas/${etiqueta.id}`, {
+          estado: "pendiente",
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            // Actualiza el color de la etiqueta
+            /*   setLabelColor("#FFCC00"); */
+          } else {
+            console.error("No se pudo cambiar el estado de la etiqueta.");
+          }
+        })
+        .catch((error) => {
+          console.error("Error al cambiar el estado de la etiqueta", error);
+        });
+    }
+  };
+  const handleSetPending2 = () => {
+    if (etiqueta) {
+      // Realiza una solicitud PUT para actualizar el estado a "pendiente"
+      axios
+        .put(`http://localhost:3000/api/v1/etiquetas/${etiqueta.id}`, {
+          estado: "activo",
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            // Actualiza el color de la etiqueta
+            /*   setLabelColor("#FFCC00"); */
+          } else {
+            console.error("No se pudo cambiar el estado de la etiqueta.");
+          }
+        })
+        .catch((error) => {
+          console.error("Error al cambiar el estado de la etiqueta", error);
+        });
+    }
   };
 
   return (
@@ -51,13 +88,16 @@ export default function PositionedPopper({ etiqueta, onDelete }) {
       <Popper open={open} anchorEl={anchorEl} placement={placement} transition>
         {({ TransitionProps }) => (
           <Fade {...TransitionProps} timeout={350}>
-            <Paper>
+            <Paper style={{ backgroundColor: labelColor }}>
               <IconButton onClick={handleDelete}>
-                <DeleteIcon />
+                <DeleteIcon style={{ color: "red" }} />
               </IconButton>
 
-              <IconButton size="small">
-                <MdPendingActions color="#FFCC00" />
+              <IconButton size="small" onClick={handleSetPending}>
+                <MdPendingActions color="#FFBC00" />
+              </IconButton>
+              <IconButton size="small" onClick={handleSetPending2}>
+                <CheckCircleIcon style={{ color: "#5DBF00" }} />
               </IconButton>
             </Paper>
           </Fade>
