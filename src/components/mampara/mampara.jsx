@@ -28,13 +28,20 @@ export default function Component2() {
   const [etiquetasAbajo17, setEtiquetasAbajo17] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/v1/etiquetas")
-      .then((response) => {
-        return response.json();
-      })
-      .then((etiquetas) => {
+    const fetchEtiquetas = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/api/v1/etiquetas");
+        if (!response.ok) {
+          throw new Error("No se pudo cargar las etiquetas.");
+        }
+        const etiquetas = await response.json();
         setEtiquetasAgregadas(etiquetas);
-      });
+      } catch (error) {
+        console.error("Error al cargar etiquetas:", error);
+      }
+    };
+
+    fetchEtiquetas();
   }, []);
 
   const handleTagDelete = (tagId) => {
@@ -89,7 +96,7 @@ export default function Component2() {
                         )}
                       </strong>
                       <hr className="linea-etiqueta" />
-                      <div className="position spaciadoEtiquetaLetras">
+                      <div className="position2 spaciadoEtiquetaLetras">
                         <p className="tamañoLetra ">
                           {formatDateWithoutTime(item.fecha)}
                         </p>
@@ -134,7 +141,7 @@ export default function Component2() {
                         )}
                       </strong>
                       <hr className="linea-etiqueta" />
-                      <div className="position spaciadoEtiquetaLetras">
+                      <div className="position2 spaciadoEtiquetaLetras">
                         <p className="tamañoLetra ">
                           {formatDateWithoutTime(item.fecha)}
                         </p>
@@ -158,16 +165,30 @@ export default function Component2() {
                 {etiquetasAbajo2.map((item) => (
                   <div key={item.id} className="etiqueta">
                     <div className="m-3 cursor-draggable">
-                      <div className="espaciadoEtiqueta">
-                        <div className="card-body titulosTyle">
+                      <div className="espaciadoEtiqueta posicionamientoEtiquetas">
+                        <div className="card-body titulosTyle ">
                           {item.nombre}
                         </div>
-                        <BotonOption />
+                        <BotonOption
+                          etiqueta={item}
+                          onDelete={handleTagDelete}
+                        />
                       </div>
                       <hr className="linea-etiqueta" />
+                      <strong>
+                        {console.log("Valor de polvos:", item.polvos)}
+                        {item.polvos === true && (
+                          <p className="tamañoLetra posicionamientoEtiquetas spaciadoEtiquetaLetras">
+                            POLVOS
+                          </p>
+                        )}
+                      </strong>
                       <hr className="linea-etiqueta" />
-                      <div className="position">
-                        <p className="tamañoLetra">{item.fecha}</p>
+                      <div className="position2 spaciadoEtiquetaLetras">
+                        <p className="tamañoLetra ">
+                          {formatDateWithoutTime(item.fecha)}
+                        </p>
+
                         <p className="tamañoLetra">{item.clave}</p>
                         <p className="tamañoLetra">{item.kilos}kg</p>
                       </div>
@@ -187,16 +208,30 @@ export default function Component2() {
                 {etiquetasAbajo3.map((item) => (
                   <div key={item.id} className="etiqueta">
                     <div className="m-3 cursor-draggable">
-                      <div className="espaciadoEtiqueta">
-                        <div className="card-body titulosTyle">
+                      <div className="espaciadoEtiqueta posicionamientoEtiquetas">
+                        <div className="card-body titulosTyle ">
                           {item.nombre}
                         </div>
-                        <BotonOption />
+                        <BotonOption
+                          etiqueta={item}
+                          onDelete={handleTagDelete}
+                        />
                       </div>
                       <hr className="linea-etiqueta" />
+                      <strong>
+                        {console.log("Valor de polvos:", item.polvos)}
+                        {item.polvos === true && (
+                          <p className="tamañoLetra posicionamientoEtiquetas spaciadoEtiquetaLetras">
+                            POLVOS
+                          </p>
+                        )}
+                      </strong>
                       <hr className="linea-etiqueta" />
-                      <div className="position">
-                        <p className="tamañoLetra">{item.fecha}</p>
+                      <div className="position2 spaciadoEtiquetaLetras">
+                        <p className="tamañoLetra ">
+                          {formatDateWithoutTime(item.fecha)}
+                        </p>
+
                         <p className="tamañoLetra">{item.clave}</p>
                         <p className="tamañoLetra">{item.kilos}kg</p>
                       </div>
@@ -216,16 +251,30 @@ export default function Component2() {
                 {etiquetasAbajo4.map((item) => (
                   <div key={item.id} className="etiqueta">
                     <div className="m-3 cursor-draggable">
-                      <div className="espaciadoEtiqueta">
-                        <div className="card-body titulosTyle">
+                      <div className="espaciadoEtiqueta posicionamientoEtiquetas">
+                        <div className="card-body titulosTyle ">
                           {item.nombre}
                         </div>
-                        <BotonOption />
+                        <BotonOption
+                          etiqueta={item}
+                          onDelete={handleTagDelete}
+                        />
                       </div>
                       <hr className="linea-etiqueta" />
+                      <strong>
+                        {console.log("Valor de polvos:", item.polvos)}
+                        {item.polvos === true && (
+                          <p className="tamañoLetra posicionamientoEtiquetas spaciadoEtiquetaLetras">
+                            POLVOS
+                          </p>
+                        )}
+                      </strong>
                       <hr className="linea-etiqueta" />
-                      <div className="position">
-                        <p className="tamañoLetra">{item.fecha}</p>
+                      <div className="position2 spaciadoEtiquetaLetras">
+                        <p className="tamañoLetra ">
+                          {formatDateWithoutTime(item.fecha)}
+                        </p>
+
                         <p className="tamañoLetra">{item.clave}</p>
                         <p className="tamañoLetra">{item.kilos}kg</p>
                       </div>

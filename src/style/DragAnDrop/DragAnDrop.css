@@ -10,6 +10,10 @@
     display: flex;
     gap: 1%;
 }
+.position2{
+    display: flex;
+    gap: 0.5rem;
+}
 
 .tittle{
     border-radius: 5px;
