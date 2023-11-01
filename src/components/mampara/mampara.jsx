@@ -7,7 +7,6 @@ import BotonOption from "../global/botonOptions";
 import "../../style/global/global.css";
 import AgregarProducto from "../productos/formulario";
 
-//implementacion extrusores etiquetas
 export default function Component2() {
   const [labelColor, setLabelColor] = React.useState("#ffffff");
   const [etiquetasAgregadas, setEtiquetasAgregadas] = useState([]);
@@ -39,15 +38,6 @@ export default function Component2() {
         }
         const etiquetas = response.data;
 
-        // Agrupar etiquetas por extrusor en el objeto etiquetasPorExtrusor
-        etiquetas.forEach((etiqueta) => {
-          const { extrusor } = etiqueta; // Asumiendo que cada etiqueta tiene un campo extrusorId
-          if (!etiquetasPorExtrusor[extrusor]) {
-            etiquetasPorExtrusor[extrusor] = [];
-          }
-          etiquetasPorExtrusor[extrusor].push(etiqueta);
-        });
-
         setEtiquetasAgregadas(etiquetas);
       })
       .catch((error) => {
@@ -59,6 +49,56 @@ export default function Component2() {
     setEtiquetasAgregadas(
       etiquetasAgregadas.filter((item) => item.id !== tagId)
     );
+  };
+
+  // Función para guardar los cambios en el campo 'extrusor' de una etiqueta
+  const guardarCambiosEtiqueta = async (etiqueta) => {
+    try {
+      // Realizar una solicitud PUT para actualizar el campo 'extrusor' de la etiqueta en la base de datos
+      await axios.put(`http://localhost:3000/api/v1/etiquetas/${etiqueta.id}`, {
+        extrusor: etiqueta.extrusor,
+      });
+
+      console.log(
+        `Cambios guardados en el campo 'extrusor' de la etiqueta ${etiqueta.id}`
+      );
+    } catch (error) {
+      console.error(
+        `Error al guardar cambios en la etiqueta ${etiqueta.id}:`,
+        error
+      );
+    }
+  };
+
+  // Función para guardar los cambios en el campo 'extrusor' de las etiquetas
+  const guardarCambios = () => {
+    etiquetasAgregadas.forEach((etiqueta) => {
+      guardarCambiosEtiqueta(etiqueta);
+    });
+  };
+
+  // Manejar el cambio de extrusor al arrastrar una etiqueta
+  const handleTagDrop = async (tagId, extrusor) => {
+    try {
+      // Realizar una solicitud PUT para actualizar el campo 'extrusor' de la etiqueta en la base de datos
+      await axios.put(`http://localhost:3000/api/v1/etiquetas/${tagId}`, {
+        extrusor: extrusor,
+      });
+
+      console.log(`Etiqueta ${tagId} asignada al extrusor ${extrusor}`);
+
+      // Actualizar el estado de las etiquetas para reflejar el cambio
+      const updatedEtiquetas = etiquetasAgregadas.map((item) => {
+        if (item.id === tagId) {
+          return { ...item, extrusor: extrusor };
+        }
+        return item;
+      });
+
+      setEtiquetasAgregadas(updatedEtiquetas);
+    } catch (error) {
+      console.error(`Error al asignar la etiqueta al extrusor:`, error);
+    }
   };
 
   function formatDateWithoutTime(date) {
@@ -91,6 +131,7 @@ export default function Component2() {
                       backgroundColor:
                         item.estado === "pendiente" ? "#FFE224" : labelColor,
                     }}
+                    data-id={item.id}
                   >
                     <div className="m-3 cursor-draggable">
                       <div className="espaciadoEtiqueta posicionamientoEtiquetas">
@@ -138,6 +179,16 @@ export default function Component2() {
                   }}
                   group="shared-group-name"
                   className="position"
+                  data-extrusorid={extrusor.id}
+                  onEnd={(evt) => {
+                    // Obtener el id del extrusor al que se ha movido la etiqueta
+                    const extrusorId =
+                      evt.newSet.nextSibling.dataset.extrusorid;
+                    // Obtener el id de la etiqueta
+                    const tagId = evt.item.dataset.id;
+                    // Llamar a la función para manejar el cambio de extrusor
+                    handleTagDrop(tagId, extrusorId);
+                  }}
                 >
                   {etiquetasPorExtrusor[extrusor.id]
                     ? etiquetasPorExtrusor[extrusor.id].map((item) => (
@@ -187,6 +238,7 @@ export default function Component2() {
           </div>
         </div>
       </div>
+      <button onClick={guardarCambios}>Guardar Cambios</button>
     </div>
   );
 }
