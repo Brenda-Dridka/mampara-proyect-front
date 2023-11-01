@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { ReactSortable } from "react-sortablejs";
 import axios from "axios";
-
 import "../../style/DragAnDrop/DragAnDrop.css";
 import "../../style/cards.css";
 import BotonOption from "../global/botonOptions";
 import "../../style/global/global.css";
 import AgregarProducto from "../productos/formulario";
 
+//implementacion extrusores etiquetas
 export default function Component2() {
   const [labelColor, setLabelColor] = React.useState("#ffffff");
   const [etiquetasAgregadas, setEtiquetasAgregadas] = useState([]);
