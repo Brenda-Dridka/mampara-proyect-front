@@ -8,6 +8,7 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { useState, useEffect } from "react";
+import BotonAgregarProductos from "./BotonAgregarProductos";
 
 const columns = [
   { id: "clave", label: "Clave", minWidth: 170 },
@@ -15,6 +16,7 @@ const columns = [
   { id: "l", label: "L", minWidth: 100 },
   { id: "a", label: "A", minWidth: 100 },
   { id: "b", label: "B", minWidth: 100 },
+  { id: "", label: "Option", minWidth: 100 },
 ];
 
 export default function StickyHeadTable() {
@@ -44,6 +46,7 @@ export default function StickyHeadTable() {
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
+      <BotonAgregarProductos />
       <TableContainer>
         <Table stickyHeader aria-label="sticky table">
           <TableHead style={{ backgroundColor: "red !important" }}>

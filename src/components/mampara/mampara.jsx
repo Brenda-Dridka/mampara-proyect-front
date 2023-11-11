@@ -14,7 +14,6 @@ export default function Component2() {
   const [etiquetasPorExtrusor, setEtiquetasPorExtrusor] = useState({});
 
   useEffect(() => {
-    // Cargar extrusores desde la API
     axios
       .get("http://localhost:3000/api/v1/extrusores")
       .then((response) => {
@@ -29,7 +28,6 @@ export default function Component2() {
   }, []);
 
   useEffect(() => {
-    // Cargar etiquetas desde la API y agruparlas por extrusor
     axios
       .get("http://localhost:3000/api/v1/etiquetas")
       .then((response) => {
@@ -37,8 +35,23 @@ export default function Component2() {
           throw Error("No se pudieron cargar las etiquetas.");
         }
         const etiquetas = response.data;
-
         setEtiquetasAgregadas(etiquetas);
+
+        // Recuperar información sobre el extrusor de localStorage
+        const extrusorInfo =
+          JSON.parse(localStorage.getItem("extrusorInfo")) || {};
+        const etiquetasPorExtrusorTemp = {};
+
+        etiquetas.forEach((etiqueta) => {
+          const extrusorId = extrusorInfo[etiqueta.id];
+          if (extrusorId) {
+            etiquetasPorExtrusorTemp[extrusorId] =
+              etiquetasPorExtrusorTemp[extrusorId] || [];
+            etiquetasPorExtrusorTemp[extrusorId].push(etiqueta);
+          }
+        });
+
+        setEtiquetasPorExtrusor(etiquetasPorExtrusorTemp);
       })
       .catch((error) => {
         console.error("Error al cargar etiquetas:", error);
@@ -51,10 +64,8 @@ export default function Component2() {
     );
   };
 
-  // Función para guardar los cambios en el campo 'extrusor' de una etiqueta
   const guardarCambiosEtiqueta = async (etiqueta) => {
     try {
-      // Realizar una solicitud PUT para actualizar el campo 'extrusor' de la etiqueta en la base de datos
       await axios.put(`http://localhost:3000/api/v1/etiquetas/${etiqueta.id}`, {
         extrusor: etiqueta.extrusor,
       });
@@ -70,32 +81,97 @@ export default function Component2() {
     }
   };
 
-  // Función para guardar los cambios en el campo 'extrusor' de las etiquetas
-  const guardarCambios = () => {
-    etiquetasAgregadas.forEach((etiqueta) => {
-      guardarCambiosEtiqueta(etiqueta);
+  const guardarCambiosEtiquetasExtrusor = async (extrusorId) => {
+    const etiquetasEnExtrusor = etiquetasPorExtrusor[extrusorId] || [];
+
+    const promises = etiquetasEnExtrusor.map((etiqueta) => {
+      return guardarCambiosEtiqueta({
+        ...etiqueta,
+        extrusor: extrusores.find((e) => e.id === extrusorId)?.nombre,
+      });
     });
+
+    try {
+      await Promise.all(promises);
+      console.log(
+        `Cambios guardados en todas las etiquetas del extrusor ${extrusorId}.`
+      );
+    } catch (error) {
+      console.error(
+        `Error al guardar cambios en etiquetas del extrusor ${extrusorId}:`,
+        error
+      );
+    }
   };
 
-  // Manejar el cambio de extrusor al arrastrar una etiqueta
+  const guardarCambios = async () => {
+    const promises = etiquetasAgregadas.map((etiqueta) => {
+      return guardarCambiosEtiqueta(etiqueta);
+    });
+
+    try {
+      await Promise.all(promises);
+      console.log("Cambios guardados en todas las etiquetas.");
+    } catch (error) {
+      console.error("Error al guardar cambios en etiquetas:", error);
+    }
+  };
+
   const handleTagDrop = async (tagId, extrusor) => {
     try {
-      // Realizar una solicitud PUT para actualizar el campo 'extrusor' de la etiqueta en la base de datos
-      await axios.put(`http://localhost:3000/api/v1/etiquetas/${tagId}`, {
-        extrusor: extrusor,
-      });
+      const extrusorExistente = extrusores.find((e) => e.nombre === extrusor);
 
-      console.log(`Etiqueta ${tagId} asignada al extrusor ${extrusor}`);
+      if (extrusorExistente) {
+        const etiqueta = etiquetasAgregadas.find((item) => item.id === tagId);
 
-      // Actualizar el estado de las etiquetas para reflejar el cambio
-      const updatedEtiquetas = etiquetasAgregadas.map((item) => {
-        if (item.id === tagId) {
-          return { ...item, extrusor: extrusor };
+        if (etiqueta.extrusor === extrusorExistente.nombre) {
+          console.log(
+            `La etiqueta ${tagId} ya está asignada al extrusor ${extrusor}`
+          );
+          return;
         }
-        return item;
-      });
 
-      setEtiquetasAgregadas(updatedEtiquetas);
+        await axios.put(`http://localhost:3000/api/v1/etiquetas/${tagId}`, {
+          extrusor: extrusorExistente.nombre,
+        });
+
+        console.log(
+          `Etiqueta ${tagId} asignada al extrusor ${extrusorExistente.nombre}`
+        );
+
+        const updatedEtiquetas = etiquetasAgregadas.map((item) => {
+          if (item.id === tagId) {
+            return { ...item, extrusor: extrusorExistente.nombre };
+          }
+          return item;
+        });
+
+        setEtiquetasAgregadas(updatedEtiquetas);
+
+        setEtiquetasPorExtrusor((prevEtiquetasPorExtrusor) => {
+          const newEtiquetas =
+            prevEtiquetasPorExtrusor[extrusorExistente.id] || [];
+          newEtiquetas.push(
+            etiquetasAgregadas.find((item) => item.id === tagId)
+          );
+          return {
+            ...prevEtiquetasPorExtrusor,
+            [extrusorExistente.id]: newEtiquetas,
+          };
+        });
+
+        // Almacenar información sobre el extrusor en localStorage
+        const extrusorInfo =
+          JSON.parse(localStorage.getItem("extrusorInfo")) || {};
+        extrusorInfo[tagId] = extrusorExistente.id;
+        localStorage.setItem("extrusorInfo", JSON.stringify(extrusorInfo));
+
+        await guardarCambiosEtiquetasExtrusor(extrusorExistente.id);
+      } else {
+        console.error(
+          `El nombre del extrusor no coincide con ninguno de los extrusores disponibles.`
+        );
+      }
     } catch (error) {
       console.error(`Error al asignar la etiqueta al extrusor:`, error);
     }
@@ -181,12 +257,9 @@ export default function Component2() {
                   className="position"
                   data-extrusorid={extrusor.id}
                   onEnd={(evt) => {
-                    // Obtener el id del extrusor al que se ha movido la etiqueta
                     const extrusorId =
                       evt.newSet.nextSibling.dataset.extrusorid;
-                    // Obtener el id de la etiqueta
                     const tagId = evt.item.dataset.id;
-                    // Llamar a la función para manejar el cambio de extrusor
                     handleTagDrop(tagId, extrusorId);
                   }}
                 >
@@ -233,6 +306,11 @@ export default function Component2() {
                       ))
                     : null}
                 </ReactSortable>
+                <button
+                  onClick={() => guardarCambiosEtiquetasExtrusor(extrusor.id)}
+                >
+                  Guardar Cambios
+                </button>
               </div>
             ))}
           </div>

@@ -5,7 +5,7 @@ import "./index.css";
 import Root from "./routes/root";
 import ErrorPage from "./error-page";
 import Mampara from "./components/mampara/mampara";
-import Extrucion from "./components/extrusion/productos";
+import Productos from "./components/productos/productos";
 import Terminados from "./components/extrusion/productos-Extruidos";
 
 const router = createBrowserRouter([
@@ -21,7 +21,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/productos",
-        element: <Extrucion />,
+        element: <Productos />,
       },
       {
         path: "/terminados",

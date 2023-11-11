@@ -122,6 +122,7 @@ export default function AlertDialog() {
       polvos: polvos,
       estado: "activo", // Estado por defecto "activo"
       extrusor: " ",
+      posicion: " ",
     };
 
     // Hacer la solicitud POST a la API
