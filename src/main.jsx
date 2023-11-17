@@ -7,6 +7,7 @@ import ErrorPage from "./error-page";
 import Mampara from "./components/mampara/mampara";
 import Productos from "./components/productos/productos";
 import Terminados from "./components/extrusion/productos-Extruidos";
+import EntradasMolinos from "./components/Molinos/entradasmolinos/entradas";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "/terminados",
         element: <Terminados />,
+      },
+      {
+        path: "/entrada-molinos",
+        element: <EntradasMolinos />,
       },
     ],
   },

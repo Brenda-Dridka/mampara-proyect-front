@@ -18,10 +18,6 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DesktopMacIcon from "@mui/icons-material/DesktopMac";
 import { Outlet, Link } from "react-router-dom";
-
-//importacion de estilo
-//import "../../style/nav.css";
-//import AgregarBoton from "../productos/from";
 import { FaList } from "react-icons/fa";
 import { HiChartBar } from "react-icons/hi";
 import { FaCheck } from "react-icons/fa6";
@@ -30,13 +26,7 @@ import { SiLaravelnova } from "react-icons/si";
 import { BiSolidTimeFive } from "react-icons/bi";
 import { BiSolidTimer } from "react-icons/bi";
 import { HiMiniCloud } from "react-icons/hi2";
-//import { EtiquetasMampara } from "../DragAnDrop/EtiquetasMampara";
-//import ImportDocument from "../cargaDocument/importDocument";
-//import ImplementacionDrag from "../DragAnDrop/ImplementacionDrag";
-//import Consumo from "../consumoApi/ejemplo";
 
-//implementacion de boton extrusion
-//import BotonEtrusion from "../global/botonExtruxion";
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({

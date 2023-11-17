@@ -1,48 +1,190 @@
 import React, { useState, useEffect } from "react";
 import { ReactSortable } from "react-sortablejs";
+import axios from "axios";
 import "../../style/DragAnDrop/DragAnDrop.css";
 import "../../style/cards.css";
 import BotonOption from "../global/botonOptions";
 import "../../style/global/global.css";
 import AgregarProducto from "../productos/formulario";
-import DeleteTagButton from "../Etiquetas/eliminarEtiqueta";
 
 export default function Component2() {
+  const [labelColor, setLabelColor] = React.useState("#ffffff");
   const [etiquetasAgregadas, setEtiquetasAgregadas] = useState([]);
-  const [etiquetasAbajo1, setEtiquetasAbajo1] = useState([]);
-  const [etiquetasAbajo2, setEtiquetasAbajo2] = useState([]);
-  const [etiquetasAbajo3, setEtiquetasAbajo3] = useState([]);
-  const [etiquetasAbajo4, setEtiquetasAbajo4] = useState([]);
-  const [etiquetasAbajo5, setEtiquetasAbajo5] = useState([]);
-  const [etiquetasAbajo6, setEtiquetasAbajo6] = useState([]);
-  const [etiquetasAbajo7, setEtiquetasAbajo7] = useState([]);
-  const [etiquetasAbajo8, setEtiquetasAbajo8] = useState([]);
-  const [etiquetasAbajo9, setEtiquetasAbajo9] = useState([]);
-  const [etiquetasAbajo10, setEtiquetasAbajo10] = useState([]);
-  const [etiquetasAbajo11, setEtiquetasAbajo11] = useState([]);
-  const [etiquetasAbajo12, setEtiquetasAbajo12] = useState([]);
-  const [etiquetasAbajo13, setEtiquetasAbajo13] = useState([]);
-  const [etiquetasAbajo14, setEtiquetasAbajo14] = useState([]);
-  const [etiquetasAbajo15, setEtiquetasAbajo15] = useState([]);
-  const [etiquetasAbajo16, setEtiquetasAbajo16] = useState([]);
-  const [etiquetasAbajo17, setEtiquetasAbajo17] = useState([]);
+  const [extrusores, setExtrusores] = useState([]);
+  const [etiquetasPorExtrusor, setEtiquetasPorExtrusor] = useState({});
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/v1/etiquetas")
+    axios
+      .get("http://localhost:3000/api/v1/extrusores")
       .then((response) => {
-        return response.json();
+        if (response.status !== 200) {
+          throw new Error("No se pudieron cargar los extrusores.");
+        }
+        setExtrusores(response.data);
       })
-      .then((etiquetas) => {
+      .catch((error) => {
+        console.error("Error al cargar extrusores:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/api/v1/etiquetas")
+      .then((response) => {
+        if (response.status !== 200) {
+          throw Error("No se pudieron cargar las etiquetas.");
+        }
+        const etiquetas = response.data;
         setEtiquetasAgregadas(etiquetas);
+
+        // Recuperar información sobre el extrusor de localStorage
+        const extrusorInfo =
+          JSON.parse(localStorage.getItem("extrusorInfo")) || {};
+        const etiquetasPorExtrusorTemp = {};
+
+        etiquetas.forEach((etiqueta) => {
+          const extrusorId = extrusorInfo[etiqueta.id];
+          if (extrusorId) {
+            etiquetasPorExtrusorTemp[extrusorId] =
+              etiquetasPorExtrusorTemp[extrusorId] || [];
+            etiquetasPorExtrusorTemp[extrusorId].push(etiqueta);
+          }
+        });
+
+        setEtiquetasPorExtrusor(etiquetasPorExtrusorTemp);
+      })
+      .catch((error) => {
+        console.error("Error al cargar etiquetas:", error);
       });
   }, []);
 
   const handleTagDelete = (tagId) => {
-    // Elimina la etiqueta del estado local
     setEtiquetasAgregadas(
       etiquetasAgregadas.filter((item) => item.id !== tagId)
     );
   };
+
+  const guardarCambiosEtiqueta = async (etiqueta) => {
+    try {
+      await axios.put(`http://localhost:3000/api/v1/etiquetas/${etiqueta.id}`, {
+        extrusor: etiqueta.extrusor,
+      });
+
+      console.log(
+        `Cambios guardados en el campo 'extrusor' de la etiqueta ${etiqueta.id}`
+      );
+    } catch (error) {
+      console.error(
+        `Error al guardar cambios en la etiqueta ${etiqueta.id}:`,
+        error
+      );
+    }
+  };
+
+  const guardarCambiosEtiquetasExtrusor = async (extrusorId) => {
+    const etiquetasEnExtrusor = etiquetasPorExtrusor[extrusorId] || [];
+
+    const promises = etiquetasEnExtrusor.map((etiqueta) => {
+      return guardarCambiosEtiqueta({
+        ...etiqueta,
+        extrusor: extrusores.find((e) => e.id === extrusorId)?.nombre,
+      });
+    });
+
+    try {
+      await Promise.all(promises);
+      console.log(
+        `Cambios guardados en todas las etiquetas del extrusor ${extrusorId}.`
+      );
+    } catch (error) {
+      console.error(
+        `Error al guardar cambios en etiquetas del extrusor ${extrusorId}:`,
+        error
+      );
+    }
+  };
+
+  const guardarCambios = async () => {
+    const promises = etiquetasAgregadas.map((etiqueta) => {
+      return guardarCambiosEtiqueta(etiqueta);
+    });
+
+    try {
+      await Promise.all(promises);
+      console.log("Cambios guardados en todas las etiquetas.");
+    } catch (error) {
+      console.error("Error al guardar cambios en etiquetas:", error);
+    }
+  };
+
+  const handleTagDrop = async (tagId, extrusor) => {
+    try {
+      const extrusorExistente = extrusores.find((e) => e.nombre === extrusor);
+
+      if (extrusorExistente) {
+        const etiqueta = etiquetasAgregadas.find((item) => item.id === tagId);
+
+        if (etiqueta.extrusor === extrusorExistente.nombre) {
+          console.log(
+            `La etiqueta ${tagId} ya está asignada al extrusor ${extrusor}`
+          );
+          return;
+        }
+
+        await axios.put(`http://localhost:3000/api/v1/etiquetas/${tagId}`, {
+          extrusor: extrusorExistente.nombre,
+        });
+
+        console.log(
+          `Etiqueta ${tagId} asignada al extrusor ${extrusorExistente.nombre}`
+        );
+
+        const updatedEtiquetas = etiquetasAgregadas.map((item) => {
+          if (item.id === tagId) {
+            return { ...item, extrusor: extrusorExistente.nombre };
+          }
+          return item;
+        });
+
+        setEtiquetasAgregadas(updatedEtiquetas);
+
+        setEtiquetasPorExtrusor((prevEtiquetasPorExtrusor) => {
+          const newEtiquetas =
+            prevEtiquetasPorExtrusor[extrusorExistente.id] || [];
+          newEtiquetas.push(
+            etiquetasAgregadas.find((item) => item.id === tagId)
+          );
+          return {
+            ...prevEtiquetasPorExtrusor,
+            [extrusorExistente.id]: newEtiquetas,
+          };
+        });
+
+        // Almacenar información sobre el extrusor en localStorage
+        const extrusorInfo =
+          JSON.parse(localStorage.getItem("extrusorInfo")) || {};
+        extrusorInfo[tagId] = extrusorExistente.id;
+        localStorage.setItem("extrusorInfo", JSON.stringify(extrusorInfo));
+
+        await guardarCambiosEtiquetasExtrusor(extrusorExistente.id);
+      } else {
+        console.error(
+          `El nombre del extrusor no coincide con ninguno de los extrusores disponibles.`
+        );
+      }
+    } catch (error) {
+      console.error(`Error al asignar la etiqueta al extrusor:`, error);
+    }
+  };
+
+  function formatDateWithoutTime(date) {
+    const parsedDate = new Date(date);
+    const formattedDate = `${parsedDate.getDate()}/${
+      parsedDate.getMonth() + 1
+    }/${parsedDate.getFullYear()}`;
+    return formattedDate;
+  }
+
   return (
     <div style={{ display: "flex", gap: "2rem", flexDirection: "column" }}>
       <AgregarProducto />
@@ -58,24 +200,38 @@ export default function Component2() {
                 className="position"
               >
                 {etiquetasAgregadas.map((item) => (
-                  <div key={item.id} className="etiqueta">
+                  <div
+                    key={item.id}
+                    className="etiqueta"
+                    style={{
+                      backgroundColor:
+                        item.estado === "pendiente" ? "#FFE224" : labelColor,
+                    }}
+                    data-id={item.id}
+                  >
                     <div className="m-3 cursor-draggable">
-                      <div className="espaciadoEtiqueta">
-                        <div className="card-body titulosTyle">
+                      <div className="espaciadoEtiqueta posicionamientoEtiquetas">
+                        <div className="card-body titulosTyle ">
                           {item.nombre}
                         </div>
                         <BotonOption
                           etiqueta={item}
                           onDelete={handleTagDelete}
                         />
-                        {/* <DeleteTagButton
-                          }
-                        /> */}
                       </div>
                       <hr className="linea-etiqueta" />
+                      <strong>
+                        {item.polvos === true && (
+                          <p className="tamañoLetra posicionamientoEtiquetas spaciadoEtiquetaLetras">
+                            POLVOS
+                          </p>
+                        )}
+                      </strong>
                       <hr className="linea-etiqueta" />
-                      <div className="position">
-                        <p className="tamañoLetra">{item.fecha}</p>
+                      <div className="position2 spaciadoEtiquetaLetras">
+                        <p className="tamañoLetra ">
+                          {formatDateWithoutTime(item.fecha)}
+                        </p>
                         <p className="tamañoLetra">{item.clave}</p>
                         <p className="tamañoLetra">{item.kilos}kg</p>
                       </div>
@@ -86,502 +242,81 @@ export default function Component2() {
             </div>
           </div>
           <div className="fondo">
-            <div className="col bg-danger position">
-              <h6 className="text-center tittle">EXT54-II</h6>
-              <ReactSortable
-                list={etiquetasAbajo1}
-                setList={setEtiquetasAbajo1}
-                group="shared-group-name"
-                className="position"
-              >
-                {etiquetasAbajo1.map((item) => (
-                  <div key={item.id} className="etiqueta">
-                    <div className="m-3 cursor-draggable">
-                      <div className="espaciadoEtiqueta">
-                        <div className="card-body titulosTyle">
-                          {item.nombre}
+            {extrusores.map((extrusor) => (
+              <div key={extrusor.id} className="col bg-danger position">
+                <h6 className="text-center tittle">{extrusor.nombre}</h6>
+                <ReactSortable
+                  list={etiquetasPorExtrusor[extrusor.id] || []}
+                  setList={(newEtiquetas) => {
+                    setEtiquetasPorExtrusor((prevEtiquetas) => ({
+                      ...prevEtiquetas,
+                      [extrusor.id]: newEtiquetas,
+                    }));
+                  }}
+                  group="shared-group-name"
+                  className="position"
+                  data-extrusorid={extrusor.id}
+                  onEnd={(evt) => {
+                    const extrusorId =
+                      evt.newSet.nextSibling.dataset.extrusorid;
+                    const tagId = evt.item.dataset.id;
+                    handleTagDrop(tagId, extrusorId);
+                  }}
+                >
+                  {etiquetasPorExtrusor[extrusor.id]
+                    ? etiquetasPorExtrusor[extrusor.id].map((item) => (
+                        <div
+                          key={item.id}
+                          className="etiqueta"
+                          style={{
+                            backgroundColor:
+                              item.estado === "pendiente"
+                                ? "#FFE224"
+                                : labelColor,
+                          }}
+                        >
+                          <div className="m-3 cursor-draggable">
+                            <div className="espaciadoEtiqueta posicionamientoEtiquetas">
+                              <div className="card-body titulosTyle ">
+                                {item.nombre}
+                              </div>
+                              <BotonOption
+                                etiqueta={item}
+                                onDelete={handleTagDelete}
+                              />
+                            </div>
+                            <hr className="linea-etiqueta" />
+                            <strong>
+                              {item.polvos === true && (
+                                <p className="tamañoLetra posicionamientoEtiquetas spaciadoEtiquetaLetras">
+                                  POLVOS
+                                </p>
+                              )}
+                            </strong>
+                            <hr className="linea-etiqueta" />
+                            <div className="position2 spaciadoEtiquetaLetras">
+                              <p className="tamañoLetra ">
+                                {formatDateWithoutTime(item.fecha)}
+                              </p>
+                              <p className="tamañoLetra">{item.clave}</p>
+                              <p className="tamañoLetra">{item.kilos}kg</p>
+                            </div>
+                          </div>
                         </div>
-                        <BotonOption />
-                      </div>
-                      <hr className="linea-etiqueta" />
-                      <hr className="linea-etiqueta" />
-                      <div className="position">
-                        <p className="tamañoLetra">{item.fecha}</p>
-                        <p className="tamañoLetra">{item.clave}</p>
-                        <p className="tamañoLetra">{item.kilos}kg</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </ReactSortable>
-            </div>
-            <div className="col bg-danger position">
-              <h6 className="text-center tittle">BUSS I</h6>
-              <ReactSortable
-                list={etiquetasAbajo2}
-                setList={setEtiquetasAbajo2}
-                group="shared-group-name"
-                className="position"
-              >
-                {etiquetasAbajo2.map((item) => (
-                  <div key={item.id} className="etiqueta">
-                    <div className="m-3 cursor-draggable">
-                      <div className="espaciadoEtiqueta">
-                        <div className="card-body titulosTyle">
-                          {item.nombre}
-                        </div>
-                        <BotonOption />
-                      </div>
-                      <hr className="linea-etiqueta" />
-                      <hr className="linea-etiqueta" />
-                      <div className="position">
-                        <p className="tamañoLetra">{item.fecha}</p>
-                        <p className="tamañoLetra">{item.clave}</p>
-                        <p className="tamañoLetra">{item.kilos}kg</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </ReactSortable>
-            </div>
-            <div className="col bg-danger position">
-              <h6 className="text-center tittle">EXT70-II</h6>
-              <ReactSortable
-                list={etiquetasAbajo3}
-                setList={setEtiquetasAbajo3}
-                group="shared-group-name"
-                className="position"
-              >
-                {etiquetasAbajo3.map((item) => (
-                  <div key={item.id} className="etiqueta">
-                    <div className="m-3 cursor-draggable">
-                      <div className="espaciadoEtiqueta">
-                        <div className="card-body titulosTyle">
-                          {item.nombre}
-                        </div>
-                        <BotonOption />
-                      </div>
-                      <hr className="linea-etiqueta" />
-                      <hr className="linea-etiqueta" />
-                      <div className="position">
-                        <p className="tamañoLetra">{item.fecha}</p>
-                        <p className="tamañoLetra">{item.clave}</p>
-                        <p className="tamañoLetra">{item.kilos}kg</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </ReactSortable>
-            </div>
-            <div className="col bg-danger position">
-              <h6 className="text-center tittle">EXT54-IV</h6>
-              <ReactSortable
-                list={etiquetasAbajo4}
-                setList={setEtiquetasAbajo4}
-                group="shared-group-name"
-                className="position"
-              >
-                {etiquetasAbajo4.map((item) => (
-                  <div key={item.id} className="etiqueta">
-                    <div className="m-3 cursor-draggable">
-                      <div className="espaciadoEtiqueta">
-                        <div className="card-body titulosTyle">
-                          {item.nombre}
-                        </div>
-                        <BotonOption />
-                      </div>
-                      <hr className="linea-etiqueta" />
-                      <hr className="linea-etiqueta" />
-                      <div className="position">
-                        <p className="tamañoLetra">{item.fecha}</p>
-                        <p className="tamañoLetra">{item.clave}</p>
-                        <p className="tamañoLetra">{item.kilos}kg</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </ReactSortable>
-            </div>
-            <div className="col bg-danger position">
-              <h6 className="text-center tittle">EXT54-V</h6>
-              <ReactSortable
-                list={etiquetasAbajo5}
-                setList={setEtiquetasAbajo5}
-                group="shared-group-name"
-                className="position"
-              >
-                {etiquetasAbajo5.map((item) => (
-                  <div key={item.id} className="etiqueta">
-                    <div className="m-3 cursor-draggable">
-                      <div className="espaciadoEtiqueta">
-                        <div className="card-body titulosTyle">
-                          {item.nombre}
-                        </div>
-                        <BotonOption />
-                      </div>
-                      <hr className="linea-etiqueta" />
-                      <hr className="linea-etiqueta" />
-                      <div className="position">
-                        <p className="tamañoLetra">{item.fecha}</p>
-                        <p className="tamañoLetra">{item.clave}</p>
-                        <p className="tamañoLetra">{item.kilos}kg</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </ReactSortable>
-            </div>
-            <div className="col bg-danger position">
-              <h6 className="text-center tittle">EXT54-I</h6>
-              <ReactSortable
-                list={etiquetasAbajo6}
-                setList={setEtiquetasAbajo6}
-                group="shared-group-name"
-                className="position"
-              >
-                {etiquetasAbajo6.map((item) => (
-                  <div key={item.id} className="etiqueta">
-                    <div className="m-3 cursor-draggable">
-                      <div className="espaciadoEtiqueta">
-                        <div className="card-body titulosTyle">
-                          {item.nombre}
-                        </div>
-                        <BotonOption />
-                      </div>
-                      <hr className="linea-etiqueta" />
-                      <hr className="linea-etiqueta" />
-                      <div className="position">
-                        <p className="tamañoLetra">{item.fecha}</p>
-                        <p className="tamañoLetra">{item.clave}</p>
-                        <p className="tamañoLetra">{item.kilos}kg</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </ReactSortable>
-            </div>
-            <div className="col bg-danger position">
-              <h6 className="text-center tittle">EXT-58</h6>
-              <ReactSortable
-                list={etiquetasAbajo7}
-                setList={setEtiquetasAbajo7}
-                group="shared-group-name"
-                className="position"
-              >
-                {etiquetasAbajo7.map((item) => (
-                  <div key={item.id} className="etiqueta">
-                    <div className="m-3 cursor-draggable">
-                      <div className="espaciadoEtiqueta">
-                        <div className="card-body titulosTyle">
-                          {item.nombre}
-                        </div>
-                        <BotonOption />
-                      </div>
-                      <hr className="linea-etiqueta" />
-                      <hr className="linea-etiqueta" />
-                      <div className="position">
-                        <p className="tamañoLetra">{item.fecha}</p>
-                        <p className="tamañoLetra">{item.clave}</p>
-                        <p className="tamañoLetra">{item.kilos}kg</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </ReactSortable>
-            </div>
-            <div className="col bg-danger position">
-              <h6 className="text-center tittle">EXT-40</h6>
-              <ReactSortable
-                list={etiquetasAbajo8}
-                setList={setEtiquetasAbajo8}
-                group="shared-group-name"
-                className="position"
-              >
-                {etiquetasAbajo8.map((item) => (
-                  <div key={item.id} className="etiqueta">
-                    <div className="m-3 cursor-draggable">
-                      <div className="espaciadoEtiqueta">
-                        <div className="card-body titulosTyle">
-                          {item.nombre}
-                        </div>
-                        <BotonOption />
-                      </div>
-                      <hr className="linea-etiqueta" />
-                      <hr className="linea-etiqueta" />
-                      <div className="position">
-                        <p className="tamañoLetra">{item.fecha}</p>
-                        <p className="tamañoLetra">{item.clave}</p>
-                        <p className="tamañoLetra">{item.kilos}kg</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </ReactSortable>
-            </div>
-            <div className="col bg-danger position">
-              <h6 className="text-center tittle">EXT54-III</h6>
-              <ReactSortable
-                list={etiquetasAbajo9}
-                setList={setEtiquetasAbajo9}
-                group="shared-group-name"
-                className="position"
-              >
-                {etiquetasAbajo9.map((item) => (
-                  <div key={item.id} className="etiqueta">
-                    <div className="m-3 cursor-draggable">
-                      <div className="espaciadoEtiqueta">
-                        <div className="card-body titulosTyle">
-                          {item.nombre}
-                        </div>
-                        <BotonOption />
-                      </div>
-                      <hr className="linea-etiqueta" />
-                      <hr className="linea-etiqueta" />
-                      <div className="position">
-                        <p className="tamañoLetra">{item.fecha}</p>
-                        <p className="tamañoLetra">{item.clave}</p>
-                        <p className="tamañoLetra">{item.kilos}kg</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </ReactSortable>
-            </div>
-            <div className="col bg-danger position">
-              <h6 className="text-center tittle">EXT54-VII</h6>
-              <ReactSortable
-                list={etiquetasAbajo10}
-                setList={setEtiquetasAbajo10}
-                group="shared-group-name"
-                className="position"
-              >
-                {etiquetasAbajo10.map((item) => (
-                  <div key={item.id} className="etiqueta">
-                    <div className="m-3 cursor-draggable">
-                      <div className="espaciadoEtiqueta">
-                        <div className="card-body titulosTyle">
-                          {item.nombre}
-                        </div>
-                        <BotonOption />
-                      </div>
-                      <hr className="linea-etiqueta" />
-                      <hr className="linea-etiqueta" />
-                      <div className="position">
-                        <p className="tamañoLetra">{item.fecha}</p>
-                        <p className="tamañoLetra">{item.clave}</p>
-                        <p className="tamañoLetra">{item.kilos}kg</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </ReactSortable>
-            </div>
-            <div className="col bg-danger position">
-              <h6 className="text-center tittle">EXT70-I</h6>
-              <ReactSortable
-                list={etiquetasAbajo11}
-                setList={setEtiquetasAbajo11}
-                group="shared-group-name"
-                className="position"
-              >
-                {etiquetasAbajo11.map((item) => (
-                  <div key={item.id} className="etiqueta">
-                    <div className="m-3 cursor-draggable">
-                      <div className="espaciadoEtiqueta">
-                        <div className="card-body titulosTyle">
-                          {item.nombre}
-                        </div>
-                        <BotonOption />
-                      </div>
-                      <hr className="linea-etiqueta" />
-                      <hr className="linea-etiqueta" />
-                      <div className="position">
-                        <p className="tamañoLetra">{item.fecha}</p>
-                        <p className="tamañoLetra">{item.clave}</p>
-                        <p className="tamañoLetra">{item.kilos}kg</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </ReactSortable>
-            </div>
-            <div className="col bg-danger position">
-              <h6 className="text-center tittle">EXTBUSS-II</h6>
-              <ReactSortable
-                list={etiquetasAbajo12}
-                setList={setEtiquetasAbajo12}
-                group="shared-group-name"
-                className="position"
-              >
-                {etiquetasAbajo12.map((item) => (
-                  <div key={item.id} className="etiqueta">
-                    <div className="m-3 cursor-draggable">
-                      <div className="espaciadoEtiqueta">
-                        <div className="card-body titulosTyle">
-                          {item.nombre}
-                        </div>
-                        <BotonOption />
-                      </div>
-                      <hr className="linea-etiqueta" />
-                      <hr className="linea-etiqueta" />
-                      <div className="position">
-                        <p className="tamañoLetra">{item.fecha}</p>
-                        <p className="tamañoLetra">{item.clave}</p>
-                        <p className="tamañoLetra">{item.kilos}kg</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </ReactSortable>
-            </div>
-            <div className="col bg-danger position">
-              <h6 className="text-center tittle">EXT-26-I</h6>
-              <ReactSortable
-                list={etiquetasAbajo13}
-                setList={setEtiquetasAbajo13}
-                group="shared-group-name"
-                className="position"
-              >
-                {etiquetasAbajo13.map((item) => (
-                  <div key={item.id} className="etiqueta">
-                    <div className="m-3 cursor-draggable">
-                      <div className="espaciadoEtiqueta">
-                        <div className="card-body titulosTyle">
-                          {item.nombre}
-                        </div>
-                        <BotonOption />
-                      </div>
-                      <hr className="linea-etiqueta" />
-                      <hr className="linea-etiqueta" />
-                      <div className="position">
-                        <p className="tamañoLetra">{item.fecha}</p>
-                        <p className="tamañoLetra">{item.clave}</p>
-                        <p className="tamañoLetra">{item.kilos}kg</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </ReactSortable>
-            </div>
-            <div className="col bg-danger position">
-              <h6 className="text-center tittle">EXT-26-II</h6>
-              <ReactSortable
-                list={etiquetasAbajo14}
-                setList={setEtiquetasAbajo14}
-                group="shared-group-name"
-                className="position"
-              >
-                {etiquetasAbajo14.map((item) => (
-                  <div key={item.id} className="etiqueta">
-                    <div className="m-3 cursor-draggable">
-                      <div className="espaciadoEtiqueta">
-                        <div className="card-body titulosTyle">
-                          {item.nombre}
-                        </div>
-                        <BotonOption />
-                      </div>
-                      <hr className="linea-etiqueta" />
-                      <hr className="linea-etiqueta" />
-                      <div className="position">
-                        <p className="tamañoLetra">{item.fecha}</p>
-                        <p className="tamañoLetra">{item.clave}</p>
-                        <p className="tamañoLetra">{item.kilos}kg</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </ReactSortable>
-            </div>
-            <div className="col bg-danger position">
-              <h6 className="text-center tittle">EXT54-VI</h6>
-              <ReactSortable
-                list={etiquetasAbajo15}
-                setList={setEtiquetasAbajo15}
-                group="shared-group-name"
-                className="position"
-              >
-                {etiquetasAbajo15.map((item) => (
-                  <div key={item.id} className="etiqueta">
-                    <div className="m-3 cursor-draggable">
-                      <div className="espaciadoEtiqueta">
-                        <div className="card-body titulosTyle">
-                          {item.nombre}
-                        </div>
-                        <BotonOption />
-                      </div>
-                      <hr className="linea-etiqueta" />
-                      <hr className="linea-etiqueta" />
-                      <div className="position">
-                        <p className="tamañoLetra">{item.fecha}</p>
-                        <p className="tamañoLetra">{item.clave}</p>
-                        <p className="tamañoLetra">{item.kilos}kg</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </ReactSortable>
-            </div>
-            <div className="col bg-danger position">
-              <h6 className="text-center tittle">EXT70-III</h6>
-              <ReactSortable
-                list={etiquetasAbajo16}
-                setList={setEtiquetasAbajo16}
-                group="shared-group-name"
-                className="position"
-              >
-                {etiquetasAbajo16.map((item) => (
-                  <div key={item.id} className="etiqueta">
-                    <div className="m-3 cursor-draggable">
-                      <div className="espaciadoEtiqueta">
-                        <div className="card-body titulosTyle">
-                          {item.nombre}
-                        </div>
-                        <BotonOption />
-                      </div>
-                      <hr className="linea-etiqueta" />
-                      <hr className="linea-etiqueta" />
-                      <div className="position">
-                        <p className="tamañoLetra">{item.fecha}</p>
-                        <p className="tamañoLetra">{item.clave}</p>
-                        <p className="tamañoLetra">{item.kilos}kg</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </ReactSortable>
-            </div>
-            <div className="col bg-danger position">
-              <h6 className="text-center tittle">EXT54-VIII</h6>
-              <ReactSortable
-                list={etiquetasAbajo17}
-                setList={setEtiquetasAbajo17}
-                group="shared-group-name"
-                className="position"
-              >
-                {etiquetasAbajo17.map((item) => (
-                  <div key={item.id} className="etiqueta">
-                    <div className="m-3 cursor-draggable">
-                      <div className="espaciadoEtiqueta">
-                        <div className="card-body titulosTyle">
-                          {item.nombre}
-                        </div>
-                        <BotonOption />
-                      </div>
-                      <hr className="linea-etiqueta" />
-                      <hr className="linea-etiqueta" />
-                      <div className="position">
-                        <p className="tamañoLetra">{item.fecha}</p>
-                        <p className="tamañoLetra">{item.clave}</p>
-                        <p className="tamañoLetra">{item.kilos}kg</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </ReactSortable>
-            </div>
+                      ))
+                    : null}
+                </ReactSortable>
+                <button
+                  onClick={() => guardarCambiosEtiquetasExtrusor(extrusor.id)}
+                >
+                  Guardar Cambios
+                </button>
+              </div>
+            ))}
           </div>
         </div>
       </div>
+      <button onClick={guardarCambios}>Guardar Cambios</button>
     </div>
   );
 }
