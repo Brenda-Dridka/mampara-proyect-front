@@ -30,15 +30,15 @@ export default function Component2() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/v1/ext54lletiquetas")
+      .get("http://localhost:3000/api/v1/etiquetasExt54_2")
       .then((response) => {
         if (response.status !== 200) {
-          throw new Error("No se pudieron cargar los ext54lletiquetas.");
+          throw new Error("No se pudieron cargar los etiquetasExt54ll.");
         }
         setExt54lletiquetas(response.data);
       })
       .catch((error) => {
-        console.error("Error al cargar ext54lletiquetas:", error);
+        console.error("Error al cargar etiquetasExt54ll:", error);
       });
   }, []);
 
@@ -244,7 +244,79 @@ export default function Component2() {
               </ReactSortable>
             </div>
           </div>
-          <div className="fondo"></div>
+          <div className="fondo">
+            {extrusores.map((extrusor) => (
+              <div key={extrusor.id} className="col bg-danger position">
+                <h6 className="text-center tittle">{extrusor.nombre}</h6>
+                <ReactSortable
+                  list={etiquetasPorExtrusor[extrusor.id] || []}
+                  setList={(newEtiquetas) => {
+                    setEtiquetasPorExtrusor((prevEtiquetas) => ({
+                      ...prevEtiquetas,
+                      [extrusor.id]: newEtiquetas,
+                    }));
+                  }}
+                  group="shared-group-name"
+                  className="position"
+                  data-extrusorid={extrusor.id}
+                  onEnd={(evt) => {
+                    const extrusorId =
+                      evt.newSet.nextSibling.dataset.extrusorid;
+                    const tagId = evt.item.dataset.id;
+                    handleTagDrop(tagId, extrusorId);
+                  }}
+                >
+                  {etiquetasPorExtrusor[extrusor.id]
+                    ? etiquetasPorExtrusor[extrusor.id].map((item) => (
+                        <div
+                          key={item.id}
+                          className="etiqueta"
+                          style={{
+                            backgroundColor:
+                              item.estado === "pendiente"
+                                ? "#FFE224"
+                                : labelColor,
+                          }}
+                        >
+                          <div className="m-3 cursor-draggable">
+                            <div className="espaciadoEtiqueta posicionamientoEtiquetas">
+                              <div className="card-body titulosTyle ">
+                                {item.nombre}
+                              </div>
+                              <BotonOption
+                                etiqueta={item}
+                                onDelete={handleTagDelete}
+                              />
+                            </div>
+                            <hr className="linea-etiqueta" />
+                            <strong>
+                              {item.polvos === true && (
+                                <p className="tamañoLetra posicionamientoEtiquetas spaciadoEtiquetaLetras">
+                                  POLVOS
+                                </p>
+                              )}
+                            </strong>
+                            <hr className="linea-etiqueta" />
+                            <div className="position2 spaciadoEtiquetaLetras">
+                              <p className="tamañoLetra ">
+                                {formatDateWithoutTime(item.fecha)}
+                              </p>
+                              <p className="tamañoLetra">{item.clave}</p>
+                              <p className="tamañoLetra">{item.kilos}kg</p>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    : null}
+                </ReactSortable>
+                <button
+                  onClick={() => guardarCambiosEtiquetasExtrusor(extrusor.id)}
+                >
+                  Guardar Cambios
+                </button>
+              </div>
+            ))}
+          </div>
           <div>
             {/* mampara de extrusor etiqueta */}
             <h6 className="text-center tittle">Ext 54 ll</h6>
@@ -286,11 +358,6 @@ export default function Component2() {
                       </p>
                       <p className="tamañoLetra">{item.clave}</p>
                       <p className="tamañoLetra">{item.kilos}kg</p>
-
-                      {/* Muestra información adicional del producto */}
-                      <p className="tamañoLetra">Campo1: {item.campo1}</p>
-                      <p className="tamañoLetra">Campo2: {item.campo2}</p>
-                      {/* Agrega aquí más campos según la estructura de tu tabla */}
                     </div>
                   </div>
                 </div>
