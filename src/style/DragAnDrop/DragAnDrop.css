@@ -28,7 +28,7 @@
    /* background-image: url("../../../public/img/fondo.svg"); */
    background-repeat: no-repeat;
     background-size: cover;
-    padding: 5px;
+    padding: 1rem;
 }
 .tamañoLetra{
     font-size: 12px;

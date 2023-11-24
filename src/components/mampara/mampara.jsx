@@ -13,6 +13,7 @@ export default function Component2() {
   const [extrusores, setExtrusores] = useState([]);
   const [etiquetasPorExtrusor, setEtiquetasPorExtrusor] = useState({});
   const [ext54lletiquetas, setExt54lletiquetas] = useState([]);
+  const [etiquetasBussl, setEtiquetasBussl] = useState([]);
 
   useEffect(() => {
     axios
@@ -39,6 +40,20 @@ export default function Component2() {
       })
       .catch((error) => {
         console.error("Error al cargar etiquetasExt54ll:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/api/v1/etiquetasBussl")
+      .then((response) => {
+        if (response.status !== 200) {
+          throw new Error("No se pudieron cargar los etiquetasBussl.");
+        }
+        setEtiquetasBussl(response.data);
+      })
+      .catch((error) => {
+        console.error("Error al cargar etiquetasBussl:", error);
       });
   }, []);
 
@@ -244,125 +259,169 @@ export default function Component2() {
               </ReactSortable>
             </div>
           </div>
-          <div className="fondo">
-            {extrusores.map((extrusor) => (
-              <div key={extrusor.id} className="col bg-danger position">
-                <h6 className="text-center tittle">{extrusor.nombre}</h6>
-                <ReactSortable
-                  list={etiquetasPorExtrusor[extrusor.id] || []}
-                  setList={(newEtiquetas) => {
-                    setEtiquetasPorExtrusor((prevEtiquetas) => ({
-                      ...prevEtiquetas,
-                      [extrusor.id]: newEtiquetas,
-                    }));
-                  }}
-                  group="shared-group-name"
-                  className="position"
-                  data-extrusorid={extrusor.id}
-                  onEnd={(evt) => {
-                    const extrusorId =
-                      evt.newSet.nextSibling.dataset.extrusorid;
-                    const tagId = evt.item.dataset.id;
-                    handleTagDrop(tagId, extrusorId);
-                  }}
-                >
-                  {etiquetasPorExtrusor[extrusor.id]
-                    ? etiquetasPorExtrusor[extrusor.id].map((item) => (
-                        <div
-                          key={item.id}
-                          className="etiqueta"
-                          style={{
-                            backgroundColor:
-                              item.estado === "pendiente"
-                                ? "#FFE224"
-                                : labelColor,
-                          }}
-                        >
-                          <div className="m-3 cursor-draggable">
-                            <div className="espaciadoEtiqueta posicionamientoEtiquetas">
-                              <div className="card-body titulosTyle ">
-                                {item.nombre}
-                              </div>
-                              <BotonOption
-                                etiqueta={item}
-                                onDelete={handleTagDelete}
-                              />
-                            </div>
-                            <hr className="linea-etiqueta" />
-                            <strong>
-                              {item.polvos === true && (
-                                <p className="tamañoLetra posicionamientoEtiquetas spaciadoEtiquetaLetras">
-                                  POLVOS
-                                </p>
-                              )}
-                            </strong>
-                            <hr className="linea-etiqueta" />
-                            <div className="position2 spaciadoEtiquetaLetras">
-                              <p className="tamañoLetra ">
-                                {formatDateWithoutTime(item.fecha)}
-                              </p>
-                              <p className="tamañoLetra">{item.clave}</p>
-                              <p className="tamañoLetra">{item.kilos}kg</p>
-                            </div>
-                          </div>
+
+          {/*     <div className="col bg-danger position">
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <h6 className="text-center tittle">EXT54-II</h6>
+            </div>
+            <div>
+              <ReactSortable
+                list={ext54lletiquetas}
+                setList={setExt54lletiquetas}
+                group="shared-group-name"
+                className="position"
+              >
+                {ext54lletiquetas.map((item) => (
+                  <div
+                    key={item.id}
+                    className="etiqueta"
+                    style={{
+                      backgroundColor:
+                        item.estado === "pendiente" ? "#FFE224" : labelColor,
+                    }}
+                    data-id={item.id}
+                  >
+                    <div className="m-3 cursor-draggable">
+                      <div className="espaciadoEtiqueta posicionamientoEtiquetas">
+                        <div className="card-body titulosTyle ">
+                          {item.nombre}
                         </div>
-                      ))
-                    : null}
-                </ReactSortable>
-                <button
-                  onClick={() => guardarCambiosEtiquetasExtrusor(extrusor.id)}
-                >
-                  Guardar Cambios
-                </button>
-              </div>
-            ))}
-          </div>
-          <div>
-            {/* mampara de extrusor etiqueta */}
-            <h6 className="text-center tittle">Ext 54 ll</h6>
-            <ReactSortable
-              list={ext54lletiquetas}
-              setList={setExt54lletiquetas}
-              group="shared-group-name"
-              className="position"
-            >
-              {ext54lletiquetas.map((item) => (
-                <div
-                  key={item.id}
-                  className="etiqueta"
-                  style={{
-                    backgroundColor:
-                      item.estado === "pendiente" ? "#FFE224" : labelColor,
-                  }}
-                  data-id={item.id}
-                >
-                  <div className="m-3 cursor-draggable">
-                    <div className="espaciadoEtiqueta posicionamientoEtiquetas">
-                      <div className="card-body titulosTyle ">
-                        {item.nombre}
+                        <BotonOption
+                          etiqueta={item}
+                          onDelete={handleTagDelete}
+                        />
                       </div>
-                      <BotonOption etiqueta={item} onDelete={handleTagDelete} />
-                    </div>
-                    <hr className="linea-etiqueta" />
-                    <strong>
-                      {item.polvos === true && (
-                        <p className="tamañoLetra posicionamientoEtiquetas spaciadoEtiquetaLetras">
-                          POLVOS
+                      <hr className="linea-etiqueta" />
+                      <strong>
+                        {item.polvos === true && (
+                          <p className="tamañoLetra posicionamientoEtiquetas spaciadoEtiquetaLetras">
+                            POLVOS
+                          </p>
+                        )}
+                      </strong>
+                      <hr className="linea-etiqueta" />
+                      <div className="position2 spaciadoEtiquetaLetras">
+                        <p className="tamañoLetra ">
+                          {formatDateWithoutTime(item.fecha)}
                         </p>
-                      )}
-                    </strong>
-                    <hr className="linea-etiqueta" />
-                    <div className="position2 spaciadoEtiquetaLetras">
-                      <p className="tamañoLetra ">
-                        {formatDateWithoutTime(item.fecha)}
-                      </p>
-                      <p className="tamañoLetra">{item.clave}</p>
-                      <p className="tamañoLetra">{item.kilos}kg</p>
+                        <p className="tamañoLetra">{item.clave}</p>
+                        <p className="tamañoLetra">{item.kilos}kg</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </ReactSortable>
+                ))}
+              </ReactSortable>
+            </div>
+          </div> */}
+          <div className="fondo">
+            <div className="col bg-danger position">
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <h6 className="text-center tittle">EXT54-II</h6>
+              </div>
+              <div>
+                <ReactSortable
+                  value="EXT54-II"
+                  list={ext54lletiquetas}
+                  setList={setExt54lletiquetas}
+                  group="shared-group-name"
+                  className="position"
+                >
+                  {ext54lletiquetas.map((item) => (
+                    <div
+                      key={item.id}
+                      className="etiqueta"
+                      style={{
+                        backgroundColor:
+                          item.estado === "pendiente" ? "#FFE224" : labelColor,
+                      }}
+                      data-id={item.id}
+                    >
+                      <div className="m-3 cursor-draggable">
+                        <div className="espaciadoEtiqueta posicionamientoEtiquetas">
+                          <div className="card-body titulosTyle ">
+                            {item.nombre}
+                          </div>
+                          <BotonOption
+                            etiqueta={item}
+                            onDelete={handleTagDelete}
+                          />
+                        </div>
+                        <hr className="linea-etiqueta" />
+                        <strong>
+                          {item.polvos === true && (
+                            <p className="tamañoLetra posicionamientoEtiquetas spaciadoEtiquetaLetras">
+                              POLVOS
+                            </p>
+                          )}
+                        </strong>
+                        <hr className="linea-etiqueta" />
+                        <div className="position2 spaciadoEtiquetaLetras">
+                          <p className="tamañoLetra ">
+                            {formatDateWithoutTime(item.fecha)}
+                          </p>
+                          <p className="tamañoLetra">{item.clave}</p>
+                          <p className="tamañoLetra">{item.kilos}kg</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </ReactSortable>
+              </div>
+            </div>
+            <div className="col bg-danger position">
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <h6 className="text-center tittle">BUSS-I</h6>
+              </div>
+              <div>
+                <ReactSortable
+                  value="BUSS-I"
+                  list={etiquetasBussl}
+                  setList={setEtiquetasBussl}
+                  group="shared-group-name"
+                  className="position"
+                >
+                  {etiquetasBussl.map((item) => (
+                    <div
+                      key={item.id}
+                      className="etiqueta"
+                      style={{
+                        backgroundColor:
+                          item.estado === "pendiente" ? "#FFE224" : labelColor,
+                      }}
+                      data-id={item.id}
+                    >
+                      <div className="m-3 cursor-draggable">
+                        <div className="espaciadoEtiqueta posicionamientoEtiquetas">
+                          <div className="card-body titulosTyle ">
+                            {item.nombre}
+                          </div>
+                          <BotonOption
+                            etiqueta={item}
+                            onDelete={handleTagDelete}
+                          />
+                        </div>
+                        <hr className="linea-etiqueta" />
+                        <strong>
+                          {item.polvos === true && (
+                            <p className="tamañoLetra posicionamientoEtiquetas spaciadoEtiquetaLetras">
+                              POLVOS
+                            </p>
+                          )}
+                        </strong>
+                        <hr className="linea-etiqueta" />
+                        <div className="position2 spaciadoEtiquetaLetras">
+                          <p className="tamañoLetra ">
+                            {formatDateWithoutTime(item.fecha)}
+                          </p>
+                          <p className="tamañoLetra">{item.clave}</p>
+                          <p className="tamañoLetra">{item.kilos}kg</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </ReactSortable>
+              </div>
+            </div>
           </div>
         </div>
       </div>
