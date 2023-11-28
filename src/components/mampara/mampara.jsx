@@ -14,6 +14,8 @@ export default function Component2() {
   const [etiquetasPorExtrusor, setEtiquetasPorExtrusor] = useState({});
   const [ext54lletiquetas, setExt54lletiquetas] = useState([]);
   const [etiquetasBussl, setEtiquetasBussl] = useState([]);
+  const [etiquetasExt70_2, setEtiquetasExt70_2] = useState([]);
+  const [etiquetaSeleccionada, setEtiquetaSeleccionada] = useState(null);
 
   useEffect(() => {
     axios
@@ -56,6 +58,48 @@ export default function Component2() {
         console.error("Error al cargar etiquetasBussl:", error);
       });
   }, []);
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/api/v1/etiquetasExt70_2")
+      .then((response) => {
+        if (response.status !== 200) {
+          throw new Error("No se pudieron cargar los etiquetasExt70_2.");
+        }
+        setEtiquetasExt70_2(response.data);
+      })
+      .catch((error) => {
+        console.error("Error al cargar etiquetasExt70_2:", error);
+      });
+  }, []);
+
+  const guardarCambiosEtiqueta = async (etiqueta, tipoExtrusor) => {
+    try {
+      let apiUrl = "http://localhost:3000/api/v1/etiquetas";
+      if (tipoExtrusor === "EXT54-II") {
+        apiUrl = "http://localhost:3000/api/v1/etiquetasExt54_2";
+      } else if (tipoExtrusor === "BUSS-I") {
+        apiUrl = "http://localhost:3000/api/v1/etiquetasBussl";
+      } else if (tipoExtrusor === "EXT70-II") {
+        apiUrl = "http://localhost:3000/api/v1/etiquetasExt70_2";
+      } else {
+        console.error("Tipo de extrusor no reconocido");
+        return;
+      }
+
+      await axios.put(`${apiUrl}/${etiqueta.id}`, {
+        extrusor: etiqueta.extrusor,
+      });
+
+      console.log(
+        `Cambios guardados en el campo 'extrusor' de la etiqueta ${etiqueta.id}`
+      );
+    } catch (error) {
+      console.error(
+        `Error al guardar cambios en la etiqueta ${etiqueta.id}:`,
+        error
+      );
+    }
+  };
 
   useEffect(() => {
     axios
@@ -94,113 +138,22 @@ export default function Component2() {
     );
   };
 
-  const guardarCambiosEtiqueta = async (etiqueta) => {
-    try {
-      await axios.put(`http://localhost:3000/api/v1/etiquetas/${etiqueta.id}`, {
-        extrusor: etiqueta.extrusor,
-      });
-
-      console.log(
-        `Cambios guardados en el campo 'extrusor' de la etiqueta ${etiqueta.id}`
-      );
-    } catch (error) {
-      console.error(
-        `Error al guardar cambios en la etiqueta ${etiqueta.id}:`,
-        error
-      );
-    }
-  };
-
-  const guardarCambiosEtiquetasExtrusor = async (extrusorId) => {
-    const etiquetasEnExtrusor = etiquetasPorExtrusor[extrusorId] || [];
-
-    const promises = etiquetasEnExtrusor.map((etiqueta) => {
-      return guardarCambiosEtiqueta({
-        ...etiqueta,
-        extrusor: extrusores.find((e) => e.id === extrusorId)?.nombre,
-      });
-    });
-
-    try {
-      await Promise.all(promises);
-      console.log(
-        `Cambios guardados en todas las etiquetas del extrusor ${extrusorId}.`
-      );
-    } catch (error) {
-      console.error(
-        `Error al guardar cambios en etiquetas del extrusor ${extrusorId}:`,
-        error
-      );
-    }
-  };
-
-  const handleTagDrop = async (tagId, extrusor) => {
-    try {
-      const extrusorExistente = extrusores.find((e) => e.nombre === extrusor);
-
-      if (extrusorExistente) {
-        const etiqueta = etiquetasAgregadas.find((item) => item.id === tagId);
-
-        if (etiqueta.extrusor === extrusorExistente.nombre) {
-          console.log(
-            `La etiqueta ${tagId} ya está asignada al extrusor ${extrusor}`
-          );
-          return;
-        }
-
-        await axios.put(`http://localhost:3000/api/v1/etiquetas/${tagId}`, {
-          extrusor: extrusorExistente.nombre,
-        });
-
-        console.log(
-          `Etiqueta ${tagId} asignada al extrusor ${extrusorExistente.nombre}`
-        );
-
-        const updatedEtiquetas = etiquetasAgregadas.map((item) => {
-          if (item.id === tagId) {
-            return { ...item, extrusor: extrusorExistente.nombre };
-          }
-          return item;
-        });
-
-        setEtiquetasAgregadas(updatedEtiquetas);
-
-        setEtiquetasPorExtrusor((prevEtiquetasPorExtrusor) => {
-          const newEtiquetas =
-            prevEtiquetasPorExtrusor[extrusorExistente.id] || [];
-          newEtiquetas.push(
-            etiquetasAgregadas.find((item) => item.id === tagId)
-          );
-          return {
-            ...prevEtiquetasPorExtrusor,
-            [extrusorExistente.id]: newEtiquetas,
-          };
-        });
-
-        // Almacenar información sobre el extrusor en localStorage
-        const extrusorInfo =
-          JSON.parse(localStorage.getItem("extrusorInfo")) || {};
-        extrusorInfo[tagId] = extrusorExistente.id;
-        localStorage.setItem("extrusorInfo", JSON.stringify(extrusorInfo));
-
-        await guardarCambiosEtiquetasExtrusor(extrusorExistente.id);
-      } else {
-        console.error(
-          `El nombre del extrusor no coincide con ninguno de los extrusores disponibles.`
-        );
-      }
-    } catch (error) {
-      console.error(`Error al asignar la etiqueta al extrusor:`, error);
-    }
-  };
-
-  function formatDateWithoutTime(date) {
+  const formatDateWithoutTime = (date) => {
     const parsedDate = new Date(date);
     const formattedDate = `${parsedDate.getDate()}/${
       parsedDate.getMonth() + 1
     }/${parsedDate.getFullYear()}`;
     return formattedDate;
-  }
+  };
+
+  const guardarCambiosEtiquetaSeleccionada = async () => {
+    if (etiquetaSeleccionada) {
+      const tipoExtrusor = etiquetasPorExtrusor[etiquetaSeleccionada.extrusor];
+      await guardarCambiosEtiqueta(etiquetaSeleccionada, tipoExtrusor);
+    } else {
+      console.error("No hay etiqueta seleccionada para guardar cambios");
+    }
+  };
 
   return (
     <div style={{ display: "flex", gap: "2rem", flexDirection: "column" }}>
@@ -226,7 +179,6 @@ export default function Component2() {
                     }}
                     data-id={item.id}
                   >
-                    {/* Contenido de la etiqueta, similar al resto del código */}
                     <div className="m-3 cursor-draggable">
                       <div className="espaciadoEtiqueta posicionamientoEtiquetas">
                         <div className="card-body titulosTyle ">
@@ -258,61 +210,9 @@ export default function Component2() {
                 ))}
               </ReactSortable>
             </div>
+            <button onClick={{}}></button>
           </div>
 
-          {/*     <div className="col bg-danger position">
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              <h6 className="text-center tittle">EXT54-II</h6>
-            </div>
-            <div>
-              <ReactSortable
-                list={ext54lletiquetas}
-                setList={setExt54lletiquetas}
-                group="shared-group-name"
-                className="position"
-              >
-                {ext54lletiquetas.map((item) => (
-                  <div
-                    key={item.id}
-                    className="etiqueta"
-                    style={{
-                      backgroundColor:
-                        item.estado === "pendiente" ? "#FFE224" : labelColor,
-                    }}
-                    data-id={item.id}
-                  >
-                    <div className="m-3 cursor-draggable">
-                      <div className="espaciadoEtiqueta posicionamientoEtiquetas">
-                        <div className="card-body titulosTyle ">
-                          {item.nombre}
-                        </div>
-                        <BotonOption
-                          etiqueta={item}
-                          onDelete={handleTagDelete}
-                        />
-                      </div>
-                      <hr className="linea-etiqueta" />
-                      <strong>
-                        {item.polvos === true && (
-                          <p className="tamañoLetra posicionamientoEtiquetas spaciadoEtiquetaLetras">
-                            POLVOS
-                          </p>
-                        )}
-                      </strong>
-                      <hr className="linea-etiqueta" />
-                      <div className="position2 spaciadoEtiquetaLetras">
-                        <p className="tamañoLetra ">
-                          {formatDateWithoutTime(item.fecha)}
-                        </p>
-                        <p className="tamañoLetra">{item.clave}</p>
-                        <p className="tamañoLetra">{item.kilos}kg</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </ReactSortable>
-            </div>
-          </div> */}
           <div className="fondo">
             <div className="col bg-danger position">
               <div style={{ display: "flex", flexDirection: "column" }}>
@@ -422,9 +322,68 @@ export default function Component2() {
                 </ReactSortable>
               </div>
             </div>
+            <div className="col bg-danger position">
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <h6 className="text-center tittle">EXT70-II</h6>
+              </div>
+              <div>
+                <ReactSortable
+                  value="EXT70-II"
+                  list={etiquetasExt70_2}
+                  setList={setEtiquetasExt70_2}
+                  group="shared-group-name"
+                  className="position"
+                >
+                  {etiquetasExt70_2.map((item) => (
+                    <div
+                      key={item.id}
+                      className="etiqueta"
+                      style={{
+                        backgroundColor:
+                          item.estado === "pendiente" ? "#FFE224" : labelColor,
+                      }}
+                      data-id={item.id}
+                    >
+                      <div className="m-3 cursor-draggable">
+                        <div className="espaciadoEtiqueta posicionamientoEtiquetas">
+                          <div className="card-body titulosTyle ">
+                            {item.nombre}
+                          </div>
+                          <BotonOption
+                            etiqueta={item}
+                            onDelete={handleTagDelete}
+                          />
+                        </div>
+                        <hr className="linea-etiqueta" />
+                        <strong>
+                          {item.polvos === true && (
+                            <p className="tamañoLetra posicionamientoEtiquetas spaciadoEtiquetaLetras">
+                              POLVOS
+                            </p>
+                          )}
+                        </strong>
+                        <hr className="linea-etiqueta" />
+                        <div className="position2 spaciadoEtiquetaLetras">
+                          <p className="tamañoLetra ">
+                            {formatDateWithoutTime(item.fecha)}
+                          </p>
+                          <p className="tamañoLetra">{item.clave}</p>
+                          <p className="tamañoLetra">{item.kilos}kg</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </ReactSortable>
+              </div>
+            </div>
           </div>
+          <button onClick={guardarCambiosEtiquetaSeleccionada}>
+            Guardar Cambios Etiqueta Seleccionada
+          </button>
         </div>
       </div>
     </div>
   );
-}
+} /* 
+como implementar que las etiquetas quue se encuentran en la seccion Agregadas, al cambiarlas de pocicion de alguno de los extrusores al precionar un boton guarde en la base de datos en la tabla de etiquetaext70_2, etiquetasext54_2. etiquetabussl, dependiendo el tipa, si es type=EXT54-II guardarlo en la api "http://localhost:3000/api/v1/etiquetasExt54_2", si es type=BUSS-I, guardarla en la api= http://localhost:3000/api/v1/etiquetasBussl,  type=EXT70-II en la api http://localhost:3000/api/v1/etiquetasExt70_2
+ */
