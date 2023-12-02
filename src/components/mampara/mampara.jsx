@@ -10,26 +10,11 @@ import AgregarProducto from "../productos/formulario";
 export default function Component2() {
   const [labelColor, setLabelColor] = React.useState("#ffffff");
   const [etiquetasAgregadas, setEtiquetasAgregadas] = useState([]);
-  const [extrusores, setExtrusores] = useState([]);
   const [etiquetasPorExtrusor, setEtiquetasPorExtrusor] = useState({});
   const [ext54lletiquetas, setExt54lletiquetas] = useState([]);
   const [etiquetasBussl, setEtiquetasBussl] = useState([]);
   const [etiquetasExt70_2, setEtiquetasExt70_2] = useState([]);
   const [etiquetaSeleccionada, setEtiquetaSeleccionada] = useState(null);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:3000/api/v1/extrusores")
-      .then((response) => {
-        if (response.status !== 200) {
-          throw new Error("No se pudieron cargar los extrusores.");
-        }
-        setExtrusores(response.data);
-      })
-      .catch((error) => {
-        console.error("Error al cargar extrusores:", error);
-      });
-  }, []);
 
   useEffect(() => {
     axios
@@ -72,35 +57,6 @@ export default function Component2() {
       });
   }, []);
 
-  const guardarCambiosEtiqueta = async (etiqueta, tipoExtrusor) => {
-    try {
-      let apiUrl = "http://localhost:3000/api/v1/etiquetas";
-      if (tipoExtrusor === "EXT54-II") {
-        apiUrl = "http://localhost:3000/api/v1/etiquetasExt54_2";
-      } else if (tipoExtrusor === "BUSS-I") {
-        apiUrl = "http://localhost:3000/api/v1/etiquetasBussl";
-      } else if (tipoExtrusor === "EXT70-II") {
-        apiUrl = "http://localhost:3000/api/v1/etiquetasExt70_2";
-      } else {
-        console.error("Tipo de extrusor no reconocido");
-        return;
-      }
-
-      await axios.put(`${apiUrl}/${etiqueta.id}`, {
-        extrusor: etiqueta.extrusor,
-      });
-
-      console.log(
-        `Cambios guardados en el campo 'extrusor' de la etiqueta ${etiqueta.id}`
-      );
-    } catch (error) {
-      console.error(
-        `Error al guardar cambios en la etiqueta ${etiqueta.id}:`,
-        error
-      );
-    }
-  };
-
   useEffect(() => {
     axios
       .get("http://localhost:3000/api/v1/etiquetas")
@@ -108,24 +64,7 @@ export default function Component2() {
         if (response.status !== 200) {
           throw Error("No se pudieron cargar las etiquetas.");
         }
-        const etiquetas = response.data;
-        setEtiquetasAgregadas(etiquetas);
-
-        // Recuperar información sobre el extrusor de localStorage
-        const extrusorInfo =
-          JSON.parse(localStorage.getItem("extrusorInfo")) || {};
-        const etiquetasPorExtrusorTemp = {};
-
-        etiquetas.forEach((etiqueta) => {
-          const extrusorId = extrusorInfo[etiqueta.id];
-          if (extrusorId) {
-            etiquetasPorExtrusorTemp[extrusorId] =
-              etiquetasPorExtrusorTemp[extrusorId] || [];
-            etiquetasPorExtrusorTemp[extrusorId].push(etiqueta);
-          }
-        });
-
-        setEtiquetasPorExtrusor(etiquetasPorExtrusorTemp);
+        setEtiquetasAgregadas(response.data);
       })
       .catch((error) => {
         console.error("Error al cargar etiquetas:", error);
@@ -146,14 +85,22 @@ export default function Component2() {
     return formattedDate;
   };
 
-  const guardarCambiosEtiquetaSeleccionada = async () => {
-    if (etiquetaSeleccionada) {
-      const tipoExtrusor = etiquetasPorExtrusor[etiquetaSeleccionada.extrusor];
-      await guardarCambiosEtiqueta(etiquetaSeleccionada, tipoExtrusor);
-    } else {
-      console.error("No hay etiqueta seleccionada para guardar cambios");
-    }
-  };
+  useEffect(() => {
+    console.log(ext54lletiquetas);
+    axios
+      .post("http://localhost:3000/api/v1/etiquetasExt54_2", {
+        data: ext54lletiquetas,
+      })
+      .then((response) => {
+        if (response.status !== 200) {
+          throw Error("No se pudieron cargar las etiquetas.");
+        }
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error("Error al cargar etiquetas:", error);
+      });
+  }, [ext54lletiquetas]);
 
   return (
     <div style={{ display: "flex", gap: "2rem", flexDirection: "column" }}>
@@ -210,7 +157,6 @@ export default function Component2() {
                 ))}
               </ReactSortable>
             </div>
-            <button onClick={{}}></button>
           </div>
 
           <div className="fondo">
@@ -377,13 +323,10 @@ export default function Component2() {
               </div>
             </div>
           </div>
-          <button onClick={guardarCambiosEtiquetaSeleccionada}>
-            Guardar Cambios Etiqueta Seleccionada
-          </button>
         </div>
       </div>
     </div>
   );
 } /* 
-como implementar que las etiquetas quue se encuentran en la seccion Agregadas, al cambiarlas de pocicion de alguno de los extrusores al precionar un boton guarde en la base de datos en la tabla de etiquetaext70_2, etiquetasext54_2. etiquetabussl, dependiendo el tipa, si es type=EXT54-II guardarlo en la api "http://localhost:3000/api/v1/etiquetasExt54_2", si es type=BUSS-I, guardarla en la api= http://localhost:3000/api/v1/etiquetasBussl,  type=EXT70-II en la api http://localhost:3000/api/v1/etiquetasExt70_2
- */
+ como puedo implementar que las etiquetas que se encuentran en la seccion de Etiquetas Agregadas, al cambiarlas de pocicion de alguno de los secciones de los extrusores, ext54-ll, buss-1, ext70-ll, dependiendo a donde se cambiara la etiqueta, al precionar un boton guarde en la base de datos en la tabla de etiquetaext70_2, etiquetasext54_2. etiquetabussl, dependiendo en que seccion es agregada cada etiqueta, si es type=EXT54-II guardarlo en la api "http://localhost:3000/api/v1/etiquetasExt54_2", si es type=BUSS-I, guardarla en la api= http://localhost:3000/api/v1/etiquetasBussl,  type=EXT70-II en la api http://localhost:3000/api/v1/etiquetasExt70_2, una vez almacenado en la tabla asignada, se eliminara de la tabla etiquetas, guardandolo en la seccion seleccionada
+  */
