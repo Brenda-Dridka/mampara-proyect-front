@@ -85,22 +85,50 @@ export default function Component2() {
     return formattedDate;
   };
 
-  useEffect(() => {
+  /*   useEffect(() => {
     console.log(ext54lletiquetas);
     axios
       .post("http://localhost:3000/api/v1/etiquetasExt54_2", {
         data: ext54lletiquetas,
       })
       .then((response) => {
-        if (response.status !== 200) {
-          throw Error("No se pudieron cargar las etiquetas.");
-        }
-        console.log(response.data);
+        // Aquí puedes manejar la respuesta de la API
+        console.log("Etiqueta guardada con éxito", response.data);
+        handleClose();
       })
       .catch((error) => {
-        console.error("Error al cargar etiquetas:", error);
+        // Manejar errores
+        console.error("Error al guardar la etiqueta", error);
       });
-  }, [ext54lletiquetas]);
+  }, [ext54lletiquetas]); */
+
+  const handleDragEnd = async (event) => {
+    const { newIndex, item } = event;
+
+    try {
+      // Actualiza la posición de la etiqueta en el estado local
+      setExt54lletiquetas((prevEtiquetas) => {
+        const updatedEtiquetas = [...prevEtiquetas];
+        const [removed] = updatedEtiquetas.splice(newIndex, 0, item);
+        return updatedEtiquetas;
+      });
+
+      // Envía la solicitud POST para guardar la etiqueta en la base de datos
+      await axios.post("http://localhost:3000/api/v1/etiquetasExt54_2", {
+        data: {
+          etiqueta: item,
+          extrusor: {
+            name: "EXT54-II",
+            position: newIndex,
+          },
+        },
+      });
+
+      console.log("Etiqueta actualizada en la base de datos");
+    } catch (error) {
+      console.error("Error al actualizar etiqueta en la base de datos:", error);
+    }
+  };
 
   return (
     <div style={{ display: "flex", gap: "2rem", flexDirection: "column" }}>
@@ -171,6 +199,7 @@ export default function Component2() {
                   setList={setExt54lletiquetas}
                   group="shared-group-name"
                   className="position"
+                  onEnd={(evt) => handleDragEnd(evt)}
                 >
                   {ext54lletiquetas.map((item) => (
                     <div
@@ -268,65 +297,16 @@ export default function Component2() {
                 </ReactSortable>
               </div>
             </div>
-            <div className="col bg-danger position">
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <h6 className="text-center tittle">EXT70-II</h6>
-              </div>
-              <div>
-                <ReactSortable
-                  value="EXT70-II"
-                  list={etiquetasExt70_2}
-                  setList={setEtiquetasExt70_2}
-                  group="shared-group-name"
-                  className="position"
-                >
-                  {etiquetasExt70_2.map((item) => (
-                    <div
-                      key={item.id}
-                      className="etiqueta"
-                      style={{
-                        backgroundColor:
-                          item.estado === "pendiente" ? "#FFE224" : labelColor,
-                      }}
-                      data-id={item.id}
-                    >
-                      <div className="m-3 cursor-draggable">
-                        <div className="espaciadoEtiqueta posicionamientoEtiquetas">
-                          <div className="card-body titulosTyle ">
-                            {item.nombre}
-                          </div>
-                          <BotonOption
-                            etiqueta={item}
-                            onDelete={handleTagDelete}
-                          />
-                        </div>
-                        <hr className="linea-etiqueta" />
-                        <strong>
-                          {item.polvos === true && (
-                            <p className="tamañoLetra posicionamientoEtiquetas spaciadoEtiquetaLetras">
-                              POLVOS
-                            </p>
-                          )}
-                        </strong>
-                        <hr className="linea-etiqueta" />
-                        <div className="position2 spaciadoEtiquetaLetras">
-                          <p className="tamañoLetra ">
-                            {formatDateWithoutTime(item.fecha)}
-                          </p>
-                          <p className="tamañoLetra">{item.clave}</p>
-                          <p className="tamañoLetra">{item.kilos}kg</p>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </ReactSortable>
-              </div>
-            </div>
           </div>
         </div>
       </div>
     </div>
   );
-} /* 
- como puedo implementar que las etiquetas que se encuentran en la seccion de Etiquetas Agregadas, al cambiarlas de pocicion de alguno de los secciones de los extrusores, ext54-ll, buss-1, ext70-ll, dependiendo a donde se cambiara la etiqueta, al precionar un boton guarde en la base de datos en la tabla de etiquetaext70_2, etiquetasext54_2. etiquetabussl, dependiendo en que seccion es agregada cada etiqueta, si es type=EXT54-II guardarlo en la api "http://localhost:3000/api/v1/etiquetasExt54_2", si es type=BUSS-I, guardarla en la api= http://localhost:3000/api/v1/etiquetasBussl,  type=EXT70-II en la api http://localhost:3000/api/v1/etiquetasExt70_2, una vez almacenado en la tabla asignada, se eliminara de la tabla etiquetas, guardandolo en la seccion seleccionada
-  */
+}
+
+/* 
+como puedo implementar el guardado de etiquetas en el siguiente codigo
+se nesesota guardar las etiquetas que ya se estan se están consumiendo desde la api "http://localhost:3000/api/v1/etiquetas",guardarlas a la api "http://localhost:3000/api/v1/etiquetasExt54_2",
+ al colocarlas en la seccion del extrusor setExt54lletiquetas, se haga un guardado automatico, y la data que tiene de la api etiquetas, se pase a la api de etiquetasExt54_2, adicionandole 
+ los datos de "extrusor" y "posicion", para el campo extrusor se guardara nombre del value="EXT54-II", y en el campo posicion se guardara el numero de la pocicion que muesta el array de datos cuando la etiqueta cambia de lugar
+*/
