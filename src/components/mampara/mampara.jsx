@@ -101,7 +101,7 @@ export default function Component2() {
         console.error("Error al guardar la etiqueta", error);
       });
   }, [ext54lletiquetas]); */
-  useEffect(() => {
+  /*   useEffect(() => {
     console.log(ext54lletiquetas);
     const handleEtiquetasExt54Guardado = (etiquetas) => {
       const etiquetasConExtrusorPosicion = etiquetas.map((item, index) => ({
@@ -127,7 +127,7 @@ export default function Component2() {
           );
         });
     };
-  }, [ext54lletiquetas]);
+  }, [ext54lletiquetas]); */
 
   return (
     <div style={{ display: "flex", gap: "2rem", flexDirection: "column" }}>
