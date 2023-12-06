@@ -85,7 +85,7 @@ export default function Component2() {
     return formattedDate;
   };
 
-  /*   useEffect(() => {
+  /* useEffect(() => {
     console.log(ext54lletiquetas);
     axios
       .post("http://localhost:3000/api/v1/etiquetasExt54_2", {
@@ -101,34 +101,33 @@ export default function Component2() {
         console.error("Error al guardar la etiqueta", error);
       });
   }, [ext54lletiquetas]); */
+  useEffect(() => {
+    console.log(ext54lletiquetas);
+    const handleEtiquetasExt54Guardado = (etiquetas) => {
+      const etiquetasConExtrusorPosicion = etiquetas.map((item, index) => ({
+        ...item,
+        extrusor: "EXT54-II",
+        posicion: index + 1,
+      }));
 
-  const handleDragEnd = async (event) => {
-    const { newIndex, item } = event;
-
-    try {
-      // Actualiza la posición de la etiqueta en el estado local
-      setExt54lletiquetas((prevEtiquetas) => {
-        const updatedEtiquetas = [...prevEtiquetas];
-        const [removed] = updatedEtiquetas.splice(newIndex, 0, item);
-        return updatedEtiquetas;
-      });
-
-      // Envía la solicitud POST para guardar la etiqueta en la base de datos
-      await axios.post("http://localhost:3000/api/v1/etiquetasExt54_2", {
-        data: {
-          etiqueta: item,
-          extrusor: {
-            name: "EXT54-II",
-            position: newIndex,
-          },
-        },
-      });
-
-      console.log("Etiqueta actualizada en la base de datos");
-    } catch (error) {
-      console.error("Error al actualizar etiqueta en la base de datos:", error);
-    }
-  };
+      axios
+        .post("http://localhost:3000/api/v1/etiquetasExt54_2", {
+          data: etiquetasConExtrusorPosicion,
+        })
+        .then((response) => {
+          console.log(
+            "Etiquetas guardadas en etiquetasExt54_2:",
+            response.data
+          );
+        })
+        .catch((error) => {
+          console.error(
+            "Error al guardar las etiquetas en etiquetasExt54_2:",
+            error
+          );
+        });
+    };
+  }, [ext54lletiquetas]);
 
   return (
     <div style={{ display: "flex", gap: "2rem", flexDirection: "column" }}>
@@ -199,7 +198,7 @@ export default function Component2() {
                   setList={setExt54lletiquetas}
                   group="shared-group-name"
                   className="position"
-                  onEnd={(evt) => handleDragEnd(evt)}
+                  onEnd={() => handleEtiquetasExt54Guardado(ext54lletiquetas)}
                 >
                   {ext54lletiquetas.map((item) => (
                     <div
