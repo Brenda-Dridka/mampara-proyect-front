@@ -16,6 +16,7 @@ export default function Component2() {
   const [ext54lletiquetas, setExt54lletiquetas] = useState([]);
   const [etiquetasBussl, setEtiquetasBussl] = useState([]);
   const [etiquetasExt70_2, setEtiquetasExt70_2] = useState([]);
+  const [watchExt54ll, setWatch54ll] = useState(null);
 
   /*   const [etiquetaSeleccionada, setEtiquetaSeleccionada] = useState(null); */
 
@@ -32,20 +33,6 @@ export default function Component2() {
         console.error("Error al cargar etiquetasExt54ll:", error);
       });
   }, []);
-
-  /* useEffect(() => {
-    axios
-      .get("http://localhost:3000/api/v1/etiquetasExt54_2")
-      .then((response) => {
-        if (response.status !== 200) {
-          throw new Error("No se pudieron cargar los etiquetasExt54ll.");
-        }
-        setExt54lletiquetas(response.data);
-      })
-      .catch((error) => {
-        console.error("Error al cargar etiquetasExt54ll:", error);
-      });
-  }, [pageReloaded]); */
 
   useEffect(() => {
     axios
@@ -103,24 +90,31 @@ export default function Component2() {
   };
 
   useEffect(() => {
-    console.log(ext54lletiquetas);
+    if (watchExt54ll !== null) {
+      console.log("chek1 ", ext54lletiquetas);
 
-    // Aquí manejas el guardado masivo al cambiar ext54lletiquetas
-    const guardarEtiquetasMasivo = async () => {
-      try {
-        // Guarda las nuevas etiquetas
+      // Aquí manejas el guardado masivo al cambiar ext54lletiquetas
+      const guardarEtiquetasMasivo = async () => {
+        try {
+          // Guarda las nuevas etiquetas
 
-        await axios.post(apiUrlEtiquetasExt54_2, ext54lletiquetas);
+          await axios.post(apiUrlEtiquetasExt54_2, ext54lletiquetas);
 
-        console.log("Etiquetas guardadas con éxito");
-      } catch (error) {
-        console.error("Error al guardar las etiquetas", error);
-      }
-    };
+          console.log("Etiquetas guardadas con éxito");
+        } catch (error) {
+          console.error("Error al guardar las etiquetas", error);
+        }
+      };
 
-    // Llama a la función de guardado masivo cuando cambia ext54lletiquetas
-    guardarEtiquetasMasivo();
+      // Llama a la función de guardado masivo cuando cambia ext54lletiquetas
+      guardarEtiquetasMasivo();
+    }
   }, [ext54lletiquetas]);
+
+  const handleext54lletiquetasChange = (newState) => {
+    setWatch54ll(new Date());
+    setExt54lletiquetas(newState);
+  };
 
   return (
     <div style={{ display: "flex", gap: "2rem", flexDirection: "column" }}>
@@ -188,7 +182,7 @@ export default function Component2() {
                 <ReactSortable
                   value="EXT54-II"
                   list={ext54lletiquetas}
-                  setList={setExt54lletiquetas}
+                  setList={(newState) => handleext54lletiquetasChange(newState)}
                   group="shared-group-name"
                   className="position"
                 >
