@@ -139,6 +139,44 @@ export default function AlertDialog() {
       });
   };
 
+  /*   const handleSave = () => {
+    // Verificar que se han seleccionado un artículo, una fecha y kilos
+    if (!selectedArticle || !date || !kilos) {
+      console.error("Por favor, complete todos los campos antes de guardar.");
+      return;
+    }
+
+    // Crear el objeto de datos a enviar
+    const etiqueta = {
+      nombre: selectedArticle.nombre,
+      fecha: date,
+      clave: selectedArticle.clave,
+      kilos: kilos,
+      polvos: polvos,
+      estado: "activo", // Estado por defecto "activo"
+      extrusor: " ",
+      posicion: " ",
+    };
+
+    // Llamar a la función para guardar etiquetas en el servidor
+    saveEtiquetas([etiqueta]);
+  };
+
+  const saveEtiquetas = (etiquetas) => {
+    // Hacer la solicitud POST a la API
+    axios
+      .post("http://localhost:3000/api/v1/etiquetas", { etiquetas })
+      .then((response) => {
+        // Aquí puedes manejar la respuesta de la API
+        console.log("Etiquetas guardadas con éxito", response.data);
+        handleClose();
+      })
+      .catch((error) => {
+        // Manejar errores
+        console.error("Error al guardar las etiquetas", error);
+      });
+  };
+ */
   return (
     <div>
       <Button
