@@ -3,72 +3,43 @@ import { ReactSortable } from "react-sortablejs";
 import axios from "axios";
 import "../../../style/DragAnDrop/DragAnDrop.css";
 import "../../../style/cards.css";
+/* import BotonOption from "../global/botonOptions"; */
 import BotonOption from "../../global/botonOptions";
-/* import "../../style/global/global.css";*/
+/* import "../../style/global/global.css"; */
 import "../../../style/global/global.css";
 
-const urlEtiquetas54_4 = "http://localhost:3000/api/v1/etiquetasExt54_4";
-
-export default function ext54_4() {
-  const [etiquetasExt54_4, setEtiquetasExt54_4] = useState([]);
-  const [whatchEtiquetas54_4, setWhatchEtiquetas54_4] = (useState = null);
+const Ext54_2Component = ({ etiquetas, onEtiquetasChange }) => {
+  const [ext54lletiquetas, setExt54lletiquetas] = useState([]);
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/v1/etiquetasExt54_4")
+      .get("http://localhost:3000/api/v1/etiquetasExt54_2")
       .then((response) => {
         if (response.status !== 200) {
-          throw new Error("No se pudieron cargar los etiquetasExt54_4.");
+          throw new Error("No se pudieron cargar los etiquetasExt54ll.");
         }
-        setEtiquetasExt54_4(response.data);
+        setExt54lletiquetas(response.data);
       })
       .catch((error) => {
-        console.error("Error al cargar etiquetasExt54_4:", error);
+        console.error("Error al cargar etiquetasExt54ll:", error);
       });
   }, []);
-
-  useEffect(() => {
-    if (whatchEtiquetas54_4 !== null) {
-      console.log("chekBussbuss1 ", etiquetasExt54_4);
-
-      // Aquí manejas el guardado masivo al cambiar etiquetasExt54_4
-      const guardarEtiquetasMasivo = async () => {
-        try {
-          // Guarda las nuevas etiquetas
-
-          await axios.post(urlEtiquetas54_4, etiquetasExt54_4);
-
-          console.log("Etiquetas guardadas con éxito 54_4");
-        } catch (error) {
-          console.error("Error al guardar las etiquetas 54 5", error);
-        }
-      };
-
-      // Llama a la función de guardado masivo cuando cambia etiquetasExt54_4
-      guardarEtiquetasMasivo();
-    }
-  }, [etiquetasExt54_4]);
-
-  const handleExt54_4etiquetasChange = (newState) => {
-    setWhatchEtiquetas54_4(new Date());
-    setEtiquetasExt54_4(newState);
-  };
-
   return (
     <>
       <div className="col bg-danger position">
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <h6 className="text-center tittle">EXT54-4</h6>
+          <h6 className="text-center tittle">EXT54-II</h6>
         </div>
         <div>
           <ReactSortable
-            value="EXT70-II"
-            list={etiquetasExt54_4}
-            setList={(newState) => handleExt54_4etiquetasChange(newState)}
+            value="EXT54-II"
+            list={ext54lletiquetas}
+            setList={(newState) => onEtiquetasChange(newState)}
+            /*        setList={(newState) => handleext54lletiquetasChange(newState)} */
             group="shared-group-name"
             className="position"
           >
-            {etiquetasExt54_4.map((item) => (
+            {ext54lletiquetas.map((item) => (
               <div
                 key={item.id}
                 className="etiqueta"
@@ -107,4 +78,5 @@ export default function ext54_4() {
       </div>
     </>
   );
-}
+};
+export default Ext54_2Component;
