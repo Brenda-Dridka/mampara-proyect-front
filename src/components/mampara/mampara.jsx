@@ -201,12 +201,12 @@ export default function Component2() {
   }, []);
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/v1/etiquetasExt70_2")
+      .get("http://localhost:3000/api/v1/etiquetasExt70_1")
       .then((response) => {
         if (response.status !== 200) {
           throw new Error("No se pudieron cargar los etiquetasExt58");
         }
-        setEtiquetasExt70_2(response.data);
+        setEtiquetasExt70_1(response.data);
       })
       .catch((error) => {
         console.error("Error al cargar etiquetasExt58:", error);
