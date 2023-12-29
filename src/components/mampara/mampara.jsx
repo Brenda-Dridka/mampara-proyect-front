@@ -1800,3 +1800,5 @@ export default function Component2() {
     </div>
   );
 }
+
+///implememytacion de todos los extrusores
