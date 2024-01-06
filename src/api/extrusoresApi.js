@@ -24,6 +24,7 @@ export const createEtiqueta = async (etiquetaData) => {
   return newEtiqueta;
 };
 
+// api.js
 export const fetchProductos = async () => {
   try {
     const response = await fetch("http://localhost:3000/api/v1/productos");

@@ -10,3 +10,9 @@
 .spaciadoEtiquetaLetras{
     margin: 0px;
 }
+
+.select-formulario{
+    width: 50% !important ;
+   
+    margin-bottom: 1rem;
+}

@@ -7,6 +7,11 @@ import BotonOption from "../global/botonOptions";
 import "../../style/global/global.css";
 import AgregarProducto from "../productos/formulario";
 
+import EtiquetasAgregadaForm from "../Etiquetas/etrusores/agregarEtiqueta";
+/* implementacion de cambio d componente */
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const apiUrlEtiquetasExt54_2 = "http://localhost:3000/api/v1/etiquetasExt54_2";
 const apiUrlBuss1 = "http://localhost:3000/api/v1/etiquetasBussl";
 const apiUrlEtiquetasExt70_2 = "http://localhost:3000/api/v1/etiquetasExt70_2";
@@ -27,6 +32,9 @@ const apiUrlEtiquetasExt54_8 = "http://localhost:3000/api/v1/etiquetasExt54_8";
 const apiUrlEtiqueras = "http://localhost:3000/api/v1/etiquetas";
 
 export default function Component2() {
+  /* implementacion de nuevo componente */
+
+  const [updateTags, setUpdateTags] = useState(false);
   const [labelColor, setLabelColor] = React.useState("#ffffff");
   const [etiquetasAgregadas, setEtiquetasAgregadas] = useState([]);
 
@@ -66,6 +74,8 @@ export default function Component2() {
   const [watchExt54_6, setWatchExt54_6] = useState(null);
   const [watchExt70_3, setWatchExt70_3] = useState(null);
   const [watchExt54_8, setWatchExt54_8] = useState(null);
+
+  /*   const [reloadMampara, setReloadMampara] = useState(false); */
 
   useEffect(() => {
     axios
@@ -162,7 +172,7 @@ export default function Component2() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/v1/etiquetasExt40")
+      .get("https://2kwz26j1-3000.usw3.devtunnels.ms/api/v1/etiquetasExt40")
       .then((response) => {
         if (response.status !== 200) {
           throw new Error("No se pudieron cargar los etiquetasExt58");
@@ -293,6 +303,19 @@ export default function Component2() {
   }, []);
 
   /* --------------EXTRUSORES------------------------------------ */
+  /*  useEffect(() => {
+    axios
+      .get("http://localhost:3000/api/v1/etiquetas")
+      .then((response) => {
+        if (response.status !== 200) {
+          throw Error("No se pudieron cargar las etiquetas.");
+        }
+        setEtiquetasAgregadas(response.data);
+      })
+      .catch((error) => {
+        console.error("Error al cargar etiquetas:", error);
+      });
+  }, []); */
   useEffect(() => {
     axios
       .get("http://localhost:3000/api/v1/etiquetas")
@@ -305,7 +328,7 @@ export default function Component2() {
       .catch((error) => {
         console.error("Error al cargar etiquetas:", error);
       });
-  }, []);
+  }, [updateTags]); // Escucha cambios en updateTags
 
   const handleTagDelete = (tagId) => {
     setEtiquetasAgregadas(
@@ -816,7 +839,13 @@ export default function Component2() {
   };
   return (
     <div style={{ display: "flex", gap: "2rem", flexDirection: "column" }}>
-      <AgregarProducto />
+      {/*      <AgregarProducto /> */}
+      <EtiquetasAgregadaForm />
+
+      {/*   <EtiquetaForm onEtiquetaCreated={handleEtiquetaCreated} />
+      <EtiquetaTable etiquetas={etiquetas} setEtiquetas={setEtiquetas} /> */}
+      <ToastContainer />
+
       <div className="container">
         <div className="row align-items-start">
           <div className="col bg-success">

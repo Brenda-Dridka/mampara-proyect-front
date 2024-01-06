@@ -7,26 +7,52 @@ import BotonOption from "../global/botonOptions";
 import "../../style/global/global.css";
 import AgregarProducto from "../productos/formulario";
 
-const apiUrlEtiquetasExt54_2 = "http://localhost:3000/api/v1/etiquetasExt54_2";
-const apiUrlBuss1 = "http://localhost:3000/api/v1/etiquetasBussl";
-const apiUrlEtiquetasExt70_2 = "http://localhost:3000/api/v1/etiquetasExt70_2";
-const apiUrlEtiquetasExt54_4 = "http://localhost:3000/api/v1/etiquetasExt54_4";
-const apiUrlEtiquetasExt54_5 = "http://localhost:3000/api/v1/etiquetasExt54_5";
-const apiUrlEtiquetasExt54_1 = "http://localhost:3000/api/v1/etiquetasExt54_1";
-const apiUrlEtiquetasExt58 = "http://localhost:3000/api/v1/etiquetasExt58";
-const apiUrlEtiquetasExt40 = "http://localhost:3000/api/v1/etiquetasExt40";
-const apiUrlEtiquetasExt54_3 = "http://localhost:3000/api/v1/etiquetasExt54_3";
-const apiUrlEtiquetasExt54_7 = "http://localhost:3000/api/v1/etiquetasExt54_7";
-const apiUrlEtiquetasExt70_1 = "http://localhost:3000/api/v1/etiquetasExt70_1";
-const apiUrlBuss2 = "http://localhost:3000/api/v1/etiquetasBussll";
-const apiUrlEtiquetasExt26_1 = "http://localhost:3000/api/v1/etiquetasExt26_1";
-const apiUrlEtiquetasExt26_2 = "http://localhost:3000/api/v1/etiquetasExt26_2";
-const apiUrlEtiquetasExt54_6 = "http://localhost:3000/api/v1/etiquetasExt54_6";
-const apiUrlEtiquetasExt70_3 = "http://localhost:3000/api/v1/etiquetasExt70_3";
-const apiUrlEtiquetasExt54_8 = "http://localhost:3000/api/v1/etiquetasExt54_8";
-const apiUrlEtiqueras = "http://localhost:3000/api/v1/etiquetas";
+import EtiquetasAgregadaForm from "../Etiquetas/etrusores/agregarEtiqueta";
+/* implementacion de cambio d componente */
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import EtiquetaForm from "../extrusores/agregarEtiqueta";
+import EtiquetaTable from "../extrusores/etiquetaExtrucion";
+import { fetchEtiquetas, createEtiqueta } from "../../api/extrusoresApi";
 
 export default function Component2() {
+  /* implementacion de nuevo componente */
+  const [etiquetas, setEtiquetas] = useState([]);
+  const [showAlert, setShowAlert] = useState(false);
+
+  const cargarEtiquetas = async () => {
+    const etiquetas = await fetchEtiquetas();
+    setEtiquetas(etiquetas);
+  };
+
+  useEffect(() => {
+    cargarEtiquetas();
+  }, []); // Se carga al montar el componente
+
+  const handleEtiquetaCreated = async (newEtiqueta) => {
+    try {
+      // Guarda la etiqueta en la base de datos
+      await createEtiqueta(newEtiqueta);
+
+      // Recarga las etiquetas y actualiza el estado
+      cargarEtiquetas();
+
+      // Muestra la notificación de éxito
+      toast.success("Etiqueta agregada con éxito");
+
+      // Oculta el mensaje de alerta después de 3 segundos
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 3000);
+    } catch (error) {
+      console.error("Error al guardar la etiqueta", error);
+
+      // Muestra la notificación de error
+      toast.error("Error al guardar la etiqueta");
+    }
+  };
+  /* ------------------------- */
+  const [updateTags, setUpdateTags] = useState(false);
   const [labelColor, setLabelColor] = React.useState("#ffffff");
   const [etiquetasAgregadas, setEtiquetasAgregadas] = useState([]);
 
@@ -66,6 +92,8 @@ export default function Component2() {
   const [watchExt54_6, setWatchExt54_6] = useState(null);
   const [watchExt70_3, setWatchExt70_3] = useState(null);
   const [watchExt54_8, setWatchExt54_8] = useState(null);
+
+  /*   const [reloadMampara, setReloadMampara] = useState(false); */
 
   useEffect(() => {
     axios
@@ -293,6 +321,7 @@ export default function Component2() {
   }, []);
 
   /* --------------EXTRUSORES------------------------------------ */
+
   useEffect(() => {
     axios
       .get("http://localhost:3000/api/v1/etiquetas")
@@ -305,7 +334,7 @@ export default function Component2() {
       .catch((error) => {
         console.error("Error al cargar etiquetas:", error);
       });
-  }, []);
+  }, [updateTags]); // Escucha cambios en updateTags
 
   const handleTagDelete = (tagId) => {
     setEtiquetasAgregadas(
@@ -816,7 +845,13 @@ export default function Component2() {
   };
   return (
     <div style={{ display: "flex", gap: "2rem", flexDirection: "column" }}>
-      <AgregarProducto />
+      {/* <AgregarProducto />
+      <EtiquetasAgregadaForm /> */}
+
+      <EtiquetaForm onEtiquetaCreated={handleEtiquetaCreated} />
+      <EtiquetaTable etiquetas={etiquetas} setEtiquetas={setEtiquetas} />
+      <ToastContainer />
+
       <div className="container">
         <div className="row align-items-start">
           <div className="col bg-success">
@@ -1800,6 +1835,5 @@ export default function Component2() {
     </div>
   );
 }
-
 
 ///implememytacion de todos los extrusores
