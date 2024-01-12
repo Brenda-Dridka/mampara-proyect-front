@@ -839,11 +839,11 @@ export default function Component2() {
   };
   return (
     <div style={{ display: "flex", gap: "2rem", flexDirection: "column" }}>
-      {/*      <AgregarProducto /> */}
-      <EtiquetasAgregadaForm />
+      <AgregarProducto />
+      {/*    <EtiquetasAgregadaForm /> */}
 
-      {/*   <EtiquetaForm onEtiquetaCreated={handleEtiquetaCreated} />
-      <EtiquetaTable etiquetas={etiquetas} setEtiquetas={setEtiquetas} /> */}
+      {/*    <EtiquetaForm onEtiquetaCreated={handleEtiquetaCreated} />
+      <EtiquetaTable etiquetas={etiquetas} setEtiquetas={setEtiquetas} />*/}
       <ToastContainer />
 
       <div className="container">

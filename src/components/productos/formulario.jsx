@@ -126,6 +126,8 @@ export default function AlertDialog() {
     };
 
     // Hacer la solicitud POST a la API
+    //despues de los metodos lo que hace es un post en el cual hace un guardado de la etiqueta
+
     axios
       .post("http://localhost:3000/etiquetas", data)
       .then((response) => {
