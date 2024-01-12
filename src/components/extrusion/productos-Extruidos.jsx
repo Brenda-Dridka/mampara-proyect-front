@@ -48,7 +48,7 @@ export default function StickyHeadTable() {
   console.log(productos);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/v1/productos-extruidos")
+    fetch("http://localhost:3000/productos-extruidos")
       .then((response) => {
         return response.json();
       })

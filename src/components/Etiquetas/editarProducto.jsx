@@ -30,10 +30,7 @@ export default function EditTagDialog({ etiqueta, onUpdate }) {
     if (etiqueta) {
       // Realiza una solicitud PUT para actualizar la etiqueta utilizando Axios
       axios
-        .put(
-          `http://localhost:3000/api/v1/etiquetas/${etiqueta.id}`,
-          updatedTag
-        )
+        .put(`http://localhost:3000/etiquetas/${etiqueta.id}`, updatedTag)
         .then((response) => {
           if (response.status === 200) {
             onUpdate(updatedTag);

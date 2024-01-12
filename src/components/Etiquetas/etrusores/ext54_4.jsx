@@ -13,7 +13,7 @@ const Ext54_2Component = ({ etiquetas, onEtiquetasChange }) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/v1/etiquetasExt54_2")
+      .get("http://localhost:3000/etiquetasExt54_2")
       .then((response) => {
         if (response.status !== 200) {
           throw new Error("No se pudieron cargar los etiquetasExt54ll.");

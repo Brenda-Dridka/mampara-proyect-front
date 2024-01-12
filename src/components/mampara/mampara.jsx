@@ -12,24 +12,24 @@ import EtiquetasAgregadaForm from "../Etiquetas/etrusores/agregarEtiqueta";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const apiUrlEtiquetasExt54_2 = "http://localhost:3000/api/v1/etiquetasExt54_2";
-const apiUrlBuss1 = "http://localhost:3000/api/v1/etiquetasBussl";
-const apiUrlEtiquetasExt70_2 = "http://localhost:3000/api/v1/etiquetasExt70_2";
-const apiUrlEtiquetasExt54_4 = "http://localhost:3000/api/v1/etiquetasExt54_4";
-const apiUrlEtiquetasExt54_5 = "http://localhost:3000/api/v1/etiquetasExt54_5";
-const apiUrlEtiquetasExt54_1 = "http://localhost:3000/api/v1/etiquetasExt54_1";
-const apiUrlEtiquetasExt58 = "http://localhost:3000/api/v1/etiquetasExt58";
-const apiUrlEtiquetasExt40 = "http://localhost:3000/api/v1/etiquetasExt40";
-const apiUrlEtiquetasExt54_3 = "http://localhost:3000/api/v1/etiquetasExt54_3";
-const apiUrlEtiquetasExt54_7 = "http://localhost:3000/api/v1/etiquetasExt54_7";
-const apiUrlEtiquetasExt70_1 = "http://localhost:3000/api/v1/etiquetasExt70_1";
-const apiUrlBuss2 = "http://localhost:3000/api/v1/etiquetasBussll";
-const apiUrlEtiquetasExt26_1 = "http://localhost:3000/api/v1/etiquetasExt26_1";
-const apiUrlEtiquetasExt26_2 = "http://localhost:3000/api/v1/etiquetasExt26_2";
-const apiUrlEtiquetasExt54_6 = "http://localhost:3000/api/v1/etiquetasExt54_6";
-const apiUrlEtiquetasExt70_3 = "http://localhost:3000/api/v1/etiquetasExt70_3";
-const apiUrlEtiquetasExt54_8 = "http://localhost:3000/api/v1/etiquetasExt54_8";
-const apiUrlEtiqueras = "http://localhost:3000/api/v1/etiquetas";
+const apiUrlEtiquetasExt54_2 = "http://localhost:3000/etiquetasExt54_2";
+const apiUrlBuss1 = "http://localhost:3000/etiquetasBussl";
+const apiUrlEtiquetasExt70_2 = "http://localhost:3000/etiquetasExt70_2";
+const apiUrlEtiquetasExt54_4 = "http://localhost:3000/etiquetasExt54_4";
+const apiUrlEtiquetasExt54_5 = "http://localhost:3000/etiquetasExt54_5";
+const apiUrlEtiquetasExt54_1 = "http://localhost:3000/etiquetasExt54_1";
+const apiUrlEtiquetasExt58 = "http://localhost:3000/etiquetasExt58";
+const apiUrlEtiquetasExt40 = "http://localhost:3000/etiquetasExt40";
+const apiUrlEtiquetasExt54_3 = "http://localhost:3000/etiquetasExt54_3";
+const apiUrlEtiquetasExt54_7 = "http://localhost:3000/etiquetasExt54_7";
+const apiUrlEtiquetasExt70_1 = "http://localhost:3000/etiquetasExt70_1";
+const apiUrlBuss2 = "http://localhost:3000/etiquetasBussll";
+const apiUrlEtiquetasExt26_1 = "http://localhost:3000/etiquetasExt26_1";
+const apiUrlEtiquetasExt26_2 = "http://localhost:3000/etiquetasExt26_2";
+const apiUrlEtiquetasExt54_6 = "http://localhost:3000/etiquetasExt54_6";
+const apiUrlEtiquetasExt70_3 = "http://localhost:3000/etiquetasExt70_3";
+const apiUrlEtiquetasExt54_8 = "http://localhost:3000/etiquetasExt54_8";
+const apiUrlEtiqueras = "http://localhost:3000/etiquetas";
 
 export default function Component2() {
   /* implementacion de nuevo componente */
@@ -79,7 +79,7 @@ export default function Component2() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/v1/etiquetasExt54_2")
+      .get("http://localhost:3000/etiquetasExt54_2")
       .then((response) => {
         if (response.status !== 200) {
           throw new Error("No se pudieron cargar los etiquetasExt54ll.");
@@ -93,7 +93,7 @@ export default function Component2() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/v1/etiquetasBussl")
+      .get("http://localhost:3000/etiquetasBussl")
       .then((response) => {
         if (response.status !== 200) {
           throw new Error("No se pudieron cargar los etiquetasBussl.");
@@ -106,7 +106,7 @@ export default function Component2() {
   }, []);
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/v1/etiquetasExt70_2")
+      .get("http://localhost:3000/etiquetasExt70_2")
       .then((response) => {
         if (response.status !== 200) {
           throw new Error("No se pudieron cargar los etiquetasExt70_2.");
@@ -119,7 +119,7 @@ export default function Component2() {
   }, []);
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/v1/etiquetasExt54_4")
+      .get("http://localhost:3000/etiquetasExt54_4")
       .then((response) => {
         if (response.status !== 200) {
           throw new Error("No se pudieron cargar los etiquetasExt70_2.");
@@ -132,7 +132,7 @@ export default function Component2() {
   }, []);
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/v1/etiquetasExt54_5")
+      .get("http://localhost:3000/etiquetasExt54_5")
       .then((response) => {
         if (response.status !== 200) {
           throw new Error("No se pudieron cargar los etiquetasExt70_2.");
@@ -145,7 +145,7 @@ export default function Component2() {
   }, []);
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/v1/etiquetasExt54_1")
+      .get("http://localhost:3000/etiquetasExt54_1")
       .then((response) => {
         if (response.status !== 200) {
           throw new Error("No se pudieron cargar los etiquetasExt54_1.");
@@ -158,7 +158,7 @@ export default function Component2() {
   }, []);
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/v1/etiquetasExt58")
+      .get("http://localhost:3000/etiquetasExt58")
       .then((response) => {
         if (response.status !== 200) {
           throw new Error("No se pudieron cargar los etiquetasExt58");
@@ -172,7 +172,7 @@ export default function Component2() {
 
   useEffect(() => {
     axios
-      .get("https://2kwz26j1-3000.usw3.devtunnels.ms/api/v1/etiquetasExt40")
+      .get("https://2kwz26j1-3000.usw3.devtunnels.ms/etiquetasExt40")
       .then((response) => {
         if (response.status !== 200) {
           throw new Error("No se pudieron cargar los etiquetasExt58");
@@ -185,7 +185,7 @@ export default function Component2() {
   }, []);
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/v1/etiquetasExt54_3")
+      .get("http://localhost:3000/etiquetasExt54_3")
       .then((response) => {
         if (response.status !== 200) {
           throw new Error("No se pudieron cargar los etiquetasExt58");
@@ -198,7 +198,7 @@ export default function Component2() {
   }, []);
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/v1/etiquetasExt54_7")
+      .get("http://localhost:3000/etiquetasExt54_7")
       .then((response) => {
         if (response.status !== 200) {
           throw new Error("No se pudieron cargar los etiquetasExt58");
@@ -211,7 +211,7 @@ export default function Component2() {
   }, []);
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/v1/etiquetasExt70_1")
+      .get("http://localhost:3000/etiquetasExt70_1")
       .then((response) => {
         if (response.status !== 200) {
           throw new Error("No se pudieron cargar los etiquetasExt58");
@@ -224,7 +224,7 @@ export default function Component2() {
   }, []);
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/v1/etiquetasBussll")
+      .get("http://localhost:3000/etiquetasBussll")
       .then((response) => {
         if (response.status !== 200) {
           throw new Error("No se pudieron cargar los etiquetasBUSS2");
@@ -238,7 +238,7 @@ export default function Component2() {
   /* 26 1 */
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/v1/etiquetasExt26_1")
+      .get("http://localhost:3000/etiquetasExt26_1")
       .then((response) => {
         if (response.status !== 200) {
           throw new Error("No se pudieron cargar los etiquetas26_1");
@@ -251,7 +251,7 @@ export default function Component2() {
   }, []);
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/v1/etiquetasExt26_2")
+      .get("http://localhost:3000/etiquetasExt26_2")
       .then((response) => {
         if (response.status !== 200) {
           throw new Error("No se pudieron cargar los etiquetas26_2");
@@ -264,7 +264,7 @@ export default function Component2() {
   }, []);
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/v1/etiquetasExt54_6")
+      .get("http://localhost:3000/etiquetasExt54_6")
       .then((response) => {
         if (response.status !== 200) {
           throw new Error("No se pudieron cargar los etiquetas54_6");
@@ -277,7 +277,7 @@ export default function Component2() {
   }, []);
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/v1/etiquetasExt70_3")
+      .get("http://localhost:3000/etiquetasExt70_3")
       .then((response) => {
         if (response.status !== 200) {
           throw new Error("No se pudieron cargar los etiquetasext 70 3");
@@ -290,7 +290,7 @@ export default function Component2() {
   }, []);
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/v1/etiquetasExt54_8")
+      .get("http://localhost:3000/etiquetasExt54_8")
       .then((response) => {
         if (response.status !== 200) {
           throw new Error("No se pudieron cargar los etiquetas54_8");
@@ -305,7 +305,7 @@ export default function Component2() {
   /* --------------EXTRUSORES------------------------------------ */
   /*  useEffect(() => {
     axios
-      .get("http://localhost:3000/api/v1/etiquetas")
+      .get("http://localhost:3000/etiquetas")
       .then((response) => {
         if (response.status !== 200) {
           throw Error("No se pudieron cargar las etiquetas.");
@@ -318,7 +318,7 @@ export default function Component2() {
   }, []); */
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/v1/etiquetas")
+      .get("http://localhost:3000/etiquetas")
       .then((response) => {
         if (response.status !== 200) {
           throw Error("No se pudieron cargar las etiquetas.");

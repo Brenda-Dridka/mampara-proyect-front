@@ -23,7 +23,7 @@ export default function StickyHeadTable() {
   const [articulos, setArticulos] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/v1/productos")
+    fetch("http://localhost:3000/productos")
       .then((response) => {
         return response.json();
       })

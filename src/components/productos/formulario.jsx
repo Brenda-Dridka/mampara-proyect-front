@@ -39,7 +39,7 @@ export default function AlertDialog() {
   const [polvos, setPolvos] = useState(false); // Agregar el estado para "polvos"
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/v1/productos")
+    fetch("http://localhost:3000/productos")
       .then((response) => {
         return response.json();
       })
@@ -127,7 +127,7 @@ export default function AlertDialog() {
 
     // Hacer la solicitud POST a la API
     axios
-      .post("http://localhost:3000/api/v1/etiquetas", data)
+      .post("http://localhost:3000/etiquetas", data)
       .then((response) => {
         // Aquí puedes manejar la respuesta de la API
         console.log("Etiqueta guardada con éxito", response.data);

@@ -27,7 +27,7 @@ export default function PositionedPopper({ etiqueta, onDelete }) {
     if (etiqueta) {
       // Realiza una solicitud DELETE para eliminar la etiqueta utilizando Axios
       axios
-        .delete(`http://localhost:3000/api/v1/etiquetas/${etiqueta.id}`)
+        .delete(`http://localhost:3000/etiquetas/${etiqueta.id}`)
         .then((response) => {
           if (response.status === 200) {
             // Llama a la función onDelete para eliminar la etiqueta del estado principal
@@ -46,7 +46,7 @@ export default function PositionedPopper({ etiqueta, onDelete }) {
     if (etiqueta) {
       // Realiza una solicitud PUT para actualizar el estado a "pendiente"
       axios
-        .put(`http://localhost:3000/api/v1/etiquetas/${etiqueta.id}`, {
+        .put(`http://localhost:3000/etiquetas/${etiqueta.id}`, {
           estado: "pendiente",
         })
         .then((response) => {
@@ -66,7 +66,7 @@ export default function PositionedPopper({ etiqueta, onDelete }) {
     if (etiqueta) {
       // Realiza una solicitud PUT para actualizar el estado a "pendiente"
       axios
-        .put(`http://localhost:3000/api/v1/etiquetas/${etiqueta.id}`, {
+        .put(`http://localhost:3000/etiquetas/${etiqueta.id}`, {
           estado: "activo",
         })
         .then((response) => {
