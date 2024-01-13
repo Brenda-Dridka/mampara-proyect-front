@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const apiUrl = "http://localhost:3000/etiquetas";
+const apiUrl = "https://mampara-backend.vercel.app/etiquetas";
 
 export const fetchEtiquetas = async () => {
   const response = await axios.get(apiUrl);
@@ -8,7 +8,7 @@ export const fetchEtiquetas = async () => {
 };
 
 export const createEtiqueta = async (etiquetaData) => {
-  const response = await fetch("http://localhost:3000/etiquetas", {
+  const response = await fetch("https://mampara-backend.vercel.app/etiquetas", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -27,7 +27,9 @@ export const createEtiqueta = async (etiquetaData) => {
 // api.js
 export const fetchProductos = async () => {
   try {
-    const response = await fetch("http://localhost:3000/productos");
+    const response = await fetch(
+      "https://mampara-backend.vercel.app/productos"
+    );
     if (!response.ok) {
       throw new Error("Error al obtener productos");
     }
