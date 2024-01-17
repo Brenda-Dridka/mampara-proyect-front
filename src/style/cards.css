@@ -16,3 +16,16 @@
    
     margin-bottom: 1rem;
 }
+
+.styleBotton{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+    gap: 0.5rem;
+}
+
+.sepadadorInferior{
+    display: flex;
+    gap: 0.3rem;
+    margin-top: 1rem;
+}

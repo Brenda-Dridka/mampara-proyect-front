@@ -1,6 +1,7 @@
+// api.js
 import axios from "axios";
 
-const apiUrl = "https://mampara-backend.vercel.app/etiquetas";
+export const apiUrl = "https://mampara-backend.vercel.app/etiquetas";
 
 export const fetchEtiquetas = async () => {
   const response = await axios.get(apiUrl);
@@ -24,7 +25,6 @@ export const createEtiqueta = async (etiquetaData) => {
   return newEtiqueta;
 };
 
-// api.js
 export const fetchProductos = async () => {
   try {
     const response = await fetch(
