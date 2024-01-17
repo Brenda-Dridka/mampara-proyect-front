@@ -8,10 +8,10 @@ const ExportToExcel = () => {
   const [data, setData] = useState([]);
   const [etiquetas54_2, setEtiquetas54_2] = useState([]);
   const [etiquetasBussl, setEtiquetasBussl] = useState([]);
-  /*   const [etiquetasExt70_2, setEtiquetasExt70_2] = useState([]);
+  const [etiquetasExt70_2, setEtiquetasExt70_2] = useState([]);
   const [etiquetasExt54_4, setEtiquetasExt54_4] = useState([]);
   const [etiquetasExt54_5, setEtiquetasExt54_5] = useState([]);
-  const [etiquetasExt54_1, setEtiquetasExt54_1] = useState([]);
+  /*  const [etiquetasExt54_1, setEtiquetasExt54_1] = useState([]);
   const [etiquetasExt58, setEtiquetasExt58] = useState([]);
   const [etiquetasExt40, setEtiquetasExt40] = useState([]);
   const [etiquetasExt54_3, setEtiquetasExt54_3] = useState([]);
@@ -28,6 +28,9 @@ const ExportToExcel = () => {
     fetchData();
     fetchData54_2();
     fetchDataBuss1();
+    fetchData70_2();
+    fetchData54_4();
+    fetchData54_5();
   }, []);
 
   const fetchData = async () => {
@@ -61,6 +64,36 @@ const ExportToExcel = () => {
       console.error("Error al obtener datos desde la API:", error);
     }
   };
+  const fetchData70_2 = async () => {
+    try {
+      const response = await axios.get(
+        "https://mampara-backend.vercel.app/etiquetasExt70_2"
+      );
+      setEtiquetasExt70_2(response.data);
+    } catch (error) {
+      console.error("Error al obtener datos desde la API:", error);
+    }
+  };
+  const fetchData54_4 = async () => {
+    try {
+      const response = await axios.get(
+        "https://mampara-backend.vercel.app/etiquetasExt54_4"
+      );
+      setEtiquetasExt54_4(response.data);
+    } catch (error) {
+      console.error("Error al obtener datos desde la API:", error);
+    }
+  };
+  const fetchData54_5 = async () => {
+    try {
+      const response = await axios.get(
+        "https://mampara-backend.vercel.app/etiquetasExt54_5"
+      );
+      setEtiquetasExt54_5(response.data);
+    } catch (error) {
+      console.error("Error al obtener datos desde la API:", error);
+    }
+  };
 
   const formatDate = (dateString) => {
     const options = { day: "2-digit", month: "2-digit", year: "numeric" };
@@ -88,12 +121,33 @@ const ExportToExcel = () => {
           fecha: formatDate(fecha),
         })
       );
+      const dataToExport70_2 = etiquetasExt70_2.map(
+        ({ createdAt, updatedAt, fecha, ...rest }) => ({
+          ...rest,
+          fecha: formatDate(fecha),
+        })
+      );
+      const dataToExport54_4 = etiquetasExt54_4.map(
+        ({ createdAt, updatedAt, fecha, ...rest }) => ({
+          ...rest,
+          fecha: formatDate(fecha),
+        })
+      );
+      const dataToExport54_5 = etiquetasExt54_5.map(
+        ({ createdAt, updatedAt, fecha, ...rest }) => ({
+          ...rest,
+          fecha: formatDate(fecha),
+        })
+      );
 
       // Combina ambos conjuntos de datos en una sola matriz
       const combinedData = [
         ...dataToExport,
         ...dataToExport54_2,
         ...dataToExportBuss1,
+        ...dataToExport70_2,
+        ...dataToExport54_4,
+        ...dataToExport54_5,
       ];
 
       const workbook = XLSX.utils.book_new();
