@@ -41,11 +41,18 @@ const EtiquetaTable54_5 = () => {
       if (orderChanged) {
         const guardarEtiquetas54_5Masivo = async () => {
           try {
-            await axios.post(apiUrlEtiquetasExt54_5, etiquetas54_5);
+            const etiquetasConExtrusores = etiquetas54_5.map(
+              (etiqueta, index) => ({
+                ...etiqueta,
+                extrusor: "EXT54-V",
+                posicion: index + 1, // Añadir el número de posición (+1 porque los índices comienzan en 0)
+              })
+            );
+            await axios.post(apiUrlEtiquetasExt54_5, etiquetasConExtrusores);
             console.log("Etiquetas guardadas en etiquetasExt54_5 con éxito");
 
             // Almacena las etiquetas localmente solo si el orden ha cambiado
-            await localforage.setItem("etiquetas54_5", etiquetas54_5);
+            await localforage.setItem("etiquetas54_5", etiquetasConExtrusores);
             console.log("Etiquetas guardadas localmente con éxito");
           } catch (error) {
             console.error(
@@ -58,7 +65,7 @@ const EtiquetaTable54_5 = () => {
         guardarEtiquetas54_5Masivo();
       }
     }
-  }, [etiquetas54_5]);
+  }, [etiquetas54_5, originalOrder, watchExt54_5]);
 
   const handleext54_5etiquetasChange = (newState) => {
     setWatch54_5(new Date());
@@ -85,11 +92,13 @@ const EtiquetaTable54_5 = () => {
         list={etiquetas54_5}
         className="position"
       >
-        {etiquetas54_5.map((item) => (
+        {etiquetas54_5.map((item, index) => (
           <div key={item.id} className="etiqueta" data-id={item.id}>
             <div className="m-3 cursor-draggable">
               <div className="espaciadoEtiqueta posicionamientoEtiquetas">
-                <div className="card-body titulosTyle ">{item.nombre}</div>
+                <div className="card-body titulosTyle ">
+                  {item.nombre}- Posición: {index + 1}
+                </div>
               </div>
               <hr className="linea-etiqueta" />
               <strong>

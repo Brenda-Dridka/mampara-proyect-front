@@ -41,11 +41,22 @@ const EtiquetaTableExt70_2 = () => {
       if (orderChanged) {
         const guardarEtiquetasExt70_2Masivo = async () => {
           try {
-            await axios.post(apiUrlEtiquetasExt70_2, etiquetasExt70_2);
+            const etiquetasConExtrusores = etiquetasExt70_2.map(
+              (etiqueta, index) => ({
+                ...etiqueta,
+                extrusor: "EXT70-II",
+                posicion: index + 1, // Añadir el número de posición (+1 porque los índices comienzan en 0)
+              })
+            );
+
+            await axios.post(apiUrlEtiquetasExt70_2, etiquetasConExtrusores);
             console.log("Etiquetas guardadas en etiquetasExtExt70_2 con éxito");
 
             // Almacena las etiquetas localmente solo si el orden ha cambiado
-            await localforage.setItem("etiquetasExt70_2", etiquetasExt70_2);
+            await localforage.setItem(
+              "etiquetasExt70_2",
+              etiquetasConExtrusores
+            );
             console.log("Etiquetas guardadas localmente con éxito");
           } catch (error) {
             console.error(
@@ -58,7 +69,7 @@ const EtiquetaTableExt70_2 = () => {
         guardarEtiquetasExt70_2Masivo();
       }
     }
-  }, [etiquetasExt70_2]);
+  }, [etiquetasExt70_2, originalOrder, watchExt70_2]);
 
   const handleExt70_2etiquetasChange = (newState) => {
     setWatchExt70_2(new Date());
@@ -85,11 +96,13 @@ const EtiquetaTableExt70_2 = () => {
         list={etiquetasExt70_2}
         className="position"
       >
-        {etiquetasExt70_2.map((item) => (
+        {etiquetasExt70_2.map((item, index) => (
           <div key={item.id} className="etiqueta" data-id={item.id}>
             <div className="m-3 cursor-draggable">
               <div className="espaciadoEtiqueta posicionamientoEtiquetas">
-                <div className="card-body titulosTyle ">{item.nombre}</div>
+                <div className="card-body titulosTyle ">
+                  {item.nombre} - Posición: {index + 1}
+                </div>
               </div>
               <hr className="linea-etiqueta" />
               <strong>

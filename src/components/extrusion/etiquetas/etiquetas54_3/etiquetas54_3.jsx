@@ -41,11 +41,19 @@ const EtiquetaTable54_3 = () => {
       if (orderChanged) {
         const guardarEtiquetas54_3Masivo = async () => {
           try {
-            await axios.post(apiUrlEtiquetasExt54_3, etiquetas54_3);
+            const etiquetasConExtrusores = etiquetas54_3.map(
+              (etiqueta, index) => ({
+                ...etiqueta,
+                extrusor: "EXT54-III",
+                posicion: index + 1, // Añadir el número de posición (+1 porque los índices comienzan en 0)
+              })
+            );
+
+            await axios.post(apiUrlEtiquetasExt54_3, etiquetasConExtrusores);
             console.log("Etiquetas guardadas en etiquetasExt54_3 con éxito");
 
             // Almacena las etiquetas localmente solo si el orden ha cambiado
-            await localforage.setItem("etiquetas54_3", etiquetas54_3);
+            await localforage.setItem("etiquetas54_3", etiquetasConExtrusores);
             console.log("Etiquetas guardadas localmente con éxito");
           } catch (error) {
             console.error(
@@ -58,7 +66,7 @@ const EtiquetaTable54_3 = () => {
         guardarEtiquetas54_3Masivo();
       }
     }
-  }, [etiquetas54_3]);
+  }, [etiquetas54_3, originalOrder, watchExt54_3]);
 
   const handleext54_3etiquetasChange = (newState) => {
     setWatch54_3(new Date());
@@ -85,11 +93,14 @@ const EtiquetaTable54_3 = () => {
         list={etiquetas54_3}
         className="position"
       >
-        {etiquetas54_3.map((item) => (
+        {etiquetas54_3.map((item, index) => (
           <div key={item.id} className="etiqueta" data-id={item.id}>
             <div className="m-3 cursor-draggable">
               <div className="espaciadoEtiqueta posicionamientoEtiquetas">
-                <div className="card-body titulosTyle ">{item.nombre}</div>
+                <div className="card-body titulosTyle ">
+                  {" "}
+                  {item.nombre} - Posición: {index + 1}
+                </div>
               </div>
               <hr className="linea-etiqueta" />
               <strong>

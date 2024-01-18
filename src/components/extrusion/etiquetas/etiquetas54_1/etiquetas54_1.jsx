@@ -41,11 +41,19 @@ const EtiquetaTable54_1 = () => {
       if (orderChanged) {
         const guardarEtiquetas54_1Masivo = async () => {
           try {
-            await axios.post(apiUrlEtiquetasExt54_1, etiquetas54_1);
+            const etiquetasConExtrusores = etiquetas54_1.map(
+              (etiqueta, index) => ({
+                ...etiqueta,
+                extrusor: "EXT54-I",
+                posicion: index + 1, // Añadir el número de posición (+1 porque los índices comienzan en 0)
+              })
+            );
+
+            await axios.post(apiUrlEtiquetasExt54_1, etiquetasConExtrusores);
             console.log("Etiquetas guardadas en etiquetasExt54_1 con éxito");
 
             // Almacena las etiquetas localmente solo si el orden ha cambiado
-            await localforage.setItem("etiquetas54_1", etiquetas54_1);
+            await localforage.setItem("etiquetas54_1", etiquetasConExtrusores);
             console.log("Etiquetas guardadas localmente con éxito");
           } catch (error) {
             console.error(
@@ -58,7 +66,7 @@ const EtiquetaTable54_1 = () => {
         guardarEtiquetas54_1Masivo();
       }
     }
-  }, [etiquetas54_1]);
+  }, [etiquetas54_1, originalOrder, watchExt54_1]);
 
   const handleext54_1etiquetasChange = (newState) => {
     setWatch54_1(new Date());
@@ -85,11 +93,13 @@ const EtiquetaTable54_1 = () => {
         list={etiquetas54_1}
         className="position"
       >
-        {etiquetas54_1.map((item) => (
+        {etiquetas54_1.map((item, index) => (
           <div key={item.id} className="etiqueta" data-id={item.id}>
             <div className="m-3 cursor-draggable">
               <div className="espaciadoEtiqueta posicionamientoEtiquetas">
-                <div className="card-body titulosTyle ">{item.nombre}</div>
+                <div className="card-body titulosTyle ">
+                  {item.nombre}- Posición: {index + 1}
+                </div>
               </div>
               <hr className="linea-etiqueta" />
               <strong>

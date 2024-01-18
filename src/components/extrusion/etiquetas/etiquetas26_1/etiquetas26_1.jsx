@@ -41,11 +41,19 @@ const EtiquetaTable26_1 = () => {
       if (orderChanged) {
         const guardarEtiquetas26_1Masivo = async () => {
           try {
-            await axios.post(apiUrlEtiquetasExt26_1, etiquetas26_1);
+            const etiquetasConExtrusores = etiquetas26_1.map(
+              (etiqueta, index) => ({
+                ...etiqueta,
+                extrusor: "EXT-26-I",
+                posicion: index + 1, // Añadir el número de posición (+1 porque los índices comienzan en 0)
+              })
+            );
+
+            await axios.post(apiUrlEtiquetasExt26_1, etiquetasConExtrusores);
             console.log("Etiquetas guardadas en etiquetasExt26_1 con éxito");
 
             // Almacena las etiquetas localmente solo si el orden ha cambiado
-            await localforage.setItem("etiquetas26_1", etiquetas26_1);
+            await localforage.setItem("etiquetas26_1", etiquetasConExtrusores);
             console.log("Etiquetas guardadas localmente con éxito");
           } catch (error) {
             console.error(
@@ -58,7 +66,7 @@ const EtiquetaTable26_1 = () => {
         guardarEtiquetas26_1Masivo();
       }
     }
-  }, [etiquetas26_1]);
+  }, [etiquetas26_1, originalOrder, watchExt26_1]);
 
   const handleext26_1etiquetasChange = (newState) => {
     setWatch26_1(new Date());
@@ -85,11 +93,13 @@ const EtiquetaTable26_1 = () => {
         list={etiquetas26_1}
         className="position"
       >
-        {etiquetas26_1.map((item) => (
+        {etiquetas26_1.map((item, index) => (
           <div key={item.id} className="etiqueta" data-id={item.id}>
             <div className="m-3 cursor-draggable">
               <div className="espaciadoEtiqueta posicionamientoEtiquetas">
-                <div className="card-body titulosTyle ">{item.nombre}</div>
+                <div className="card-body titulosTyle ">
+                  {item.nombre} - Posición: {index + 1}
+                </div>
               </div>
               <hr className="linea-etiqueta" />
               <strong>

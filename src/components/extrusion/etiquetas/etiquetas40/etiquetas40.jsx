@@ -41,11 +41,19 @@ const EtiquetaTable40 = () => {
       if (orderChanged) {
         const guardarEtiquetas40Masivo = async () => {
           try {
-            await axios.post(apiUrlEtiquetasExt40, etiquetas40);
+            const etiquetasConExtrusores = etiquetas40.map(
+              (etiqueta, index) => ({
+                ...etiqueta,
+                extrusor: "EXT-40",
+                posicion: index + 1, // Añadir el número de posición (+1 porque los índices comienzan en 0)
+              })
+            );
+
+            await axios.post(apiUrlEtiquetasExt40, etiquetasConExtrusores);
             console.log("Etiquetas guardadas en etiquetasExt40 con éxito");
 
             // Almacena las etiquetas localmente solo si el orden ha cambiado
-            await localforage.setItem("etiquetas40", etiquetas40);
+            await localforage.setItem("etiquetas40", etiquetasConExtrusores);
             console.log("Etiquetas guardadas localmente con éxito");
           } catch (error) {
             console.error(
@@ -58,7 +66,7 @@ const EtiquetaTable40 = () => {
         guardarEtiquetas40Masivo();
       }
     }
-  }, [etiquetas40]);
+  }, [etiquetas40, originalOrder, watchExt40]);
 
   const handleext40etiquetasChange = (newState) => {
     setWatch40(new Date());
@@ -85,11 +93,14 @@ const EtiquetaTable40 = () => {
         list={etiquetas40}
         className="position"
       >
-        {etiquetas40.map((item) => (
+        {etiquetas40.map((item, index) => (
           <div key={item.id} className="etiqueta" data-id={item.id}>
             <div className="m-3 cursor-draggable">
               <div className="espaciadoEtiqueta posicionamientoEtiquetas">
-                <div className="card-body titulosTyle ">{item.nombre}</div>
+                <div className="card-body titulosTyle ">
+                  {" "}
+                  {item.nombre} - Posición: {index + 1}
+                </div>
               </div>
               <hr className="linea-etiqueta" />
               <strong>

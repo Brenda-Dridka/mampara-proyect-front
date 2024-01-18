@@ -41,11 +41,19 @@ const EtiquetaTableBuss2 = () => {
       if (orderChanged) {
         const guardarEtiquetasBuss2Masivo = async () => {
           try {
-            await axios.post(apiUrlBuss2, etiquetasBuss2);
+            const etiquetasConExtrusores = etiquetasBuss2.map(
+              (etiqueta, index) => ({
+                ...etiqueta,
+                extrusor: "EXTBUSS-II",
+                posicion: index + 1, // Añadir el número de posición (+1 porque los índices comienzan en 0)
+              })
+            );
+
+            await axios.post(apiUrlBuss2, etiquetasConExtrusores);
             console.log("Etiquetas guardadas en etiquetasExtBuss2 con éxito");
 
             // Almacena las etiquetas localmente solo si el orden ha cambiado
-            await localforage.setItem("etiquetasBuss2", etiquetasBuss2);
+            await localforage.setItem("etiquetasBuss2", etiquetasConExtrusores);
             console.log("Etiquetas guardadas localmente con éxito");
           } catch (error) {
             console.error(
@@ -58,7 +66,7 @@ const EtiquetaTableBuss2 = () => {
         guardarEtiquetasBuss2Masivo();
       }
     }
-  }, [etiquetasBuss2]);
+  }, [etiquetasBuss2, originalOrder, watchBuss2]);
 
   const handleBuss2etiquetasChange = (newState) => {
     setWatchBuss2(new Date());
@@ -85,11 +93,13 @@ const EtiquetaTableBuss2 = () => {
         list={etiquetasBuss2}
         className="position"
       >
-        {etiquetasBuss2.map((item) => (
+        {etiquetasBuss2.map((item, index) => (
           <div key={item.id} className="etiqueta" data-id={item.id}>
             <div className="m-3 cursor-draggable">
               <div className="espaciadoEtiqueta posicionamientoEtiquetas">
-                <div className="card-body titulosTyle ">{item.nombre}</div>
+                <div className="card-body titulosTyle ">
+                  {item.nombre}- Posición: {index + 1}
+                </div>
               </div>
               <hr className="linea-etiqueta" />
               <strong>

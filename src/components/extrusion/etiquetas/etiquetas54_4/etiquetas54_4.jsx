@@ -41,11 +41,19 @@ const EtiquetaTable54_4 = () => {
       if (orderChanged) {
         const guardarEtiquetas54_4Masivo = async () => {
           try {
-            await axios.post(apiUrlEtiquetasExt54_4, etiquetas54_4);
+            const etiquetasConExtrusores = etiquetas54_4.map(
+              (etiqueta, index) => ({
+                ...etiqueta,
+                extrusor: "EXT54-IV",
+                posicion: index + 1, // Añadir el número de posición (+1 porque los índices comienzan en 0)
+              })
+            );
+
+            await axios.post(apiUrlEtiquetasExt54_4, etiquetasConExtrusores);
             console.log("Etiquetas guardadas en etiquetasExt54_4 con éxito");
 
             // Almacena las etiquetas localmente solo si el orden ha cambiado
-            await localforage.setItem("etiquetas54_4", etiquetas54_4);
+            await localforage.setItem("etiquetas54_4", etiquetasConExtrusores);
             console.log("Etiquetas guardadas localmente con éxito");
           } catch (error) {
             console.error(
@@ -58,7 +66,7 @@ const EtiquetaTable54_4 = () => {
         guardarEtiquetas54_4Masivo();
       }
     }
-  }, [etiquetas54_4]);
+  }, [etiquetas54_4, originalOrder, watchExt54_4]);
 
   const handleext54_4etiquetasChange = (newState) => {
     setWatch54_4(new Date());
@@ -85,11 +93,14 @@ const EtiquetaTable54_4 = () => {
         list={etiquetas54_4}
         className="position"
       >
-        {etiquetas54_4.map((item) => (
+        {etiquetas54_4.map((item, index) => (
           <div key={item.id} className="etiqueta" data-id={item.id}>
             <div className="m-3 cursor-draggable">
               <div className="espaciadoEtiqueta posicionamientoEtiquetas">
-                <div className="card-body titulosTyle ">{item.nombre}</div>
+                <div className="card-body titulosTyle ">
+                  {" "}
+                  {item.nombre} - Posición: {index + 1}
+                </div>
               </div>
               <hr className="linea-etiqueta" />
               <strong>

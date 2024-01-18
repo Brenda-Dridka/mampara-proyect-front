@@ -41,11 +41,21 @@ const EtiquetaTable54_2 = () => {
       if (orderChanged) {
         const guardarEtiquetas54_2Masivo = async () => {
           try {
-            await axios.post(apiUrlEtiquetasExt54_2, etiquetas54_2);
+            // Agregar "EXT54-II" al campo "extrusores" de cada etiqueta
+            const etiquetasConExtrusores = etiquetas54_2.map(
+              (etiqueta, index) => ({
+                ...etiqueta,
+                extrusor: "EXT54-II",
+                posicion: index + 1, // Añadir el número de posición (+1 porque los índices comienzan en 0)
+              })
+            );
+
+            // Enviar la solicitud POST con las etiquetas actualizadas
+            await axios.post(apiUrlEtiquetasExt54_2, etiquetasConExtrusores);
             console.log("Etiquetas guardadas en etiquetasExt54_2 con éxito");
 
             // Almacena las etiquetas localmente solo si el orden ha cambiado
-            await localforage.setItem("etiquetas54_2", etiquetas54_2);
+            await localforage.setItem("etiquetas54_2", etiquetasConExtrusores);
             console.log("Etiquetas guardadas localmente con éxito");
           } catch (error) {
             console.error(
@@ -55,10 +65,11 @@ const EtiquetaTable54_2 = () => {
           }
         };
 
+        // Llamada a la función y esperar la resolución de la promesa
         guardarEtiquetas54_2Masivo();
       }
     }
-  }, [etiquetas54_2]);
+  }, [etiquetas54_2, originalOrder, watchExt54ll]);
 
   const handleext54lletiquetasChange = (newState) => {
     setWatch54ll(new Date());
@@ -77,6 +88,7 @@ const EtiquetaTable54_2 = () => {
     <div className="position etiquetasAgregadas">
       <h6 className="text-center tittle">Ext 54 II</h6>
       <ReactSortable
+        value="EXT54-II"
         group="groupName"
         animation={200}
         setList={(newState) => handleext54lletiquetasChange(newState)}
@@ -85,7 +97,7 @@ const EtiquetaTable54_2 = () => {
         list={etiquetas54_2}
         className="position"
       >
-        {etiquetas54_2.map((item) => (
+        {etiquetas54_2.map((item, index) => (
           <div key={item.id} className="etiqueta" data-id={item.id}>
             <div className="m-3 cursor-draggable">
               <div className="espaciadoEtiqueta posicionamientoEtiquetas">
