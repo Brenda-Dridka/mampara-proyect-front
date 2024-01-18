@@ -11,7 +11,7 @@ const ExportToExcel = () => {
   const [etiquetasExt70_2, setEtiquetasExt70_2] = useState([]);
   const [etiquetasExt54_4, setEtiquetasExt54_4] = useState([]);
   const [etiquetasExt54_5, setEtiquetasExt54_5] = useState([]);
-  /*  const [etiquetasExt54_1, setEtiquetasExt54_1] = useState([]);
+  const [etiquetasExt54_1, setEtiquetasExt54_1] = useState([]);
   const [etiquetasExt58, setEtiquetasExt58] = useState([]);
   const [etiquetasExt40, setEtiquetasExt40] = useState([]);
   const [etiquetasExt54_3, setEtiquetasExt54_3] = useState([]);
@@ -22,7 +22,7 @@ const ExportToExcel = () => {
   const [etiquetasExt26_2, setEtiquetasExt26_2] = useState([]);
   const [etiquetasExt54_6, setEtiquetasExt54_6] = useState([]);
   const [etiquetasExt70_3, setEtiquetasExt70_3] = useState([]);
-  const [etiquetasExt54_8, setEtiquetasExt54_8] = useState([]); */
+  const [etiquetasExt54_8, setEtiquetasExt54_8] = useState([]);
 
   useEffect(() => {
     fetchData();
@@ -31,6 +31,18 @@ const ExportToExcel = () => {
     fetchData70_2();
     fetchData54_4();
     fetchData54_5();
+    fetchData54_1();
+    fetchData58();
+    fetchData40();
+    fetchData54_3();
+    fetchData54_7();
+    fetchData70_1();
+    fetchDataBuss2();
+    fetchData26_1();
+    fetchData26_2();
+    fetchData54_6();
+    fetchData70_3();
+    fetchData54_8();
   }, []);
 
   const fetchData = async () => {
@@ -94,6 +106,126 @@ const ExportToExcel = () => {
       console.error("Error al obtener datos desde la API:", error);
     }
   };
+  const fetchData54_1 = async () => {
+    try {
+      const response = await axios.get(
+        "https://mampara-backend.vercel.app/etiquetasExt54_1"
+      );
+      setEtiquetasExt54_1(response.data);
+    } catch (error) {
+      console.error("Error al obtener datos desde la API:", error);
+    }
+  };
+  const fetchData58 = async () => {
+    try {
+      const response = await axios.get(
+        "https://mampara-backend.vercel.app/etiquetasExt58"
+      );
+      setEtiquetasExt58(response.data);
+    } catch (error) {
+      console.error("Error al obtener datos desde la API:", error);
+    }
+  };
+  const fetchData40 = async () => {
+    try {
+      const response = await axios.get(
+        "https://mampara-backend.vercel.app/etiquetasExt40"
+      );
+      setEtiquetasExt40(response.data);
+    } catch (error) {
+      console.error("Error al obtener datos desde la API:", error);
+    }
+  };
+  const fetchData54_3 = async () => {
+    try {
+      const response = await axios.get(
+        "https://mampara-backend.vercel.app/etiquetasExt54_3"
+      );
+      setEtiquetasExt54_3(response.data);
+    } catch (error) {
+      console.error("Error al obtener datos desde la API:", error);
+    }
+  };
+  const fetchData54_7 = async () => {
+    try {
+      const response = await axios.get(
+        "https://mampara-backend.vercel.app/etiquetasExt54_7"
+      );
+      setEtiquetasExt54_7(response.data);
+    } catch (error) {
+      console.error("Error al obtener datos desde la API:", error);
+    }
+  };
+  const fetchData70_1 = async () => {
+    try {
+      const response = await axios.get(
+        "https://mampara-backend.vercel.app/etiquetasExt70_1"
+      );
+      setEtiquetasExt70_1(response.data);
+    } catch (error) {
+      console.error("Error al obtener datos desde la API:", error);
+    }
+  };
+  const fetchDataBuss2 = async () => {
+    try {
+      const response = await axios.get(
+        "https://mampara-backend.vercel.app/etiquetasBussll"
+      );
+      setEtiquetasBuss2(response.data);
+    } catch (error) {
+      console.error("Error al obtener datos desde la API:", error);
+    }
+  };
+  const fetchData26_1 = async () => {
+    try {
+      const response = await axios.get(
+        "https://mampara-backend.vercel.app/etiquetasExt26_1"
+      );
+      setEtiquetasExt26_1(response.data);
+    } catch (error) {
+      console.error("Error al obtener datos desde la API:", error);
+    }
+  };
+  const fetchData26_2 = async () => {
+    try {
+      const response = await axios.get(
+        "https://mampara-backend.vercel.app/etiquetasExt26_2"
+      );
+      setEtiquetasExt26_2(response.data);
+    } catch (error) {
+      console.error("Error al obtener datos desde la API:", error);
+    }
+  };
+  const fetchData54_6 = async () => {
+    try {
+      const response = await axios.get(
+        "https://mampara-backend.vercel.app/etiquetasExt54_6"
+      );
+      setEtiquetasExt54_6(response.data);
+    } catch (error) {
+      console.error("Error al obtener datos desde la API:", error);
+    }
+  };
+  const fetchData70_3 = async () => {
+    try {
+      const response = await axios.get(
+        "https://mampara-backend.vercel.app/etiquetasExt70_3"
+      );
+      setEtiquetasExt70_3(response.data);
+    } catch (error) {
+      console.error("Error al obtener datos desde la API:", error);
+    }
+  };
+  const fetchData54_8 = async () => {
+    try {
+      const response = await axios.get(
+        "https://mampara-backend.vercel.app/etiquetasExt54_8"
+      );
+      setEtiquetasExt54_8(response.data);
+    } catch (error) {
+      console.error("Error al obtener datos desde la API:", error);
+    }
+  };
 
   const formatDate = (dateString) => {
     const options = { day: "2-digit", month: "2-digit", year: "numeric" };
@@ -104,37 +236,109 @@ const ExportToExcel = () => {
     try {
       // Excluye las columnas createdAt y updatedAt y ajusta el formato de la fecha
       const dataToExport = data.map(
-        ({ createdAt, updatedAt, fecha, ...rest }) => ({
+        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
           ...rest,
           fecha: formatDate(fecha),
         })
       );
       const dataToExport54_2 = etiquetas54_2.map(
-        ({ createdAt, updatedAt, fecha, ...rest }) => ({
+        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
           ...rest,
           fecha: formatDate(fecha),
         })
       );
       const dataToExportBuss1 = etiquetasBussl.map(
-        ({ createdAt, updatedAt, fecha, ...rest }) => ({
+        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
           ...rest,
           fecha: formatDate(fecha),
         })
       );
       const dataToExport70_2 = etiquetasExt70_2.map(
-        ({ createdAt, updatedAt, fecha, ...rest }) => ({
+        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
           ...rest,
           fecha: formatDate(fecha),
         })
       );
       const dataToExport54_4 = etiquetasExt54_4.map(
-        ({ createdAt, updatedAt, fecha, ...rest }) => ({
+        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
           ...rest,
           fecha: formatDate(fecha),
         })
       );
       const dataToExport54_5 = etiquetasExt54_5.map(
-        ({ createdAt, updatedAt, fecha, ...rest }) => ({
+        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
+          ...rest,
+          fecha: formatDate(fecha),
+        })
+      );
+      const dataToExport54_1 = etiquetasExt54_1.map(
+        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
+          ...rest,
+          fecha: formatDate(fecha),
+        })
+      );
+      const dataToExport58 = etiquetasExt58.map(
+        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
+          ...rest,
+          fecha: formatDate(fecha),
+        })
+      );
+      const dataToExport40 = etiquetasExt40.map(
+        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
+          ...rest,
+          fecha: formatDate(fecha),
+        })
+      );
+      const dataToExport54_3 = etiquetasExt54_3.map(
+        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
+          ...rest,
+          fecha: formatDate(fecha),
+        })
+      );
+      const dataToExport54_7 = etiquetasExt54_7.map(
+        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
+          ...rest,
+          fecha: formatDate(fecha),
+        })
+      );
+      const dataToExport70_1 = etiquetasExt70_1.map(
+        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
+          ...rest,
+          fecha: formatDate(fecha),
+        })
+      );
+      const dataToExportBuss2 = etiquetasBuss2.map(
+        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
+          ...rest,
+          fecha: formatDate(fecha),
+        })
+      );
+      const dataToExport26_1 = etiquetasExt26_1.map(
+        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
+          ...rest,
+          fecha: formatDate(fecha),
+        })
+      );
+      const dataToExport26_2 = etiquetasExt26_2.map(
+        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
+          ...rest,
+          fecha: formatDate(fecha),
+        })
+      );
+      const dataToExport54_6 = etiquetasExt54_6.map(
+        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
+          ...rest,
+          fecha: formatDate(fecha),
+        })
+      );
+      const dataToExport70_3 = etiquetasExt70_3.map(
+        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
+          ...rest,
+          fecha: formatDate(fecha),
+        })
+      );
+      const dataToExport54_8 = etiquetasExt54_8.map(
+        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
           ...rest,
           fecha: formatDate(fecha),
         })
@@ -148,6 +352,18 @@ const ExportToExcel = () => {
         ...dataToExport70_2,
         ...dataToExport54_4,
         ...dataToExport54_5,
+        ...dataToExport54_1,
+        ...dataToExport58,
+        ...dataToExport40,
+        ...dataToExport54_3,
+        ...dataToExport54_7,
+        ...dataToExport70_1,
+        ...dataToExportBuss2,
+        ...dataToExport26_1,
+        ...dataToExport26_2,
+        ...dataToExport54_6,
+        ...dataToExport70_3,
+        ...dataToExport54_8,
       ];
 
       const workbook = XLSX.utils.book_new();
