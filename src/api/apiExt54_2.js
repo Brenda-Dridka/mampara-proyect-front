@@ -4,8 +4,13 @@ import axios from "axios";
 export const apiUrlEtiquetasExt54_2 =
   "https://mampara-backend.vercel.app/etiquetasExt54_2";
 
-export const fetchEtiquetas54_2 = async () => {
+/* export const fetchEtiquetas54_2 = async () => {
   console.log("muestra data", data);
+  const response = await axios.get(apiUrlEtiquetasExt54_2);
+  return response.data;
+}; */
+
+export const fetchEtiquetas54_2 = async () => {
   const response = await axios.get(apiUrlEtiquetasExt54_2);
   return response.data;
 };
