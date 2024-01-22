@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { ReactSortable } from "react-sortablejs";
 import axios from "axios";
 import { apiUrlBuss1 } from "../../../../api/extrusores/apiBuss1";
-import localforage from "localforage";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const EtiquetaTableBuss1 = ({ etiquetasBuss1, setEtiquetasBuss1 }) => {
   const [loading, setLoading] = useState(true);
@@ -64,7 +64,7 @@ const EtiquetaTableBuss1 = ({ etiquetasBuss1, setEtiquetasBuss1 }) => {
     <div className="position etiquetasAgregadas">
       <h6 className="text-center tittle">Buss I</h6>
       {loading ? (
-        <p>Cargando etiquetas...</p>
+        <CircularProgress color="secondary" />
       ) : (
         <ReactSortable
           group="groupName"
