@@ -40,7 +40,7 @@ const EtiquetaTable26_2 = ({ etiquetas26_2, setEtiquetas26_2 }) => {
       // Asegurar que el campo "extrusor" sea "EXT54-II"
       const etiquetasConExtrusor = etiquetas.map((etiqueta, index) => ({
         ...etiqueta,
-        extrusor: "EXT-26-I",
+        extrusor: "EXT-26-II",
         id: index + 1,
       }));
 

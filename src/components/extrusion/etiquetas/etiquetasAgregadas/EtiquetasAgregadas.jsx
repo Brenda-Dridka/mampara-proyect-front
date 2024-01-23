@@ -4,6 +4,7 @@ import "../../../../style/DragAnDrop/DragAnDrop.css";
 import "../../../../style/cards.css";
 import "../../../../style/global/global.css";
 import axios from "axios";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import { apiUrl } from "../../../../api/apiEtiquetas";
 
@@ -41,13 +42,20 @@ const EtiquetaTable = ({ etiquetas, setEtiquetas }) => {
       console.error("Error al guardar las etiquetas", error);
     }
   };
+  const formatDateWithoutTime = (date) => {
+    const parsedDate = new Date(date);
+    const formattedDate = `${parsedDate.getDate()}/${
+      parsedDate.getMonth() + 1
+    }/${parsedDate.getFullYear()}`;
+    return formattedDate;
+  };
 
   return (
     <>
       <div className="position etiquetasAgregadas">
         <h6 className="text-center tittle">Etiquetas Agregadas</h6>
         {loading ? (
-          <p>Cargando etiquetas...</p>
+          <CircularProgress color="secondary" />
         ) : (
           <ReactSortable
             group="groupName"
@@ -74,7 +82,9 @@ const EtiquetaTable = ({ etiquetas, setEtiquetas }) => {
                   </strong>
                   <hr className="linea-etiqueta" />
                   <div className="position2 spaciadoEtiquetaLetras">
-                    <p className="tamañoLetra ">{item.fecha}</p>
+                    <p className="tamañoLetra ">
+                      {formatDateWithoutTime(item.fecha)}
+                    </p>
                     <p className="tamañoLetra">{item.clave}</p>
                     <p className="tamañoLetra">{item.kilos}kg</p>
                   </div>

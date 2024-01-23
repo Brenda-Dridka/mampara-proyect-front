@@ -25,7 +25,7 @@ const ExportToExcel = () => {
   const [etiquetasExt54_8, setEtiquetasExt54_8] = useState([]);
 
   useEffect(() => {
-    fetchData();
+    /*   fetchData(); */
     fetchData54_2();
     fetchDataBuss1();
     fetchData70_2();
@@ -45,7 +45,7 @@ const ExportToExcel = () => {
     fetchData54_8();
   }, []);
 
-  const fetchData = async () => {
+  /* const fetchData = async () => {
     try {
       const response = await axios.get(
         "https://mampara-backend.vercel.app/etiquetas"
@@ -54,7 +54,7 @@ const ExportToExcel = () => {
     } catch (error) {
       console.error("Error al obtener datos desde la API:", error);
     }
-  };
+  }; */
 
   const fetchData54_2 = async () => {
     try {
@@ -236,109 +236,253 @@ const ExportToExcel = () => {
     try {
       // Excluye las columnas createdAt y updatedAt y ajusta el formato de la fecha
       const dataToExport = data.map(
-        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
+        ({
+          createdAt,
+          updatedAt,
+          polvos,
+          estado,
+          posicion,
+          fecha,
+          ...rest
+        }) => ({
           ...rest,
           fecha: formatDate(fecha),
         })
       );
       const dataToExport54_2 = etiquetas54_2.map(
-        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
+        ({
+          createdAt,
+          updatedAt,
+          polvos,
+          estado,
+          posicion,
+          fecha,
+          ...rest
+        }) => ({
           ...rest,
           fecha: formatDate(fecha),
         })
       );
       const dataToExportBuss1 = etiquetasBussl.map(
-        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
+        ({
+          createdAt,
+          updatedAt,
+          polvos,
+          estado,
+          posicion,
+          fecha,
+          ...rest
+        }) => ({
           ...rest,
           fecha: formatDate(fecha),
         })
       );
       const dataToExport70_2 = etiquetasExt70_2.map(
-        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
+        ({
+          createdAt,
+          updatedAt,
+          polvos,
+          estado,
+          posicion,
+          fecha,
+          ...rest
+        }) => ({
           ...rest,
           fecha: formatDate(fecha),
         })
       );
       const dataToExport54_4 = etiquetasExt54_4.map(
-        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
+        ({
+          createdAt,
+          updatedAt,
+          polvos,
+          estado,
+          posicion,
+          fecha,
+          ...rest
+        }) => ({
           ...rest,
           fecha: formatDate(fecha),
         })
       );
       const dataToExport54_5 = etiquetasExt54_5.map(
-        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
+        ({
+          createdAt,
+          updatedAt,
+          polvos,
+          estado,
+          posicion,
+          fecha,
+          ...rest
+        }) => ({
           ...rest,
           fecha: formatDate(fecha),
         })
       );
       const dataToExport54_1 = etiquetasExt54_1.map(
-        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
+        ({
+          createdAt,
+          updatedAt,
+          polvos,
+          estado,
+          posicion,
+          fecha,
+          ...rest
+        }) => ({
           ...rest,
           fecha: formatDate(fecha),
         })
       );
       const dataToExport58 = etiquetasExt58.map(
-        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
+        ({
+          createdAt,
+          updatedAt,
+          polvos,
+          estado,
+          posicion,
+          fecha,
+          ...rest
+        }) => ({
           ...rest,
           fecha: formatDate(fecha),
         })
       );
       const dataToExport40 = etiquetasExt40.map(
-        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
+        ({
+          createdAt,
+          updatedAt,
+          polvos,
+          estado,
+          posicion,
+          fecha,
+          ...rest
+        }) => ({
           ...rest,
           fecha: formatDate(fecha),
         })
       );
       const dataToExport54_3 = etiquetasExt54_3.map(
-        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
+        ({
+          createdAt,
+          updatedAt,
+          polvos,
+          estado,
+          posicion,
+          fecha,
+          ...rest
+        }) => ({
           ...rest,
           fecha: formatDate(fecha),
         })
       );
       const dataToExport54_7 = etiquetasExt54_7.map(
-        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
+        ({
+          createdAt,
+          updatedAt,
+          polvos,
+          estado,
+          posicion,
+          fecha,
+          ...rest
+        }) => ({
           ...rest,
           fecha: formatDate(fecha),
         })
       );
       const dataToExport70_1 = etiquetasExt70_1.map(
-        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
+        ({
+          createdAt,
+          updatedAt,
+          polvos,
+          estado,
+          posicion,
+          fecha,
+          ...rest
+        }) => ({
           ...rest,
           fecha: formatDate(fecha),
         })
       );
       const dataToExportBuss2 = etiquetasBuss2.map(
-        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
+        ({
+          createdAt,
+          updatedAt,
+          polvos,
+          estado,
+          posicion,
+          fecha,
+          ...rest
+        }) => ({
           ...rest,
           fecha: formatDate(fecha),
         })
       );
       const dataToExport26_1 = etiquetasExt26_1.map(
-        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
+        ({
+          createdAt,
+          updatedAt,
+          polvos,
+          estado,
+          posicion,
+          fecha,
+          ...rest
+        }) => ({
           ...rest,
           fecha: formatDate(fecha),
         })
       );
       const dataToExport26_2 = etiquetasExt26_2.map(
-        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
+        ({
+          createdAt,
+          updatedAt,
+          polvos,
+          estado,
+          posicion,
+          fecha,
+          ...rest
+        }) => ({
           ...rest,
           fecha: formatDate(fecha),
         })
       );
       const dataToExport54_6 = etiquetasExt54_6.map(
-        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
+        ({
+          createdAt,
+          updatedAt,
+          polvos,
+          estado,
+          posicion,
+          fecha,
+          ...rest
+        }) => ({
           ...rest,
           fecha: formatDate(fecha),
         })
       );
       const dataToExport70_3 = etiquetasExt70_3.map(
-        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
+        ({
+          createdAt,
+          updatedAt,
+          polvos,
+          estado,
+          posicion,
+          fecha,
+          ...rest
+        }) => ({
           ...rest,
           fecha: formatDate(fecha),
         })
       );
       const dataToExport54_8 = etiquetasExt54_8.map(
-        ({ createdAt, updatedAt, polvos, estado, fecha, ...rest }) => ({
+        ({
+          createdAt,
+          updatedAt,
+          polvos,
+          estado,
+          posicion,
+          fecha,
+          ...rest
+        }) => ({
           ...rest,
           fecha: formatDate(fecha),
         })
