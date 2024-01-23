@@ -11,7 +11,6 @@ const EtiquetaTable40 = ({ etiquetas40, setEtiquetas40 }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log("etiqueta40", etiquetas40);
     const cargarEtiquetasDesdeApi = async () => {
       try {
         const response = await axios.get(apiUrlEtiquetasExt40);
@@ -29,8 +28,8 @@ const EtiquetaTable40 = ({ etiquetas40, setEtiquetas40 }) => {
   // Función para manejar el cambio en la lista de etiquetas
   const handleEtiquetasChange = (newState) => {
     setEtiquetas40(newState); // Actualizar el estado con las etiquetas
+    console.log("Etiquetas40 posicionadas:", newState);
 
-    // Guardar automáticamente las etiquetas actualizadas
     guardarEtiquetas(newState);
   };
 

@@ -5,8 +5,8 @@ import "../../../../style/cards.css";
 import "../../../../style/global/global.css";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
-
 import { apiUrl } from "../../../../api/apiEtiquetas";
+import Opciones from "./opciones/option";
 
 const EtiquetaTable = ({ etiquetas, setEtiquetas }) => {
   const [loading, setLoading] = useState(true);
@@ -28,9 +28,17 @@ const EtiquetaTable = ({ etiquetas, setEtiquetas }) => {
 
   const handleEtiquetasChange = (newState) => {
     setEtiquetas(newState); // Actualizar el estado con las etiquetas
-
-    // Guardar automáticamente las etiquetas actualizadas
+    console.log("Etiquetas Agregadas posicionadas:", newState);
     guardarEtiquetas(newState);
+  };
+
+  const handleDeleteEtiqueta = (etiquetaId) => {
+    // Lógica para eliminar la etiqueta con el ID proporcionado
+    const updatedEtiquetas = etiquetas.filter(
+      (etiqueta) => etiqueta.id !== etiquetaId
+    );
+    setEtiquetas(updatedEtiquetas);
+    guardarEtiquetas(updatedEtiquetas);
   };
 
   const guardarEtiquetas = async (etiquetas) => {
@@ -71,6 +79,11 @@ const EtiquetaTable = ({ etiquetas, setEtiquetas }) => {
                 <div className="m-3 cursor-draggable">
                   <div className="espaciadoEtiqueta posicionamientoEtiquetas">
                     <div className="card-body titulosTyle ">{item.nombre}</div>
+                    <div>
+                      <Opciones
+                        onDeleteClick={() => handleDeleteEtiqueta(item.id)}
+                      />
+                    </div>
                   </div>
                   <hr className="linea-etiqueta" />
                   <strong>

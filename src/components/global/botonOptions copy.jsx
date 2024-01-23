@@ -53,11 +53,11 @@ export default function PositionedPopper({ etiqueta, onDelete }) {
           <Fade {...TransitionProps} timeout={350}>
             <Paper>
               <IconButton onClick={handleDelete}>
-                <DeleteIcon />
+                <DeleteIcon color="red !important" />
               </IconButton>
               ;
               <IconButton size="small">
-                <MdPendingActions color="#FFCC00" />
+                <MdPendingActions />
               </IconButton>
             </Paper>
           </Fade>

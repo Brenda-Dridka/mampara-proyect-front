@@ -1,9 +1,13 @@
+// BasicPopover.js
 import * as React from "react";
 import Popover from "@mui/material/Popover";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
+import DeleteIcon from "@mui/icons-material/Delete";
+import IconButton from "@mui/material/IconButton";
+import { SlOptionsVertical } from "react-icons/sl";
+import EditIcon from "@mui/icons-material/Edit";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
-export default function BasicPopover() {
+export default function BasicPopover({ onDeleteClick }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -14,25 +18,50 @@ export default function BasicPopover() {
     setAnchorEl(null);
   };
 
+  const handleDeleteClick = () => {
+    if (onDeleteClick) {
+      onDeleteClick();
+    }
+    handleClose();
+  };
+
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
   return (
     <div>
-      <Button aria-describedby={id} variant="contained" onClick={handleClick}>
-        Open Popover
-      </Button>
+      <IconButton
+        aria-label="Option"
+        aria-describedby={id}
+        onClick={handleClick}
+      >
+        <SlOptionsVertical />
+      </IconButton>
       <Popover
         id={id}
         open={open}
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
+          vertical: "top",
+          horizontal: "right",
         }}
       >
-        <Typography sx={{ p: 2 }}>The content of the Popover.</Typography>
+        <div
+          style={{
+            display: "grid",
+          }}
+        >
+          <IconButton onClick={handleDeleteClick}>
+            <DeleteIcon style={{ color: "red" }} />
+          </IconButton>
+          <IconButton>
+            <EditIcon />
+          </IconButton>
+          <IconButton>
+            <CheckCircleIcon style={{ color: "5DBF00" }} />
+          </IconButton>
+        </div>
       </Popover>
     </div>
   );

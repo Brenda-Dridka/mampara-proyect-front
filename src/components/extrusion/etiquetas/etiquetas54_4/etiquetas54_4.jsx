@@ -5,12 +5,12 @@ import React, { useEffect, useState } from "react";
 import { ReactSortable } from "react-sortablejs";
 import axios from "axios";
 import { apiUrlEtiquetasExt54_4 } from "../../../../api/extrusores/apiExt54_4";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const EtiquetaTable54_4 = ({ etiquetas54_4, setEtiquetas54_4 }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log("etiqueta54_4", etiquetas54_4);
     const cargarEtiquetasDesdeApi = async () => {
       try {
         const response = await axios.get(apiUrlEtiquetasExt54_4);
@@ -28,8 +28,8 @@ const EtiquetaTable54_4 = ({ etiquetas54_4, setEtiquetas54_4 }) => {
   // Función para manejar el cambio en la lista de etiquetas
   const handleEtiquetasChange = (newState) => {
     setEtiquetas54_4(newState); // Actualizar el estado con las etiquetas
+    console.log("Etiquetas54_4 posicionadas:", newState);
 
-    // Guardar automáticamente las etiquetas actualizadas
     guardarEtiquetas(newState);
   };
 
@@ -63,7 +63,7 @@ const EtiquetaTable54_4 = ({ etiquetas54_4, setEtiquetas54_4 }) => {
     <div className="position etiquetasAgregadas">
       <h6 className="text-center tittle">Ext 54 IV</h6>
       {loading ? (
-        <p>Cargando etiquetas...</p>
+        <CircularProgress color="secondary" />
       ) : (
         <ReactSortable
           group="groupName"

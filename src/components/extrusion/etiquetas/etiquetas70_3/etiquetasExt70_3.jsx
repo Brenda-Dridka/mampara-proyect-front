@@ -11,7 +11,6 @@ const EtiquetaTableExt70_3 = ({ etiquetasExt70_3, setEtiquetasExt70_3 }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log("etiquetasExt70_3", etiquetasExt70_3);
     const cargarEtiquetasDesdeApi = async () => {
       try {
         const response = await axios.get(apiUrlEtiquetasExt70_3);
@@ -29,8 +28,8 @@ const EtiquetaTableExt70_3 = ({ etiquetasExt70_3, setEtiquetasExt70_3 }) => {
   // Función para manejar el cambio en la lista de etiquetas
   const handleEtiquetasChange = (newState) => {
     setEtiquetasExt70_3(newState); // Actualizar el estado con las etiquetas
+    console.log("Etiquetas54_2 posicionadas:", newState);
 
-    // Guardar automáticamente las etiquetas actualizadas
     guardarEtiquetas(newState);
   };
 
