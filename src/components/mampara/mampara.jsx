@@ -36,7 +36,8 @@ const Mampara = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [etiquetas54_2, setEtiquetas54_2] = useState([]);
   const [etiquetasBuss1, setEtiquetasBuss1] = useState([]);
-  const [etiquetas70_2, setEtiquetas70_2] = useState([]);
+
+  const [etiquetasExt70_2, setEtiquetasExt70_2] = useState([]);
   const [etiquetas54_4, setEtiquetas54_4] = useState([]);
   const [etiquetas54_5, setEtiquetas54_5] = useState([]);
   const [etiquetas54_1, setEtiquetas54_1] = useState([]);
@@ -49,7 +50,9 @@ const Mampara = () => {
   const [etiquetas26_1, setEtiquetas26_1] = useState([]);
   const [etiquetas26_2, setEtiquetas26_2] = useState([]);
   const [etiquetas54_6, setEtiquetas54_6] = useState([]);
-  const [etiquetas70_3, setEtiquetas70_3] = useState([]);
+  //const [etiquetas70_3, setEtiquetasExt70_3] = useState([]);
+  const [etiquetasExt70_3, setEtiquetasExt70_3] = useState([]);
+
   const [etiquetas54_8, setEtiquetas54_8] = useState([]);
 
   const cargarEtiquetas = async () => {
@@ -98,8 +101,8 @@ const Mampara = () => {
               setEtiquetasBuss1={setEtiquetasBuss1}
             />
             <EtiquetasExt70_2
-              etiquetas70_2={etiquetas70_2}
-              setEtiquetas70_2={setEtiquetas70_2}
+              etiquetasExt70_2={etiquetasExt70_2}
+              setEtiquetasExt70_2={setEtiquetasExt70_2}
             />
             <EtiquetasExt54_4
               etiquetas54_4={etiquetas54_4}
@@ -150,8 +153,8 @@ const Mampara = () => {
               setEtiquetas54_6={setEtiquetas54_6}
             />
             <EtiquetasExt70_3
-              etiquetas70_3={etiquetas70_3}
-              setEtiquetas70_3={setEtiquetas70_3}
+              etiquetasExt70_3={etiquetasExt70_3}
+              setEtiquetasExt70_3={setEtiquetasExt70_3}
             />
             <EtiquetasExt54_8
               etiquetas54_8={etiquetas54_8}
