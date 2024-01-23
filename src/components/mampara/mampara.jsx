@@ -44,7 +44,7 @@ const Mampara = () => {
   const [etiquetas40, setEtiquetas40] = useState([]);
   const [etiquetas54_3, setEtiquetas54_3] = useState([]);
   const [etiquetas54_7, setEtiquetas54_7] = useState([]);
-  const [etiquetas70_1, setEtiquetas70_1] = useState([]);
+  const [etiquetasExt70_1, setEtiquetasExt70_1] = useState([]);
   const [etiquetasBuss2, setEtiquetasBuss2] = useState([]);
   const [etiquetas26_1, setEtiquetas26_1] = useState([]);
   const [etiquetas26_2, setEtiquetas26_2] = useState([]);
@@ -130,8 +130,8 @@ const Mampara = () => {
               setEtiquetas54_7={setEtiquetas54_7}
             />
             <EtiquetasExt70_1
-              etiquetas70_1={etiquetas70_1}
-              setEtiquetas70_1={setEtiquetas70_1}
+              etiquetasExt70_1={etiquetasExt70_1}
+              setEtiquetasExt70_1={setEtiquetasExt70_1}
             />
             <EtiquetasBuss2
               etiquetasBuss2={etiquetasBuss2}
