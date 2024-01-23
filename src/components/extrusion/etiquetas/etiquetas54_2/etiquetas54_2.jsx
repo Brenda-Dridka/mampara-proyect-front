@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { ReactSortable } from "react-sortablejs";
 import axios from "axios";
 import { apiUrlEtiquetasExt54_2 } from "../../../../api/apiExt54_2";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const EtiquetaTable54_2 = ({ etiquetas54_2, setEtiquetas54_2 }) => {
   const [loading, setLoading] = useState(true);
@@ -63,7 +64,7 @@ const EtiquetaTable54_2 = ({ etiquetas54_2, setEtiquetas54_2 }) => {
     <div className="position etiquetasAgregadas">
       <h6 className="text-center tittle">Etiquetas 54_2</h6>
       {loading ? (
-        <p>Cargando etiquetas...</p>
+        <CircularProgress color="secondary" />
       ) : (
         <ReactSortable
           value="EXT54-II"

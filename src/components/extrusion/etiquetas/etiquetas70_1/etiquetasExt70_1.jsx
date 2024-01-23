@@ -5,75 +5,51 @@ import React, { useEffect, useState } from "react";
 import { ReactSortable } from "react-sortablejs";
 import axios from "axios";
 import { apiUrlEtiquetasExt70_1 } from "../../../../api/extrusores/apiExt70_1";
-import localforage from "localforage";
+import CircularProgress from "@mui/material/CircularProgress";
 
-const EtiquetaTableExt70_1 = () => {
-  const [etiquetasExt70_1, setEtiquetasExt70_1] = useState([]);
-  const [originalOrder, setOriginalOrder] = useState([]);
-  const [watchExt70_1, setWatchExt70_1] = useState(null);
+const EtiquetaTableExt70_1 = ({ etiquetasExt70_1, setEtiquetasExt70_1 }) => {
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Cargar etiquetas almacenadas localmente al montar el componente
-    const cargarEtiquetasLocalmente = async () => {
+    console.log("etiquetasExt70_1", etiquetasExt70_1);
+    const cargarEtiquetasDesdeApi = async () => {
       try {
-        const etiquetasLocal = await localforage.getItem("etiquetasExt70_1");
-        if (etiquetasLocal) {
-          setEtiquetasExt70_1(etiquetasLocal);
-          setOriginalOrder([...etiquetasLocal]); // Guardar el orden original
-          console.log("Etiquetas cargadas localmente con éxito");
-        }
+        const response = await axios.get(apiUrlEtiquetasExt70_1);
+        setEtiquetasExt70_1(response.data);
+        setLoading(false);
       } catch (error) {
-        console.error("Error al cargar etiquetas localmente", error);
+        console.error("Error al cargar etiquetas desde la API", error);
+        setLoading(false);
       }
     };
 
-    cargarEtiquetasLocalmente();
-  }, []);
+    cargarEtiquetasDesdeApi();
+  }, [setEtiquetasExt70_1]);
 
-  useEffect(() => {
-    if (watchExt70_1 !== null) {
-      console.log("etiquetasExt70_1", etiquetasExt70_1);
+  // Función para manejar el cambio en la lista de etiquetas
+  const handleEtiquetasChange = (newState) => {
+    setEtiquetasExt70_1(newState); // Actualizar el estado con las etiquetas
 
-      // Verificar si el orden ha cambiado
-      const orderChanged =
-        JSON.stringify(etiquetasExt70_1) !== JSON.stringify(originalOrder);
+    // Guardar automáticamente las etiquetas actualizadas
+    guardarEtiquetas(newState);
+  };
 
-      if (orderChanged) {
-        const guardarEtiquetasExt70_1Masivo = async () => {
-          try {
-            const etiquetasConExtrusores = etiquetasExt70_1.map(
-              (etiqueta, index) => ({
-                ...etiqueta,
-                extrusor: "EXT70-I",
-                posicion: index + 1, // Añadir el número de posición (+1 porque los índices comienzan en 0)
-              })
-            );
+  // Función para realizar el guardado automático de las etiquetas
+  const guardarEtiquetas = async (etiquetas) => {
+    try {
+      // Asegurar que el campo "extrusor" sea "EXT54-II"
+      const etiquetasConExtrusor = etiquetas.map((etiqueta, index) => ({
+        ...etiqueta,
+        extrusor: "EXT70-I",
+        id: index + 1,
+      }));
 
-            await axios.post(apiUrlEtiquetasExt70_1, etiquetasConExtrusores);
-            console.log("Etiquetas guardadas en etiquetasExtExt70_1 con éxito");
-
-            // Almacena las etiquetas localmente solo si el orden ha cambiado
-            await localforage.setItem(
-              "etiquetasExt70_1",
-              etiquetasConExtrusores
-            );
-            console.log("Etiquetas guardadas localmente con éxito");
-          } catch (error) {
-            console.error(
-              "Error al guardar las etiquetas en etiquetasExtExt70_1",
-              error
-            );
-          }
-        };
-
-        guardarEtiquetasExt70_1Masivo();
-      }
+      // Realizar el guardado de las etiquetas
+      await axios.post(apiUrlEtiquetasExt70_1, etiquetasConExtrusor);
+      console.log("Etiquetas guardadas con éxito");
+    } catch (error) {
+      console.error("Error al guardar las etiquetas", error);
     }
-  }, [etiquetasExt70_1, originalOrder, watchExt70_1]);
-
-  const handleExt70_1etiquetasChange = (newState) => {
-    setWatchExt70_1(new Date());
-    setEtiquetasExt70_1(newState);
   };
 
   const formatDateWithoutTime = (date) => {
@@ -87,43 +63,47 @@ const EtiquetaTableExt70_1 = () => {
   return (
     <div className="position etiquetasAgregadas">
       <h6 className="text-center tittle">Ext 70 I</h6>
-      <ReactSortable
-        group="groupName"
-        animation={200}
-        setList={(newState) => handleExt70_1etiquetasChange(newState)}
-        delayOnTouchStart={true}
-        delay={2}
-        list={etiquetasExt70_1}
-        className="position"
-      >
-        {etiquetasExt70_1.map((item, index) => (
-          <div key={item.id} className="etiqueta" data-id={item.id}>
-            <div className="m-3 cursor-draggable">
-              <div className="espaciadoEtiqueta posicionamientoEtiquetas">
-                <div className="card-body titulosTyle ">
-                  {item.nombre} - Posición: {index + 1}
+      {loading ? (
+        <CircularProgress color="secondary" />
+      ) : (
+        <ReactSortable
+          group="groupName"
+          animation={200}
+          setList={handleEtiquetasChange}
+          delayOnTouchStart={true}
+          delay={2}
+          list={etiquetasExt70_1}
+          className="position"
+        >
+          {etiquetasExt70_1.map((item, index) => (
+            <div key={item.id} className="etiqueta" data-id={item.id}>
+              <div className="m-3 cursor-draggable">
+                <div className="espaciadoEtiqueta posicionamientoEtiquetas">
+                  <div className="card-body titulosTyle ">
+                    {item.nombre} - Posición: {index + 1}
+                  </div>
+                </div>
+                <hr className="linea-etiqueta" />
+                <strong>
+                  {item.polvos === true && (
+                    <p className="tamañoLetra posicionamientoEtiquetas spaciadoEtiquetaLetras">
+                      POLVOS
+                    </p>
+                  )}
+                </strong>
+                <hr className="linea-etiqueta" />
+                <div className="position2 spaciadoEtiquetaLetras">
+                  <p className="tamañoLetra ">
+                    {formatDateWithoutTime(item.fecha)}
+                  </p>
+                  <p className="tamañoLetra">{item.clave}</p>
+                  <p className="tamañoLetra">{item.kilos}kg</p>
                 </div>
               </div>
-              <hr className="linea-etiqueta" />
-              <strong>
-                {item.polvos === true && (
-                  <p className="tamañoLetra posicionamientoEtiquetas spaciadoEtiquetaLetras">
-                    POLVOS
-                  </p>
-                )}
-              </strong>
-              <hr className="linea-etiqueta" />
-              <div className="position2 spaciadoEtiquetaLetras">
-                <p className="tamañoLetra ">
-                  {formatDateWithoutTime(item.fecha)}
-                </p>
-                <p className="tamañoLetra">{item.clave}</p>
-                <p className="tamañoLetra">{item.kilos}kg</p>
-              </div>
             </div>
-          </div>
-        ))}
-      </ReactSortable>
+          ))}
+        </ReactSortable>
+      )}
     </div>
   );
 };
