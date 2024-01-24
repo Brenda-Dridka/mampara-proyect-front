@@ -57,6 +57,18 @@ const EtiquetaTable = ({ etiquetas, setEtiquetas }) => {
     }/${parsedDate.getFullYear()}`;
     return formattedDate;
   };
+  const handleEstadoChange = (etiquetaId) => {
+    const updatedEtiquetas = etiquetas.map((etiqueta) =>
+      etiqueta.id === etiquetaId
+        ? {
+            ...etiqueta,
+            estado: etiqueta.estado === "activo" ? "inactivo" : "activo",
+          }
+        : etiqueta
+    );
+    setEtiquetas(updatedEtiquetas);
+    guardarEtiquetas(updatedEtiquetas);
+  };
 
   return (
     <>
@@ -75,13 +87,20 @@ const EtiquetaTable = ({ etiquetas, setEtiquetas }) => {
             className="position"
           >
             {etiquetas.map((item) => (
-              <div key={item.id} className="etiqueta" data-id={item.id}>
+              <div
+                key={item.id}
+                className={`etiqueta ${
+                  item.estado === "inactivo" ? "etiqueta-inactiva" : ""
+                }`}
+                data-id={item.id}
+              >
                 <div className="m-3 cursor-draggable">
                   <div className="espaciadoEtiqueta posicionamientoEtiquetas">
                     <div className="card-body titulosTyle ">{item.nombre}</div>
                     <div>
                       <Opciones
                         onDeleteClick={() => handleDeleteEtiqueta(item.id)}
+                        onEstadoChange={() => handleEstadoChange(item.id)}
                       />
                     </div>
                   </div>

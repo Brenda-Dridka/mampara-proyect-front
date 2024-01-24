@@ -6,8 +6,9 @@ import IconButton from "@mui/material/IconButton";
 import { SlOptionsVertical } from "react-icons/sl";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import "../../../../../style/cards.css";
 
-export default function BasicPopover({ onDeleteClick }) {
+export default function BasicPopover({ onDeleteClick, onEstadoChange }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -58,7 +59,7 @@ export default function BasicPopover({ onDeleteClick }) {
           <IconButton>
             <EditIcon />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={onEstadoChange}>
             <CheckCircleIcon style={{ color: "5DBF00" }} />
           </IconButton>
         </div>
