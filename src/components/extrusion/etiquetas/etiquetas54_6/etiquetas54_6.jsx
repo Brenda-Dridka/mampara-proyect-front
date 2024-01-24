@@ -6,6 +6,7 @@ import { ReactSortable } from "react-sortablejs";
 import axios from "axios";
 import { apiUrlEtiquetasExt54_6 } from "../../../../api/extrusores/apiExt54_6";
 import CircularProgress from "@mui/material/CircularProgress";
+import Opciones from "../etiquetasAgregadas/opciones/option";
 
 const EtiquetaTable54_6 = ({ etiquetas54_6, setEtiquetas54_6 }) => {
   const [loading, setLoading] = useState(true);
@@ -30,6 +31,15 @@ const EtiquetaTable54_6 = ({ etiquetas54_6, setEtiquetas54_6 }) => {
     setEtiquetas54_6(newState); // Actualizar el estado con las etiquetas
     console.log("Etiquetas54_6 posicionadas:", newState);
     guardarEtiquetas(newState);
+  };
+
+  const handleDeleteEtiqueta = (etiquetaId) => {
+    // Lógica para eliminar la etiqueta con el ID proporcionado
+    const updatedEtiquetas = etiquetas54_6.filter(
+      (etiquetas) => etiquetas.id !== etiquetaId
+    );
+    setEtiquetas54_6(updatedEtiquetas);
+    guardarEtiquetas(updatedEtiquetas);
   };
 
   // Función para realizar el guardado automático de las etiquetas
@@ -58,6 +68,18 @@ const EtiquetaTable54_6 = ({ etiquetas54_6, setEtiquetas54_6 }) => {
     return formattedDate;
   };
 
+  const handleEstadoChange = (etiquetaId) => {
+    const updatedEtiquetas = etiquetas54_6.map((etiqueta) =>
+      etiqueta.id === etiquetaId
+        ? {
+            ...etiqueta,
+            estado: etiqueta.estado === "activo" ? "inactivo" : "activo",
+          }
+        : etiqueta
+    );
+    setEtiquetas54_6(updatedEtiquetas);
+    guardarEtiquetas(updatedEtiquetas);
+  };
   return (
     <div className="position etiquetasAgregadas">
       <h6 className="text-center tittle">Ext 54 VI</h6>
@@ -74,11 +96,23 @@ const EtiquetaTable54_6 = ({ etiquetas54_6, setEtiquetas54_6 }) => {
           className="position"
         >
           {etiquetas54_6.map((item, index) => (
-            <div key={item.id} className="etiqueta" data-id={item.id}>
+            <div
+              key={item.id}
+              className={`etiqueta ${
+                item.estado === "inactivo" ? "etiqueta-inactiva" : ""
+              }`}
+              data-id={item.id}
+            >
               <div className="m-3 cursor-draggable">
                 <div className="espaciadoEtiqueta posicionamientoEtiquetas">
                   <div className="card-body titulosTyle ">
                     {item.nombre}- Posición: {index + 1}
+                  </div>
+                  <div>
+                    <Opciones
+                      onDeleteClick={() => handleDeleteEtiqueta(item.id)}
+                      onEstadoChange={() => handleEstadoChange(item.id)}
+                    />
                   </div>
                 </div>
                 <hr className="linea-etiqueta" />

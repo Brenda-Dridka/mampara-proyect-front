@@ -6,6 +6,7 @@ import { ReactSortable } from "react-sortablejs";
 import axios from "axios";
 import { apiUrlEtiquetasExt58 } from "../../../../api/extrusores/apiExt58";
 import CircularProgress from "@mui/material/CircularProgress";
+import Opciones from "../etiquetasAgregadas/opciones/option";
 
 const EtiquetaTable58 = ({ etiquetas58, setEtiquetas58 }) => {
   const [loading, setLoading] = useState(true);
@@ -33,6 +34,15 @@ const EtiquetaTable58 = ({ etiquetas58, setEtiquetas58 }) => {
     guardarEtiquetas(newState);
   };
 
+  const handleDeleteEtiqueta = (etiquetaId) => {
+    // Lógica para eliminar la etiqueta con el ID proporcionado
+    const updatedEtiquetas = etiquetas58.filter(
+      (etiquetas) => etiquetas.id !== etiquetaId
+    );
+    setEtiquetas58(updatedEtiquetas);
+    guardarEtiquetas(updatedEtiquetas);
+  };
+
   // Función para realizar el guardado automático de las etiquetas
   const guardarEtiquetas = async (etiquetas) => {
     try {
@@ -58,6 +68,18 @@ const EtiquetaTable58 = ({ etiquetas58, setEtiquetas58 }) => {
     }/${parsedDate.getFullYear()}`;
     return formattedDate;
   };
+  const handleEstadoChange = (etiquetaId) => {
+    const updatedEtiquetas = etiquetas58.map((etiqueta) =>
+      etiqueta.id === etiquetaId
+        ? {
+            ...etiqueta,
+            estado: etiqueta.estado === "activo" ? "inactivo" : "activo",
+          }
+        : etiqueta
+    );
+    setEtiquetas58(updatedEtiquetas);
+    guardarEtiquetas(updatedEtiquetas);
+  };
 
   return (
     <div className="position etiquetasAgregadas">
@@ -75,11 +97,23 @@ const EtiquetaTable58 = ({ etiquetas58, setEtiquetas58 }) => {
           className="position"
         >
           {etiquetas58.map((item, index) => (
-            <div key={item.id} className="etiqueta" data-id={item.id}>
+            <div
+              key={item.id}
+              className={`etiqueta ${
+                item.estado === "inactivo" ? "etiqueta-inactiva" : ""
+              }`}
+              data-id={item.id}
+            >
               <div className="m-3 cursor-draggable">
                 <div className="espaciadoEtiqueta posicionamientoEtiquetas">
                   <div className="card-body titulosTyle ">
                     {item.nombre} Posición: {index + 1}
+                  </div>
+                  <div>
+                    <Opciones
+                      onDeleteClick={() => handleDeleteEtiqueta(item.id)}
+                      onEstadoChange={() => handleEstadoChange(item.id)}
+                    />
                   </div>
                 </div>
                 <hr className="linea-etiqueta" />
