@@ -50,9 +50,7 @@ const Mampara = () => {
   const [etiquetas26_1, setEtiquetas26_1] = useState([]);
   const [etiquetas26_2, setEtiquetas26_2] = useState([]);
   const [etiquetas54_6, setEtiquetas54_6] = useState([]);
-  //const [etiquetas70_3, setEtiquetasExt70_3] = useState([]);
   const [etiquetasExt70_3, setEtiquetasExt70_3] = useState([]);
-
   const [etiquetas54_8, setEtiquetas54_8] = useState([]);
 
   const cargarEtiquetas = async () => {
