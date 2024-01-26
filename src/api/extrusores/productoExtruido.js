@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const apiUrlProductosExtruidos =
-  "https://mampara-backend.vercel.app/productos-extruidos";
+  "https://mampara-backend-nu.vercel.app/productos-extruidos";
 
 export const fetchProductoExtruidos = async () => {
   const response = await axios.get(apiUrlProductosExtruidos);

@@ -23,7 +23,9 @@ export default function AlertDialog({ etiqueta, onDelete }) {
     if (etiqueta) {
       // Realiza una solicitud DELETE para eliminar la etiqueta utilizando Axios
       axios
-        .delete(`https://mampara-backend.vercel.app/etiquetas/${etiqueta.id}`)
+        .delete(
+          `https://mampara-backend-nu.vercel.app/etiquetas/${etiqueta.id}`
+        )
         .then((response) => {
           if (response.status === 200) {
             // Llama a la función onDelete para eliminar la etiqueta del estado principal

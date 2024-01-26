@@ -31,7 +31,7 @@ export default function EditTagDialog({ etiqueta, onUpdate }) {
       // Realiza una solicitud PUT para actualizar la etiqueta utilizando Axios
       axios
         .put(
-          `https://mampara-backend.vercel.app/etiquetas/${etiqueta.id}`,
+          `https://mampara-backend-nu.vercel.app/etiquetas/${etiqueta.id}`,
           updatedTag
         )
         .then((response) => {

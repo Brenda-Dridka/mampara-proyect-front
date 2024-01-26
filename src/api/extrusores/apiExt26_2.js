@@ -2,7 +2,7 @@
 import axios from "axios";
 
 export const apiUrlEtiquetasExt26_2 =
-  "https://mampara-backend.vercel.app/etiquetasExt26_2";
+  "https://mampara-backend-nu.vercel.app/etiquetasExt26_2";
 
 export const fetchEtiquetas26_2 = async () => {
   console.log("muestra data", data);

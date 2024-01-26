@@ -8,6 +8,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import "../../../../../style/cards.css";
 import { AiOutlineFileDone } from "react-icons/ai";
+import ExtrusionFormDialog from "../../../productoExtruido/ExtrusionFormDialog";
 
 export default function BasicPopover({ onDeleteClick, onEstadoChange }) {
   const [anchorEl, setAnchorEl] = React.useState(null);

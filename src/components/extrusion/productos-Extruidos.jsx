@@ -48,7 +48,7 @@ export default function StickyHeadTable() {
   console.log(productos);
 
   useEffect(() => {
-    fetch("https://mampara-backend.vercel.app/productos-extruidos")
+    fetch("https://mampara-backend-nu.vercel.app/productos-extruidos")
       .then((response) => {
         return response.json();
       })
