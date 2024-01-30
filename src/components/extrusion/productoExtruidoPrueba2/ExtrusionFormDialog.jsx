@@ -5,8 +5,16 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import { fetchEtiquetasBuss1 } from "../../../api/extrusores/apiBuss1";
 
-const ExtrusionFormDialog = ({ open, onClose, onFormSubmit, selectedItem }) => {
+const ExtrusionFormDialog = ({
+  open,
+  onClose,
+  onFormSubmit,
+  selectedItem,
+  productoExtruido,
+  setProductoExtruido,
+}) => {
   const [formData, setFormData] = useState({
     fecha_programada: "",
     hora_programada: "",
@@ -28,6 +36,19 @@ const ExtrusionFormDialog = ({ open, onClose, onFormSubmit, selectedItem }) => {
     }
   }, [selectedItem]);
 
+  useEffect(() => {
+    const cargarEtiquetasDesdeApi = async () => {
+      try {
+        const response = await fetchEtiquetasBuss1(id);
+        setProductoExtruido(response);
+      } catch (error) {
+        console.error("Error al cargar etiquetas desde la API", error);
+      }
+    };
+
+    cargarEtiquetasDesdeApi();
+  }, [setProductoExtruido]);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -44,12 +65,13 @@ const ExtrusionFormDialog = ({ open, onClose, onFormSubmit, selectedItem }) => {
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>Formulario de Extrusión</DialogTitle>
       <DialogContent>
-        {/* Mostrar la información de la etiqueta seleccionada */}
-        <p>Nombre: {selectedItem?.nombre}</p>
-        <p>Clave: {selectedItem?.clave}</p>
-        <p>Extrusor: {selectedItem?.extrusor}</p>
-
-        {/* Formulario para la fecha, hora y cantidad */}
+        {productoExtruido.map((item) => (
+          <div key={item.id} data-id={item.id}>
+            <p>Nombre: {item.nombre}</p>
+            <p>Clave: {item.clave}</p>
+            <p>Extrusor: {item.extrusor}</p>
+          </div>
+        ))}
         <TextField
           label="Fecha programada"
           type="date"
@@ -95,3 +117,5 @@ const ExtrusionFormDialog = ({ open, onClose, onFormSubmit, selectedItem }) => {
 };
 
 export default ExtrusionFormDialog;
+
+//implemeta que cuando se seleccione una etiqueta, muestre los datos de esa misma etiqueta seleccionada muestre su clave, nombre y el extrusor

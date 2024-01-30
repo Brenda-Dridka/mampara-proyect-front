@@ -30,7 +30,7 @@ import EtiquetasExt70_3 from "../extrusion/etiquetas/etiquetas70_3/etiquetasExt7
 import EtiquetasExt54_8 from "../extrusion/etiquetas/etiquetas54_8/etiquetas54_8";
 
 import ExportacionExcel from "../extrusion/archivosExcel/ExportacionExcel";
-import ProductoExtruido from "../extrusion/productoExtruido/ProductoExtruido";
+import ProductoExtruido from "../extrusion/productoExtruidoPrueba1/ProductoExtruido";
 
 const Mampara = () => {
   const [etiquetas, setEtiquetas] = useState([]);

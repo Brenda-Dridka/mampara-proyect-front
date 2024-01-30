@@ -1,17 +1,21 @@
 // BasicPopover.js
-import * as React from "react";
+import React, { useState } from "react";
 import Popover from "@mui/material/Popover";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import { SlOptionsVertical } from "react-icons/sl";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import "../../../../../style/cards.css";
-import { AiOutlineFileDone } from "react-icons/ai";
-import ExtrusionFormDialog from "../../../productoExtruido/ExtrusionFormDialog";
-
-export default function BasicPopover({ onDeleteClick, onEstadoChange }) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+/* import { AiOutlineFileDone } from "react-icons/ai";
+import ExtrusionFormDialog from "../../../productoExtruidoPrueba2/ExtrusionFormDialog";
+ */
+export default function BasicPopover({
+  onDeleteClick,
+  onEstadoChange,
+  onEditClick,
+}) {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [openDialog, setOpenDialog] = useState(false);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -24,6 +28,20 @@ export default function BasicPopover({ onDeleteClick, onEstadoChange }) {
   const handleDeleteClick = () => {
     if (onDeleteClick) {
       onDeleteClick();
+    }
+    handleClose();
+  };
+
+  const handleEditClick = () => {
+    if (onEditClick) {
+      onEditClick();
+    }
+    handleClose();
+  };
+
+  const handleEstadoChangeClick = () => {
+    if (onEstadoChange) {
+      onEstadoChange();
     }
     handleClose();
   };
@@ -58,17 +76,22 @@ export default function BasicPopover({ onDeleteClick, onEstadoChange }) {
           <IconButton onClick={handleDeleteClick}>
             <DeleteIcon style={{ color: "red" }} />
           </IconButton>
-          <IconButton>
-            <EditIcon s />
+          <IconButton onClick={handleEditClick}>
+            <EditIcon />
           </IconButton>
-          <IconButton onClick={onEstadoChange}>
+          <IconButton onClick={handleEstadoChangeClick}>
             <CheckCircleIcon style={{ color: "5DBF00" }} />
           </IconButton>
-          <IconButton>
+          {/*  <IconButton onClick={() => setOpenDialog(true)}>
             <AiOutlineFileDone color="#8D31F7" />
-          </IconButton>
+          </IconButton>  */}
         </div>
       </Popover>
+      {/* Agregar el componente del formulario */}
+      {/* <ExtrusionFormDialog
+        open={openDialog}
+        onClose={() => setOpenDialog(false)}
+      /> */}
     </div>
   );
 }
