@@ -1,3 +1,4 @@
+// ExtrusionFormDialog.js
 import React, { useState, useEffect } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -5,91 +6,163 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { fetchProductoExtruidos } from "../../../api/extrusores/productoExtruido"; // Import the fetch function
+import axios from "axios";
+import { apiUrlProductosExtruidos } from "../../../api/extrusores/productoExtruido";
 
-const ExtrusionFormDialog = ({ open, onClose, onFormSubmit, selectedItem }) => {
+const ExtrusionFormDialog = ({
+  open,
+  onClose,
+  etiqueta,
+  productoExtruido,
+  setProductoExtruido,
+}) => {
   const [formData, setFormData] = useState({
-    fecha_real: "",
-    hora_real: "",
-    cantidad: "",
+    nombre: etiqueta ? etiqueta.nombre : "",
+    clave: etiqueta ? etiqueta.clave : "",
+    cantidad: etiqueta ? etiqueta.cantidad : "",
+    extrusor: etiqueta ? etiqueta.extrusor : "",
+    fecha_real: etiqueta ? etiqueta.fecha_real : "",
+    hora_real: etiqueta ? etiqueta.hora_real : "",
+    fecha_programada: etiqueta ? etiqueta.fecha_programada : "",
+    hora_programada: etiqueta ? etiqueta.hora_programada : "",
   });
 
   useEffect(() => {
-    const fetchData = async () => {
-      // Fetch the data for the selected item
-      const data = await fetchProductoExtruidos();
-      console.log("Data from API:", data);
-
-      const selectedData = data.find((item) => item.id === selectedItem.id);
-      console.log("Selected Data:", selectedData);
-
-      // Update the form data with the selected item's data
-      if (selectedData) {
-        setFormData({
-          fecha_real: selectedData.fecha_real || "",
-          hora_real: selectedData.hora_real || "",
-          cantidad: selectedData.cantidad || "",
-          // Agrega otros campos necesarios
-        });
-      }
-    };
-
-    if (selectedItem) {
-      console.log("Selected Item:", selectedItem);
-      fetchData();
+    if (etiqueta) {
+      setFormData({
+        nombre: etiqueta.nombre,
+        clave: etiqueta.clave,
+        cantidad: etiqueta.cantidad,
+        extrusor: etiqueta.extrusor,
+        fecha_real: etiqueta.fecha_real,
+        hora_real: etiqueta.hora_real,
+        fecha_programada: etiqueta.fecha_programada,
+        hora_programada: etiqueta.hora_programada,
+      });
     }
-  }, [selectedItem]);
+  }, [etiqueta]);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
-  const handleSubmit = async () => {
-    try {
-      // Add logic to save the data to the state or perform additional actions
-      await onFormSubmit(formData);
 
-      // Close the dialog after saving
+  const handleSave = async () => {
+    try {
+      const dataToSave = {
+        ...formData,
+        fecha_programada: "",
+        hora_programada: "",
+      };
+
+      await axios.post(apiUrlProductosExtruidos, dataToSave);
+
+      console.log("Datos del formulario guardados con éxito:", formData);
+
+      // Verificar si productoExtruido está definido antes de filtrar
+      if (productoExtruido) {
+        const etiquetaId = etiqueta?.id;
+        const updatedExtruidos = productoExtruido.filter(
+          (item) => item.id !== etiquetaId
+        );
+        setProductoExtruido(updatedExtruidos);
+      }
+
       onClose();
     } catch (error) {
-      console.error("Error al enviar el formulario:", error);
+      console.error("Error al guardar los datos del formulario", error);
+      // Aquí puedes agregar manejo de errores según tus necesidades
     }
   };
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Extrusion Form</DialogTitle>
-      <DialogContent>
-        {/* Display information about the selected item */}
-        <p>Nombre: {selectedItem?.nombre}</p>
-        <p>Clave: {selectedItem?.clave}</p>
-        <p>EXTRUSOR: {selectedItem?.extrusor}</p>
+      <DialogTitle>{"Extruir producto"}</DialogTitle>
 
-        {/* Form for date, time, and quantity */}
-        <TextField
-          label="Real Date"
-          type="date"
-          name="fecha_real"
-          value={formData.fecha_real}
-          onChange={handleChange}
-        />
-        <TextField
-          label="Real Time"
-          type="time"
-          name="hora_real"
-          value={formData.hora_real}
-          onChange={handleChange}
-        />
-        <TextField
-          label="Quantity"
-          type="text"
-          name="cantidad"
-          value={formData.cantidad}
-          onChange={handleChange}
-        />
+      <DialogContent>
+        <div className="posicionamientoEtiquetas">
+          <TextField
+            disabled
+            autoFocus
+            margin="dense"
+            label="Nombre"
+            type="text"
+            fullWidth
+            name="nombre"
+            value={formData.nombre}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div style={{ display: "flex", gap: "0.5rem" }}>
+          <TextField
+            disabled
+            autoFocus
+            margin="dense"
+            label="Clave"
+            type="text"
+            fullWidth
+            name="clave"
+            value={formData.clave}
+            onChange={handleInputChange}
+          />
+          <TextField
+            disabled
+            margin="dense"
+            label="Extrusor"
+            type="text"
+            fullWidth
+            name="extrusor"
+            value={formData.extrusor}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="sepadadorInferior">
+          <TextField
+            margin="dense"
+            label="Cantidad"
+            type="text"
+            fullWidth
+            name="cantidad"
+            value={formData.cantidad}
+            onChange={handleInputChange}
+            style={{ width: "34%" }}
+          />
+
+          <TextField
+            margin="dense"
+            label="Fecha"
+            type="date"
+            fullWidth
+            name="fecha_real"
+            value={formData.fecha_real}
+            onChange={handleInputChange}
+            style={{ width: "34%" }}
+          />
+          <TextField
+            margin="dense"
+            label="Hora real"
+            type="time"
+            name="hora_real"
+            value={formData.hora_real}
+            onChange={handleInputChange}
+            style={{ width: "34%" }}
+          />
+        </div>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button onClick={handleSubmit}>Save</Button>
+        <Button
+          variant="contained"
+          style={{ backgroundColor: "red" }}
+          onClick={onClose}
+        >
+          Cancelar
+        </Button>
+        <Button variant="contained" color="success" onClick={handleSave}>
+          {"Guardar"}
+        </Button>
       </DialogActions>
     </Dialog>
   );

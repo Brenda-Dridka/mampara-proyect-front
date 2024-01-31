@@ -30,7 +30,6 @@ import EtiquetasExt70_3 from "../extrusion/etiquetas/etiquetas70_3/etiquetasExt7
 import EtiquetasExt54_8 from "../extrusion/etiquetas/etiquetas54_8/etiquetas54_8";
 
 import ExportacionExcel from "../extrusion/archivosExcel/ExportacionExcel";
-import ProductoExtruido from "../extrusion/productoExtruidoPrueba1/ProductoExtruido";
 
 const Mampara = () => {
   const [etiquetas, setEtiquetas] = useState([]);
@@ -53,7 +52,6 @@ const Mampara = () => {
   const [etiquetas54_6, setEtiquetas54_6] = useState([]);
   const [etiquetasExt70_3, setEtiquetasExt70_3] = useState([]);
   const [etiquetas54_8, setEtiquetas54_8] = useState([]);
-  const [productoExtruido, setProductoExtruido] = useState([]);
 
   const cargarEtiquetas = async () => {
     const etiquetas = await fetchEtiquetas();
@@ -85,12 +83,6 @@ const Mampara = () => {
         <div style={{ marginBottom: "0.5rem", display: "flex", gap: ".5rem" }}>
           <EtiquetaForm onEtiquetaCreated={handleEtiquetaCreated} />
           <ExportacionExcel />
-        </div>
-        <div>
-          <ProductoExtruido
-            productoExtruido={productoExtruido}
-            setProductoExtruido={setProductoExtruido}
-          />
         </div>
 
         <EtiquetasAgregadas etiquetas={etiquetas} setEtiquetas={setEtiquetas} />

@@ -1,6 +1,3 @@
-import "../../../style/DragAnDrop/DragAnDrop.css";
-import "../../../style/cards.css";
-import "../../../style/global/global.css";
 import React, { useState, useEffect } from "react";
 import { ReactSortable } from "react-sortablejs";
 import axios from "axios";
@@ -10,7 +7,9 @@ import ExtrusionFormDialog from "./ExtrusionFormDialog";
 
 const ProductoExtruido = ({ productoExtruido, setProductoExtruido }) => {
   const [loading, setLoading] = useState(true);
+  const [selectedEtiqueta, setSelectedEtiqueta] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
+  const [isNewEtiqueta, setIsNewEtiqueta] = useState(true);
 
   useEffect(() => {
     const cargarEtiquetasDesdeApi = async () => {
@@ -53,17 +52,15 @@ const ProductoExtruido = ({ productoExtruido, setProductoExtruido }) => {
     }
   };
 
-  ///-----------------------------------------
-  const handleAddEtiqueta = (event) => {
+  const handleAddEtiqueta = () => {
     const nuevaEtiqueta = {
-      fechaTerminacion: "", // Ingresa la fecha según tu lógica
-      horaTermino: "", // Ingresa la hora según tu lógica
-      cantidadFinal: "", // Ingresa la cantidad según tu lógica
+      fechaTerminacion: "",
+      horaTermino: "",
     };
 
     setProductoExtruido([...productoExtruido, nuevaEtiqueta]);
-
-    // Abre el diálogo
+    setSelectedEtiqueta(null);
+    setIsNewEtiqueta(true);
     setOpenDialog(true);
   };
 
@@ -77,11 +74,16 @@ const ProductoExtruido = ({ productoExtruido, setProductoExtruido }) => {
 
   const handleFormSubmit = (formData) => {
     console.log("Formulario enviado:", formData);
-    // Realizar lógica adicional según tus necesidades
-    // ...
-
-    // Cerrar el diálogo
     handleCloseDialog();
+  };
+
+  const handleEditEtiqueta = (etiquetaId) => {
+    const selected = productoExtruido.find(
+      (etiqueta) => etiqueta.id === etiquetaId
+    );
+    setSelectedEtiqueta(selected);
+    setIsNewEtiqueta(false);
+    setOpenDialog(true);
   };
 
   return (
@@ -116,6 +118,9 @@ const ProductoExtruido = ({ productoExtruido, setProductoExtruido }) => {
                   <p className="tamañoLetra">{item.clave}</p>
                   <p className="tamañoLetra">{item.extrusor}</p>
                 </div>
+                <button onClick={() => handleEditEtiqueta(item.id)}>
+                  Editar Etiqueta
+                </button>
               </div>
             </div>
           ))}
@@ -123,8 +128,13 @@ const ProductoExtruido = ({ productoExtruido, setProductoExtruido }) => {
       )}
       <ExtrusionFormDialog
         open={openDialog}
-        onClose={handleCloseDialog}
-        onFormSubmit={handleFormSubmit}
+        onClose={() => {
+          setOpenDialog(false);
+          setSelectedEtiqueta(null);
+          setIsNewEtiqueta(true);
+        }}
+        etiqueta={selectedEtiqueta}
+        isNewEtiqueta={isNewEtiqueta}
       />
     </div>
   );
