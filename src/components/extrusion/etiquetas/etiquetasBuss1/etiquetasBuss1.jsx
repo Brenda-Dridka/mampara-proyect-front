@@ -6,10 +6,17 @@ import { ReactSortable } from "react-sortablejs";
 import axios from "axios";
 import { apiUrlBuss1 } from "../../../../api/extrusores/apiBuss1";
 import CircularProgress from "@mui/material/CircularProgress";
-import Opciones from "../etiquetasAgregadas/opciones/option";
+import Opciones from "../../global/opciones/option";
+import EditFormDialog from "./editFrom";
+import ExtrusionFormDialog from "../../productoExtruidoPrueba1/ExtrusionFormDialog";
 
 const EtiquetaTableBuss1 = ({ etiquetasBuss1, setEtiquetasBuss1 }) => {
   const [loading, setLoading] = useState(true);
+  const [selectedEtiqueta, setSelectedEtiqueta] = useState(null); // Nuevo estado
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const [selectedEtiqueta2, setSelectedEtiqueta2] = useState(null); // Nuevo estado
+  const [openDialog2, setOpenDialog2] = useState(false);
 
   useEffect(() => {
     const cargarEtiquetasDesdeApi = async () => {
@@ -79,6 +86,45 @@ const EtiquetaTableBuss1 = ({ etiquetasBuss1, setEtiquetasBuss1 }) => {
     setEtiquetasBuss1(updatedEtiquetas);
     guardarEtiquetas(updatedEtiquetas);
   };
+
+  //editar etiqueta
+  const handleEditEtiqueta = (etiquetaId) => {
+    // Buscar la etiqueta seleccionada
+    const selected = etiquetasBuss1.find(
+      (etiqueta) => etiqueta.id === etiquetaId
+    );
+    setSelectedEtiqueta(selected);
+
+    // Abrir el diálogo de edición
+    setOpenDialog(true);
+  };
+  //producto extruido
+  const handleExtrudeEtiqueta = async (etiquetaId) => {
+    try {
+      // Buscar la etiqueta seleccionada
+      const selected2 = etiquetasBuss1.find(
+        (etiqueta) => etiqueta.id === etiquetaId
+      );
+      setSelectedEtiqueta2(selected2);
+
+      // Abrir el diálogo de extrusión
+      setOpenDialog2(true);
+
+      // Filtrar etiquetasBuss1 eliminando la etiqueta
+      const updatedEtiquetasBuss1 = etiquetasBuss1.filter(
+        (item) => item.id !== etiquetaId
+      );
+      setEtiquetasBuss1(updatedEtiquetasBuss1);
+
+      // Guardar las etiquetas actualizadas en la API
+      await axios.post(apiUrlBuss1, updatedEtiquetasBuss1);
+      console.log("Etiqueta extruida y guardada con éxito");
+    } catch (error) {
+      console.error("Error al extruir la etiqueta", error);
+    }
+  };
+
+  //
   return (
     <div className="position etiquetasAgregadas">
       <h6 className="text-center tittle">Buss I</h6>
@@ -111,6 +157,8 @@ const EtiquetaTableBuss1 = ({ etiquetasBuss1, setEtiquetasBuss1 }) => {
                     <Opciones
                       onDeleteClick={() => handleDeleteEtiqueta(item.id)}
                       onEstadoChange={() => handleEstadoChange(item.id)}
+                      onEditClick={() => handleEditEtiqueta(item.id)} // Agregar esta línea
+                      onExtrudeClick={() => handleExtrudeEtiqueta(item.id)} // Agregar esta línea
                     />
                   </div>
                 </div>
@@ -135,6 +183,22 @@ const EtiquetaTableBuss1 = ({ etiquetasBuss1, setEtiquetasBuss1 }) => {
           ))}
         </ReactSortable>
       )}
+      <EditFormDialog
+        open={openDialog}
+        onClose={() => {
+          setOpenDialog(false);
+          setSelectedEtiqueta(null);
+        }}
+        etiqueta={selectedEtiqueta}
+      />
+      <ExtrusionFormDialog
+        open={openDialog2}
+        onClose={() => {
+          setOpenDialog2(false);
+          setSelectedEtiqueta2(null);
+        }}
+        etiqueta={selectedEtiqueta2}
+      />
     </div>
   );
 };
