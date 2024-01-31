@@ -7,9 +7,12 @@ import axios from "axios";
 import { apiUrlEtiquetasExt54_2 } from "../../../../api/apiExt54_2";
 import CircularProgress from "@mui/material/CircularProgress";
 import Opciones from "../etiquetasAgregadas/opciones/option";
+import EditFormDialog from "./editFrom";
 
 const EtiquetaTable54_2 = ({ etiquetas54_2, setEtiquetas54_2 }) => {
   const [loading, setLoading] = useState(true);
+  const [selectedEtiqueta, setSelectedEtiqueta] = useState(null); // Nuevo estado
+  const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
     const cargarEtiquetasDesdeApi = async () => {
@@ -80,6 +83,18 @@ const EtiquetaTable54_2 = ({ etiquetas54_2, setEtiquetas54_2 }) => {
     guardarEtiquetas(updatedEtiquetas);
   };
 
+  //implementacion de edicin de etiqueta
+  const handleEditEtiqueta = (etiquetaId) => {
+    // Buscar la etiqueta seleccionada
+    const selected = etiquetas54_2.find(
+      (etiqueta) => etiqueta.id === etiquetaId
+    );
+    setSelectedEtiqueta(selected);
+
+    // Abrir el diálogo de edición
+    setOpenDialog(true);
+  };
+
   return (
     <div className="position etiquetasAgregadas">
       <h6 className="text-center tittle">Etiquetas 54_2</h6>
@@ -115,6 +130,7 @@ const EtiquetaTable54_2 = ({ etiquetas54_2, setEtiquetas54_2 }) => {
                       <Opciones
                         onDeleteClick={() => handleDeleteEtiqueta(item.id)}
                         onEstadoChange={() => handleEstadoChange(item.id)}
+                        onEditClick={() => handleEditEtiqueta(item.id)} // Agregar esta línea
                       />
                     </div>
                   </div>
@@ -139,6 +155,14 @@ const EtiquetaTable54_2 = ({ etiquetas54_2, setEtiquetas54_2 }) => {
               </div>
             </div>
           ))}
+          <EditFormDialog
+            open={openDialog}
+            onClose={() => {
+              setOpenDialog(false);
+              setSelectedEtiqueta(null);
+            }}
+            etiqueta={selectedEtiqueta}
+          />
         </ReactSortable>
       )}
     </div>
