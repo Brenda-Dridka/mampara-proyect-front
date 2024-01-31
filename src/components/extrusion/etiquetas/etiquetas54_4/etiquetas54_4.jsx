@@ -6,10 +6,17 @@ import { ReactSortable } from "react-sortablejs";
 import axios from "axios";
 import { apiUrlEtiquetasExt54_4 } from "../../../../api/extrusores/apiExt54_4";
 import CircularProgress from "@mui/material/CircularProgress";
-import Opciones from "../etiquetasAgregadas/opciones/option";
+import Opciones from "../../global/opciones/option";
+import EditFormDialog from "./editFrom";
+import ExtrusionFormDialog from "../../productoExtruidoPrueba1/ExtrusionFormDialog";
 
 const EtiquetaTable54_4 = ({ etiquetas54_4, setEtiquetas54_4 }) => {
   const [loading, setLoading] = useState(true);
+  const [selectedEtiqueta, setSelectedEtiqueta] = useState(null); // Nuevo estado
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const [selectedEtiqueta2, setSelectedEtiqueta2] = useState(null); // Nuevo estado
+  const [openDialog2, setOpenDialog2] = useState(false);
 
   useEffect(() => {
     const cargarEtiquetasDesdeApi = async () => {
@@ -80,6 +87,44 @@ const EtiquetaTable54_4 = ({ etiquetas54_4, setEtiquetas54_4 }) => {
     guardarEtiquetas(updatedEtiquetas);
   };
 
+  //editar producto
+  const handleEditEtiqueta = (etiquetaId) => {
+    // Buscar la etiqueta seleccionada
+    const selected = etiquetas54_4.find(
+      (etiqueta) => etiqueta.id === etiquetaId
+    );
+    setSelectedEtiqueta(selected);
+
+    // Abrir el diálogo de edición
+    setOpenDialog(true);
+  };
+
+  //opcion de producto extruido
+  const handleExtrudeEtiqueta = async (etiquetaId) => {
+    try {
+      // Buscar la etiqueta seleccionada
+      const selected2 = etiquetas54_4.find(
+        (etiqueta) => etiqueta.id === etiquetaId
+      );
+      setSelectedEtiqueta2(selected2);
+
+      // Abrir el diálogo de extrusión
+      setOpenDialog2(true);
+
+      // Filtrar etiquetas54_4 eliminando la etiqueta
+      const updatedEtiquetas54_4 = etiquetas54_4.filter(
+        (item) => item.id !== etiquetaId
+      );
+      setEtiquetas54_4(updatedEtiquetas54_4);
+
+      // Guardar las etiquetas actualizadas en la API
+      await axios.post(apiUrlEtiquetasExt54_4, updatedEtiquetas54_4);
+      console.log("Etiqueta extruida y guardada con éxito");
+    } catch (error) {
+      console.error("Error al extruir la etiqueta", error);
+    }
+  };
+
   return (
     <div className="position etiquetasAgregadas">
       <h6 className="text-center tittle">Ext 54 IV</h6>
@@ -112,6 +157,8 @@ const EtiquetaTable54_4 = ({ etiquetas54_4, setEtiquetas54_4 }) => {
                     <Opciones
                       onDeleteClick={() => handleDeleteEtiqueta(item.id)}
                       onEstadoChange={() => handleEstadoChange(item.id)}
+                      onEditClick={() => handleEditEtiqueta(item.id)} // Agregar esta línea
+                      onExtrudeClick={() => handleExtrudeEtiqueta(item.id)} // Agregar esta línea
                     />
                   </div>
                 </div>
@@ -136,6 +183,22 @@ const EtiquetaTable54_4 = ({ etiquetas54_4, setEtiquetas54_4 }) => {
           ))}
         </ReactSortable>
       )}
+      <EditFormDialog
+        open={openDialog}
+        onClose={() => {
+          setOpenDialog(false);
+          setSelectedEtiqueta(null);
+        }}
+        etiqueta={selectedEtiqueta}
+      />
+      <ExtrusionFormDialog
+        open={openDialog2}
+        onClose={() => {
+          setOpenDialog2(false);
+          setSelectedEtiqueta2(null);
+        }}
+        etiqueta={selectedEtiqueta2}
+      />
     </div>
   );
 };
