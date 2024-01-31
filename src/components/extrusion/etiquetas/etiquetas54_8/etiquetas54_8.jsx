@@ -6,10 +6,18 @@ import { ReactSortable } from "react-sortablejs";
 import axios from "axios";
 import { apiUrlEtiquetasExt54_8 } from "../../../../api/extrusores/apiExt54_8";
 import CircularProgress from "@mui/material/CircularProgress";
-import Opciones from "../etiquetasAgregadas/opciones/option";
+import Opciones from "../../global/opciones/option";
+
+import EditFormDialog from "./editFrom";
+import ExtrusionFormDialog from "../../productoExtruidoPrueba1/ExtrusionFormDialog";
 
 const EtiquetaTable54_8 = ({ etiquetas54_8, setEtiquetas54_8 }) => {
   const [loading, setLoading] = useState(true);
+  const [selectedEtiqueta, setSelectedEtiqueta] = useState(null); // Nuevo estado
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const [selectedEtiqueta2, setSelectedEtiqueta2] = useState(null); // Nuevo estado
+  const [openDialog2, setOpenDialog2] = useState(false);
 
   useEffect(() => {
     const cargarEtiquetasDesdeApi = async () => {
@@ -29,7 +37,7 @@ const EtiquetaTable54_8 = ({ etiquetas54_8, setEtiquetas54_8 }) => {
   // Función para manejar el cambio en la lista de etiquetas
   const handleEtiquetasChange = (newState) => {
     setEtiquetas54_8(newState); // Actualizar el estado con las etiquetas
-    console.log("Etiquetas54_2 posicionadas:", newState);
+    console.log("Etiquetas54_8 posicionadas:", newState);
 
     guardarEtiquetas(newState);
   };
@@ -82,6 +90,44 @@ const EtiquetaTable54_8 = ({ etiquetas54_8, setEtiquetas54_8 }) => {
     guardarEtiquetas(updatedEtiquetas);
   };
 
+  //implementacion de edicin de etiqueta
+  const handleEditEtiqueta = (etiquetaId) => {
+    // Buscar la etiqueta seleccionada
+    const selected = etiquetas54_8.find(
+      (etiqueta) => etiqueta.id === etiquetaId
+    );
+    setSelectedEtiqueta(selected);
+
+    // Abrir el diálogo de edición
+    setOpenDialog(true);
+  };
+
+  //opcion de producto extruido
+  const handleExtrudeEtiqueta = async (etiquetaId) => {
+    try {
+      // Buscar la etiqueta seleccionada
+      const selected2 = etiquetas54_8.find(
+        (etiqueta) => etiqueta.id === etiquetaId
+      );
+      setSelectedEtiqueta2(selected2);
+
+      // Abrir el diálogo de extrusión
+      setOpenDialog2(true);
+
+      // Filtrar etiquetas54_8 eliminando la etiqueta
+      const updatedEtiquetas54_8 = etiquetas54_8.filter(
+        (item) => item.id !== etiquetaId
+      );
+      setEtiquetas54_8(updatedEtiquetas54_8);
+
+      // Guardar las etiquetas actualizadas en la API
+      await axios.post(apiUrlEtiquetasExt54_8, updatedEtiquetas54_8);
+      console.log("Etiqueta extruida y guardada con éxito");
+    } catch (error) {
+      console.error("Error al extruir la etiqueta", error);
+    }
+  };
+
   return (
     <div className="position etiquetasAgregadas">
       <h6 className="text-center tittle">Ext 54 VIII</h6>
@@ -114,6 +160,8 @@ const EtiquetaTable54_8 = ({ etiquetas54_8, setEtiquetas54_8 }) => {
                     <Opciones
                       onDeleteClick={() => handleDeleteEtiqueta(item.id)}
                       onEstadoChange={() => handleEstadoChange(item.id)}
+                      onEditClick={() => handleEditEtiqueta(item.id)} // Agregar esta línea
+                      onExtrudeClick={() => handleExtrudeEtiqueta(item.id)}
                     />
                   </div>
                 </div>
@@ -138,6 +186,22 @@ const EtiquetaTable54_8 = ({ etiquetas54_8, setEtiquetas54_8 }) => {
           ))}
         </ReactSortable>
       )}
+      <EditFormDialog
+        open={openDialog}
+        onClose={() => {
+          setOpenDialog(false);
+          setSelectedEtiqueta(null);
+        }}
+        etiqueta={selectedEtiqueta}
+      />
+      <ExtrusionFormDialog
+        open={openDialog2}
+        onClose={() => {
+          setOpenDialog2(false);
+          setSelectedEtiqueta2(null);
+        }}
+        etiqueta={selectedEtiqueta2}
+      />
     </div>
   );
 };
