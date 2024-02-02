@@ -120,7 +120,7 @@ const data = [
     icon: <FaCheck />,
     link: "/terminados",
   },
-  {
+  /*   {
     id: "05",
     name: "Entradas MOL",
     icon: <DesktopMacIcon />,
@@ -161,7 +161,7 @@ const data = [
     name: "SETUP",
     icon: <BiSolidTimer />,
     link: "/setup",
-  },
+  }, */
   {
     id: "12",
     name: "Productos",

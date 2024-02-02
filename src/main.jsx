@@ -6,7 +6,7 @@ import Root from "./routes/root";
 import ErrorPage from "./error-page";
 import Mampara from "./components/mampara/mampara";
 import Productos from "./components/productos/productos";
-import Terminados from "./components/extrusion/productos-Extruidos";
+import Terminados from "./components/extrusion/productoExtruidoPrueba1/TableProductoExtruido";
 /* import EntradasMolinos from "./components/Molinos/entradasmolinos/entradas";
  */
 const router = createBrowserRouter([
