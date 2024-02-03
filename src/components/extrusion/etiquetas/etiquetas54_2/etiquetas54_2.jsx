@@ -128,7 +128,7 @@ const EtiquetaTable54_2 = ({ etiquetas54_2, setEtiquetas54_2 }) => {
 
   return (
     <div className="position etiquetasAgregadas">
-      <h6 className="text-center tittle">Etiquetas 54_2</h6>
+      <h6 className="text-center tittle">54 II</h6>
       {loading ? (
         <CircularProgress color="secondary" />
       ) : (
@@ -156,7 +156,7 @@ const EtiquetaTable54_2 = ({ etiquetas54_2, setEtiquetas54_2 }) => {
                     className="card-body titulosTyle "
                     style={{ display: "flex", justifyContent: " space-around" }}
                   >
-                    {item.nombre} - Posición: {index + 1}
+                    {item.nombre}
                     <div>
                       <Opciones
                         onDeleteClick={() => handleDeleteEtiqueta(item.id)}

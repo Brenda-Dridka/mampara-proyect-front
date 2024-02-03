@@ -152,9 +152,7 @@ const EtiquetaTable54_3 = ({ etiquetas54_3, setEtiquetas54_3 }) => {
             >
               <div className="m-3 cursor-draggable">
                 <div className="espaciadoEtiqueta posicionamientoEtiquetas">
-                  <div className="card-body titulosTyle ">
-                    {item.nombre} - Posición: {index + 1}
-                  </div>
+                  <div className="card-body titulosTyle ">{item.nombre}</div>
                   <div>
                     <Opciones
                       onDeleteClick={() => handleDeleteEtiqueta(item.id)}
