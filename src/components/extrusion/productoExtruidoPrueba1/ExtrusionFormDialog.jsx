@@ -6,6 +6,9 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import Alert from "@mui/material/Alert";
 import axios from "axios";
 import { apiUrlProductosExtruidos } from "../../../api/extrusores/productoExtruido";
 
@@ -26,6 +29,9 @@ const ExtrusionFormDialog = ({
     fecha_programada: etiqueta ? etiqueta.fecha_programada : "",
     hora_programada: etiqueta ? etiqueta.hora_programada : "",
   });
+
+  const [alertMessage, setAlertMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
     if (etiqueta) {
@@ -50,8 +56,30 @@ const ExtrusionFormDialog = ({
     });
   };
 
+  const handleClose = () => {
+    setAlertMessage("");
+    setSuccessMessage("");
+  };
+
   const handleSave = async () => {
     try {
+      // Validación: Verificar si todos los campos requeridos están llenos
+      const requiredFields = [
+        "nombre",
+        "clave",
+        "extrusor",
+        "cantidad",
+        "fecha_real",
+        "hora_real",
+      ];
+      const missingFields = requiredFields.filter((field) => !formData[field]);
+
+      if (missingFields.length > 0) {
+        console.error("Por favor, complete todos los campos requeridos.");
+        setAlertMessage("Todos los campos obligatorios deben estar llenos.");
+        return;
+      }
+
       const dataToSave = {
         ...formData,
         fecha_programada: "",
@@ -71,10 +99,15 @@ const ExtrusionFormDialog = ({
         setProductoExtruido(updatedExtruidos);
       }
 
-      onClose();
+      setSuccessMessage("Datos guardados con éxito");
     } catch (error) {
       console.error("Error al guardar los datos del formulario", error);
-      // Aquí puedes agregar manejo de errores según tus necesidades
+      setAlertMessage("Error al guardar los datos del formulario");
+    }
+
+    if (!alertMessage && !successMessage) {
+      handleClose();
+      onClose();
     }
   };
 
@@ -164,6 +197,46 @@ const ExtrusionFormDialog = ({
           {"Guardar"}
         </Button>
       </DialogActions>
+
+      {/* Snackbar para mostrar el mensaje de alerta */}
+      <Snackbar
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "left",
+        }}
+        open={alertMessage !== ""}
+        autoHideDuration={6000}
+        onClose={handleClose}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          severity="error"
+          onClose={handleClose}
+        >
+          {alertMessage}
+        </MuiAlert>
+      </Snackbar>
+
+      {/* Snackbar para mostrar el mensaje de éxito */}
+      <Snackbar
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "left",
+        }}
+        open={successMessage !== ""}
+        autoHideDuration={6000}
+        onClose={handleClose}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          severity="success"
+          onClose={handleClose}
+        >
+          {successMessage}
+        </MuiAlert>
+      </Snackbar>
     </Dialog>
   );
 };

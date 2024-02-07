@@ -22,14 +22,18 @@ const ExportToExcel = () => {
     }
   };
 
-  const formatDate = (dateString) => {
+  const formatDate2 = (dateString) => {
     const options = { day: "2-digit", month: "2-digit", year: "numeric" };
     return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+  const formatDate = (dateString) => {
+    const [year, month, day] = dateString.split("-");
+    return `${day}/${month}/${year}`;
   };
 
   const generateFechaClave = (fechaReal, generalData) => {
     const fechaClave = generalData.find(
-      (fecha) => formatDate(fecha.fecha_real) === formatDate(fechaReal)
+      (fecha) => formatDate2(fecha.fecha_real) === formatDate2(fechaReal)
     );
 
     return fechaClave ? `${fechaClave.general}` : "";
@@ -38,10 +42,30 @@ const ExportToExcel = () => {
   const exportToExcel = () => {
     try {
       const dataToExportProductoExtruido = productoExtruido.map(
-        ({ createdAt, updatedAt, clave, ...rest }) => ({
+        ({
+          createdAt,
+          updatedAt,
+          id,
+          clave,
+          fecha_real,
+          nombre,
+          extrusor,
+          cantidad,
+          fecha_programada,
+          hora_programada,
+          hora_real,
+          ...rest
+        }) => ({
           ...rest,
-          //fechaClave: generateFechaClave(createdAt, generalData),
-          claveUnica: `${generateFechaClave(createdAt, generalData)}${clave}`,
+          clave: clave,
+          cantidad: cantidad,
+          nombre: nombre,
+          extrusor: extrusor,
+          fecha_programada: fecha_programada,
+          hora_programada: hora_programada,
+          fecha_real: formatDate(fecha_real),
+          hora_real: hora_real,
+          claveUnica: `${generateFechaClave(fecha_real, generalData)}${clave}`,
         })
       );
 
