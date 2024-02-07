@@ -162,6 +162,7 @@ const EtiquetaTableExt70_1 = ({ etiquetasExt70_1, setEtiquetasExt70_1 }) => {
                       onEstadoChange={() => handleEstadoChange(item.id)}
                       onEditClick={() => handleEditEtiqueta(item.id)} // Agregar esta línea
                       onExtrudeClick={() => handleExtrudeEtiqueta(item.id)} // Agregar esta línea
+                      id={item.id}
                     />
                   </div>
                 </div>

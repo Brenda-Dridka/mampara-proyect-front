@@ -1,4 +1,3 @@
-// BasicPopover.js
 import React, { useState } from "react";
 import Popover from "@mui/material/Popover";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -7,13 +6,13 @@ import { SlOptionsVertical } from "react-icons/sl";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { AiOutlineFileDone } from "react-icons/ai";
-//import ExtrusionFormDialog from "../../../productoExtruidoPrueba2/ExtrusionFormDialog";
 
 export default function BasicPopover({
   onDeleteClick,
   onEstadoChange,
   onEditClick,
   onExtrudeClick,
+  id, // Agregar id como una propiedad
 }) {
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -45,6 +44,7 @@ export default function BasicPopover({
     }
     handleClose();
   };
+
   const handleEditClick2 = () => {
     if (onExtrudeClick) {
       onExtrudeClick();
@@ -53,19 +53,19 @@ export default function BasicPopover({
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
+  const popoverId = open ? "simple-popover" : undefined;
 
   return (
     <div>
       <IconButton
-        aria-label="Option"
-        aria-describedby={id}
+        aria-label="Opción"
+        aria-describedby={popoverId}
         onClick={handleClick}
       >
         <SlOptionsVertical />
       </IconButton>
       <Popover
-        id={id}
+        id={popoverId}
         open={open}
         anchorEl={anchorEl}
         onClose={handleClose}
@@ -88,16 +88,13 @@ export default function BasicPopover({
           <IconButton onClick={handleEstadoChangeClick}>
             <CheckCircleIcon style={{ color: "5DBF00" }} />
           </IconButton>
-          <IconButton onClick={handleEditClick2}>
-            <AiOutlineFileDone color="#8D31F7" />
-          </IconButton>
+          {id === 1 && ( // Renderizar AiOutlineFileDone solo para id 1
+            <IconButton onClick={handleEditClick2}>
+              <AiOutlineFileDone color="#8D31F7" />
+            </IconButton>
+          )}
         </div>
       </Popover>
-      {/* Agregar el componente del formulario */}
-      {/* <ExtrusionFormDialog
-        open={openDialog}
-        onClose={() => setOpenDialog(false)}
-      /> */}
     </div>
   );
 }

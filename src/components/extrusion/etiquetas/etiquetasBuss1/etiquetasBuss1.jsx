@@ -157,6 +157,7 @@ const EtiquetaTableBuss1 = ({ etiquetasBuss1, setEtiquetasBuss1 }) => {
                       onEstadoChange={() => handleEstadoChange(item.id)}
                       onEditClick={() => handleEditEtiqueta(item.id)} // Agregar esta línea
                       onExtrudeClick={() => handleExtrudeEtiqueta(item.id)} // Agregar esta línea
+                      id={item.id}
                     />
                   </div>
                 </div>

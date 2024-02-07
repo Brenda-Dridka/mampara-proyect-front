@@ -8,7 +8,6 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import Alert from "@mui/material/Alert";
 import axios from "axios";
 import { apiUrlProductosExtruidos } from "../../../api/extrusores/productoExtruido";
 

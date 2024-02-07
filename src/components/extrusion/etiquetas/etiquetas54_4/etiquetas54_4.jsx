@@ -55,7 +55,7 @@ const EtiquetaTable54_4 = ({ etiquetas54_4, setEtiquetas54_4 }) => {
       // Asegurar que el campo "extrusor" sea "EXT54-II"
       const etiquetasConExtrusor = etiquetas.map((etiqueta, index) => ({
         ...etiqueta,
-        extrusor: "EXT54-VI",
+        extrusor: "EXT54-IV",
         id: index + 1,
       }));
 
@@ -157,6 +157,7 @@ const EtiquetaTable54_4 = ({ etiquetas54_4, setEtiquetas54_4 }) => {
                       onEstadoChange={() => handleEstadoChange(item.id)}
                       onEditClick={() => handleEditEtiqueta(item.id)} // Agregar esta línea
                       onExtrudeClick={() => handleExtrudeEtiqueta(item.id)} // Agregar esta línea
+                      id={item.id}
                     />
                   </div>
                 </div>
