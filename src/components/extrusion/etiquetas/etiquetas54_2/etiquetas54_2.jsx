@@ -128,7 +128,7 @@ const EtiquetaTable54_2 = ({ etiquetas54_2, setEtiquetas54_2 }) => {
 
   return (
     <div className="position etiquetasAgregadas">
-      <h6 className="text-center tittle">54 II</h6>
+      <h6 className="text-center tittleEtiquetas">54 II</h6>
       {loading ? (
         <CircularProgress color="secondary" />
       ) : (
@@ -143,13 +143,7 @@ const EtiquetaTable54_2 = ({ etiquetas54_2, setEtiquetas54_2 }) => {
           className="position"
         >
           {etiquetas54_2.map((item, index) => (
-            <div
-              key={item.id}
-              className={`etiqueta ${
-                item.estado === "inactivo" ? "etiqueta-inactiva" : ""
-              }`}
-              data-id={item.id}
-            >
+            <div key={item.id} className="etiqueta" data-id={item.id}>
               <div className="m-3 cursor-draggable">
                 <div className="espaciadoEtiqueta posicionamientoEtiquetas">
                   <div
@@ -157,7 +151,12 @@ const EtiquetaTable54_2 = ({ etiquetas54_2, setEtiquetas54_2 }) => {
                     style={{ display: "flex", justifyContent: " space-around" }}
                   >
                     {item.nombre}
-                    <div>
+
+                    <div
+                      className={`etiqueta2 ${
+                        item.estado === "inactivo" ? "etiqueta-inactiva" : ""
+                      }`}
+                    >
                       <Opciones
                         onDeleteClick={() => handleDeleteEtiqueta(item.id)}
                         onEstadoChange={() => handleEstadoChange(item.id)}
@@ -168,6 +167,7 @@ const EtiquetaTable54_2 = ({ etiquetas54_2, setEtiquetas54_2 }) => {
                     </div>
                   </div>
                 </div>
+                <div className="tamañoLetraClave">{item.clave}</div>
                 <hr className="linea-etiqueta" />
                 <strong>
                   {item.polvos === true && (
@@ -179,10 +179,9 @@ const EtiquetaTable54_2 = ({ etiquetas54_2, setEtiquetas54_2 }) => {
                 <hr className="linea-etiqueta" />
                 <div className="position2 spaciadoEtiquetaLetras">
                   <p className="tamañoLetra ">
-                    {" "}
                     {formatDateWithoutTime(item.fecha)}
                   </p>
-                  <p className="tamañoLetra">{item.clave}</p>
+
                   <p className="tamañoLetra">{item.kilos}kg</p>
                 </div>
               </div>

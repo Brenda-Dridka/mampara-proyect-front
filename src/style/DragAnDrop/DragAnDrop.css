@@ -2,8 +2,8 @@
     border-radius: 5px;
     border: 1px solid rgb(110, 110, 110);
     padding: 8px;
-    height: 90%;
-    width: 215PX;
+    height: 65%;
+    width: 290px;
      background-color: white;
 }
 .position{
@@ -13,13 +13,22 @@
 .position2{
     display: flex;
     gap: 0.5rem;
+    justify-content: space-around;
 }
 
 .tittle{
     border-radius: 5px;
     border: 1px solid rgb(110, 110, 110);
     width: 130PX;
-   font-size: 25px;
+   font-size: 20px;
+   padding: 5px;
+   background-color: white;
+}
+.tittleEtiquetas{
+    border-radius: 5px;
+    border: 1px solid rgb(110, 110, 110);
+    width: 200px;
+   font-size: 35px;
    padding: 5px;
    background-color: white;
 }
@@ -31,11 +40,19 @@
     padding: 1rem;
 }
 .tamañoLetra{
-    font-size: 12px;
+    font-size: 15px;
+}
+.tamañoLetraClave{
+    font-size: 18px;
+    font-weight: bold;
+    color: #757575;
+    text-align: center;
+
 }
 
 .titulosTyle{
 
+font-size: 18px;
   font-weight: bold;
 
 }

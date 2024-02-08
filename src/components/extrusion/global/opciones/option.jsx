@@ -6,6 +6,9 @@ import { SlOptionsVertical } from "react-icons/sl";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { AiOutlineFileDone } from "react-icons/ai";
+import { BsClockHistory } from "react-icons/bs";
+
+import Tooltip from "@mui/material/Tooltip";
 
 export default function BasicPopover({
   onDeleteClick,
@@ -56,7 +59,7 @@ export default function BasicPopover({
   const popoverId = open ? "simple-popover" : undefined;
 
   return (
-    <div>
+    <>
       <IconButton
         aria-label="Opción"
         aria-describedby={popoverId}
@@ -79,22 +82,30 @@ export default function BasicPopover({
             display: "grid",
           }}
         >
-          <IconButton onClick={handleDeleteClick}>
-            <DeleteIcon style={{ color: "red" }} />
-          </IconButton>
-          <IconButton onClick={handleEditClick}>
-            <EditIcon style={{ color: "F5B707" }} />
-          </IconButton>
-          <IconButton onClick={handleEstadoChangeClick}>
-            <CheckCircleIcon style={{ color: "5DBF00" }} />
-          </IconButton>
-          {id === 1 && ( // Renderizar AiOutlineFileDone solo para id 1
-            <IconButton onClick={handleEditClick2}>
-              <AiOutlineFileDone color="#8D31F7" />
+          <Tooltip title="Eliminar" placement="right">
+            <IconButton onClick={handleDeleteClick}>
+              <DeleteIcon style={{ color: "red" }} />
             </IconButton>
+          </Tooltip>
+          <Tooltip title="Editar" placement="right">
+            <IconButton onClick={handleEditClick}>
+              <EditIcon style={{ color: "F5B707" }} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Pendiente" placement="right">
+            <IconButton onClick={handleEstadoChangeClick}>
+              <BsClockHistory style={{ color: "5DBF00" }} />
+            </IconButton>
+          </Tooltip>
+          {id === 1 && ( // Renderizar AiOutlineFileDone solo para id 1
+            <Tooltip title="Termino de extruir" placement="right">
+              <IconButton onClick={handleEditClick2}>
+                <AiOutlineFileDone color="#8D31F7" />
+              </IconButton>
+            </Tooltip>
           )}
         </div>
       </Popover>
-    </div>
+    </>
   );
 }

@@ -231,6 +231,11 @@ const ExportToExcel = () => {
         ({
           createdAt,
           updatedAt,
+          id,
+          clave,
+          kilos,
+          nombre,
+          extrusor,
           polvos,
           estado,
           posicion,
@@ -238,6 +243,11 @@ const ExportToExcel = () => {
           ...rest
         }) => ({
           ...rest,
+          id,
+          clave,
+          kilos,
+          nombre,
+          extrusor,
           fecha: formatDate(fecha),
         })
       );
@@ -245,6 +255,11 @@ const ExportToExcel = () => {
         ({
           createdAt,
           updatedAt,
+          id,
+          clave,
+          kilos,
+          nombre,
+          extrusor,
           polvos,
           estado,
           posicion,
@@ -252,6 +267,11 @@ const ExportToExcel = () => {
           ...rest
         }) => ({
           ...rest,
+          id,
+          clave,
+          kilos,
+          nombre,
+          extrusor,
           fecha: formatDate(fecha),
         })
       );

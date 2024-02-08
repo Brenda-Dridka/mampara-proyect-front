@@ -30,5 +30,16 @@
     margin-top: 1rem;
 }
 .etiqueta-inactiva {
-    background-color: yellow;
+ 
+    background-color: #FFC924;
   }
+
+.etiqueta2{
+    width: 37px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+
+    border-radius: 50%;
+
+}

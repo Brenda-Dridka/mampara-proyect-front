@@ -130,7 +130,7 @@ const EtiquetaTableExt70_1 = ({ etiquetasExt70_1, setEtiquetasExt70_1 }) => {
 
   return (
     <div className="position etiquetasAgregadas">
-      <h6 className="text-center tittle">Ext 70 I</h6>
+      <h6 className="text-center tittleEtiquetas">Ext 70 I</h6>
       {loading ? (
         <CircularProgress color="secondary" />
       ) : (
@@ -144,28 +144,31 @@ const EtiquetaTableExt70_1 = ({ etiquetasExt70_1, setEtiquetasExt70_1 }) => {
           className="position"
         >
           {etiquetasExt70_1.map((item, index) => (
-            <div
-              key={item.id}
-              className={`etiqueta ${
-                item.estado === "inactivo" ? "etiqueta-inactiva" : ""
-              }`}
-              data-id={item.id}
-            >
+            <div key={item.id} className="etiqueta" data-id={item.id}>
               <div className="m-3 cursor-draggable">
                 <div className="espaciadoEtiqueta posicionamientoEtiquetas">
-                  <div className="card-body titulosTyle ">
-                    {item.nombre} - Posición: {index + 1}
-                  </div>
-                  <div>
-                    <Opciones
-                      onDeleteClick={() => handleDeleteEtiqueta(item.id)}
-                      onEstadoChange={() => handleEstadoChange(item.id)}
-                      onEditClick={() => handleEditEtiqueta(item.id)} // Agregar esta línea
-                      onExtrudeClick={() => handleExtrudeEtiqueta(item.id)} // Agregar esta línea
-                      id={item.id}
-                    />
+                  <div
+                    className="card-body titulosTyle "
+                    style={{ display: "flex", justifyContent: " space-around" }}
+                  >
+                    {item.nombre}
+
+                    <div
+                      className={`etiqueta2 ${
+                        item.estado === "inactivo" ? "etiqueta-inactiva" : ""
+                      }`}
+                    >
+                      <Opciones
+                        onDeleteClick={() => handleDeleteEtiqueta(item.id)}
+                        onEstadoChange={() => handleEstadoChange(item.id)}
+                        onEditClick={() => handleEditEtiqueta(item.id)} // Agregar esta línea
+                        onExtrudeClick={() => handleExtrudeEtiqueta(item.id)} // Agregar esta línea
+                        id={item.id}
+                      />
+                    </div>
                   </div>
                 </div>
+                <div className="tamañoLetraClave">{item.clave}</div>
                 <hr className="linea-etiqueta" />
                 <strong>
                   {item.polvos === true && (
@@ -179,7 +182,7 @@ const EtiquetaTableExt70_1 = ({ etiquetasExt70_1, setEtiquetasExt70_1 }) => {
                   <p className="tamañoLetra ">
                     {formatDateWithoutTime(item.fecha)}
                   </p>
-                  <p className="tamañoLetra">{item.clave}</p>
+
                   <p className="tamañoLetra">{item.kilos}kg</p>
                 </div>
               </div>
