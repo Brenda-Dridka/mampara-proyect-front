@@ -39,7 +39,7 @@ export default function AlertDialog() {
   const [polvos, setPolvos] = useState(false); // Agregar el estado para "polvos"
 
   useEffect(() => {
-    fetch("https://mampara-backend-nu.vercel.app/productos")
+    fetch("http://localhost:3000/productos")
       .then((response) => {
         return response.json();
       })
@@ -129,7 +129,7 @@ export default function AlertDialog() {
     //despues de los metodos lo que hace es un post en el cual hace un guardado de la etiqueta
 
     axios
-      .post("https://mampara-backend-nu.vercel.app/etiquetas", data)
+      .post("http://localhost:3000/etiquetas", data)
       .then((response) => {
         // Aquí puedes manejar la respuesta de la API
         console.log("Etiqueta guardada con éxito", response.data);
