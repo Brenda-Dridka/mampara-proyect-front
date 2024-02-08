@@ -14,7 +14,7 @@ const ExportToExcel = () => {
   const fetchDataProductoExtruido = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/productos-extruidos"
+        "https://mampara-backend-nu.vercel.app/productos-extruidos"
       );
       setProductoExtruido(response.data);
     } catch (error) {

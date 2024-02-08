@@ -1,7 +1,7 @@
 // api.js
 import axios from "axios";
 
-export const apiUrl = "http://localhost:3000/etiquetas";
+export const apiUrl = "https://mampara-backend-nu.vercel.app/etiquetas";
 
 export const fetchEtiquetas = async () => {
   const response = await axios.get(apiUrl);
@@ -9,13 +9,16 @@ export const fetchEtiquetas = async () => {
 };
 
 export const createEtiqueta = async (etiquetaData) => {
-  const response = await fetch("http://localhost:3000/etiquetas", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(etiquetaData),
-  });
+  const response = await fetch(
+    "https://mampara-backend-nu.vercel.app/etiquetas",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(etiquetaData),
+    }
+  );
 
   if (!response.ok) {
     throw new Error("Error al crear la etiqueta");
@@ -27,7 +30,9 @@ export const createEtiqueta = async (etiquetaData) => {
 
 export const fetchProductos = async () => {
   try {
-    const response = await fetch("http://localhost:3000/productos");
+    const response = await fetch(
+      "https://mampara-backend-nu.vercel.app/productos"
+    );
     if (!response.ok) {
       throw new Error("Error al obtener productos");
     }

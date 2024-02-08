@@ -1,7 +1,8 @@
 // api.js
 import axios from "axios";
 
-export const apiUrlBuss2 = "http://localhost:3000/etiquetasBussll";
+export const apiUrlBuss2 =
+  "https://mampara-backend-nu.vercel.app/etiquetasBussll";
 
 export const fetchEtiquetasBuss2 = async () => {
   console.log("muestra data", data);
