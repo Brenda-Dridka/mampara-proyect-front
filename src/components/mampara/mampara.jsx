@@ -53,6 +53,8 @@ const Mampara = () => {
   const [etiquetasExt70_3, setEtiquetasExt70_3] = useState([]);
   const [etiquetas54_8, setEtiquetas54_8] = useState([]);
 
+  const [reloadFlag, setReloadFlag] = useState(false);
+
   const cargarEtiquetas = async () => {
     const etiquetas = await fetchEtiquetas();
     setEtiquetas(etiquetas);
@@ -75,6 +77,15 @@ const Mampara = () => {
       toast.error("Error al guardar la etiqueta");
     }
   };
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      // Actualiza la página automáticamente
+      window.location.reload();
+    }, 1 * 60 * 1000); // 1 minuto en milisegundos
+
+    // Limpia el intervalo al desmontar el componente
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <>
@@ -91,18 +102,22 @@ const Mampara = () => {
         <div className="fondo">
           <div>
             <EtiquetasExt54_2
+              key={reloadFlag}
               etiquetas54_2={etiquetas54_2}
               setEtiquetas54_2={setEtiquetas54_2}
             />
             <EtiquetasBuss1
+              key={reloadFlag}
               etiquetasBuss1={etiquetasBuss1}
               setEtiquetasBuss1={setEtiquetasBuss1}
             />
             <EtiquetasExt70_2
+              key={reloadFlag}
               etiquetasExt70_2={etiquetasExt70_2}
               setEtiquetasExt70_2={setEtiquetasExt70_2}
             />
             <EtiquetasExt54_4
+              key={reloadFlag}
               etiquetas54_4={etiquetas54_4}
               setEtiquetas54_4={setEtiquetas54_4}
             />
