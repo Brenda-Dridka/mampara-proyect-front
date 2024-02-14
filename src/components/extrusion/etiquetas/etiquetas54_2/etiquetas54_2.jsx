@@ -1,6 +1,8 @@
 import "../../../../style/DragAnDrop/DragAnDrop.css";
 import "../../../../style/cards.css";
 import "../../../../style/global/global.css";
+
+import "../../../../style/etiquetas.css";
 import React, { useEffect, useState } from "react";
 import { ReactSortable } from "react-sortablejs";
 import axios from "axios";
@@ -11,7 +13,12 @@ import Opciones from "../../global/opciones/option";
 import EditFormDialog from "./editFrom";
 import ExtrusionFormDialog from "../../productoExtruidoPrueba1/ExtrusionFormDialog";
 
-const EtiquetaTable54_2 = ({ etiquetas54_2, setEtiquetas54_2 }) => {
+const EtiquetaTable54_2 = ({
+  etiquetas54_2,
+  setEtiquetas54_2,
+  verificarDuplicados,
+}) => {
+  const duplicados = verificarDuplicados(etiquetas54_2);
   const [loading, setLoading] = useState(true);
   const [selectedEtiqueta, setSelectedEtiqueta] = useState(null); // Nuevo estado
   const [openDialog, setOpenDialog] = useState(false);
@@ -143,7 +150,13 @@ const EtiquetaTable54_2 = ({ etiquetas54_2, setEtiquetas54_2 }) => {
           className="position"
         >
           {etiquetas54_2.map((item, index) => (
-            <div key={item.id} className="etiqueta" data-id={item.id}>
+            <div
+              key={item.id}
+              className={`etiqueta ${
+                duplicados.has(item.nombre) ? "etiqueta-duplicada" : "" // Aplicación de estilos según duplicados
+              }`}
+              data-id={item.id}
+            >
               <div className="m-3 cursor-draggable">
                 <div className="espaciadoEtiqueta posicionamientoEtiquetas">
                   <div

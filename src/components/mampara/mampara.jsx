@@ -30,6 +30,7 @@ import EtiquetasExt70_3 from "../extrusion/etiquetas/etiquetas70_3/etiquetasExt7
 import EtiquetasExt54_8 from "../extrusion/etiquetas/etiquetas54_8/etiquetas54_8";
 
 import ExportacionExcel from "../extrusion/archivosExcel/ExportacionExcel";
+import "../../style/etiquetas.css";
 
 const Mampara = () => {
   const [etiquetas, setEtiquetas] = useState([]);
@@ -53,7 +54,7 @@ const Mampara = () => {
   const [etiquetasExt70_3, setEtiquetasExt70_3] = useState([]);
   const [etiquetas54_8, setEtiquetas54_8] = useState([]);
 
-  const [reloadFlag, setReloadFlag] = useState(false);
+  //const [reloadFlag, setReloadFlag] = useState(false);
 
   const cargarEtiquetas = async () => {
     const etiquetas = await fetchEtiquetas();
@@ -77,6 +78,8 @@ const Mampara = () => {
       toast.error("Error al guardar la etiqueta");
     }
   };
+
+  //Acitualizacion de componentes
   useEffect(() => {
     const intervalId = setInterval(() => {
       // Actualiza la página automáticamente
@@ -86,6 +89,15 @@ const Mampara = () => {
     // Limpia el intervalo al desmontar el componente
     return () => clearInterval(intervalId);
   }, []);
+
+  //cambio de color de las etiquetas
+  const verificarDuplicados = (etiquetas) => {
+    const nombres = etiquetas.map((etiqueta) => etiqueta.nombre);
+    const duplicados = new Set(
+      nombres.filter((nombre, index) => nombres.indexOf(nombre) !== index)
+    );
+    return duplicados;
+  };
 
   return (
     <>
@@ -102,22 +114,20 @@ const Mampara = () => {
         <div className="fondo">
           <div>
             <EtiquetasExt54_2
-              key={reloadFlag}
+              verificarDuplicados={verificarDuplicados}
               etiquetas54_2={etiquetas54_2}
               setEtiquetas54_2={setEtiquetas54_2}
             />
             <EtiquetasBuss1
-              key={reloadFlag}
+              verificarDuplicados={verificarDuplicados}
               etiquetasBuss1={etiquetasBuss1}
               setEtiquetasBuss1={setEtiquetasBuss1}
             />
             <EtiquetasExt70_2
-              key={reloadFlag}
               etiquetasExt70_2={etiquetasExt70_2}
               setEtiquetasExt70_2={setEtiquetasExt70_2}
             />
             <EtiquetasExt54_4
-              key={reloadFlag}
               etiquetas54_4={etiquetas54_4}
               setEtiquetas54_4={setEtiquetas54_4}
             />
