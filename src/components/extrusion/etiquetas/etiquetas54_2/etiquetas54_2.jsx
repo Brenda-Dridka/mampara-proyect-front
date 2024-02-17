@@ -19,6 +19,10 @@ const EtiquetaTable54_2 = ({
   verificarDuplicados,
 }) => {
   const duplicados = verificarDuplicados(etiquetas54_2);
+  const isDuplicado = (nombre) => {
+    return verificarDuplicados.includes(nombre);
+  };
+
   const [loading, setLoading] = useState(true);
   const [selectedEtiqueta, setSelectedEtiqueta] = useState(null); // Nuevo estado
   const [openDialog, setOpenDialog] = useState(false);
@@ -153,7 +157,7 @@ const EtiquetaTable54_2 = ({
             <div
               key={item.id}
               className={`etiqueta ${
-                duplicados.has(item.nombre) ? "etiqueta-duplicada" : "" // Aplicación de estilos según duplicados
+                duplicados.has(item.nombre) ? "etiqueta-duplicada" : ""
               }`}
               data-id={item.id}
             >

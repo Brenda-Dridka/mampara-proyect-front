@@ -80,7 +80,7 @@ const Mampara = () => {
   };
 
   //Acitualizacion de componentes
-  useEffect(() => {
+  /*   useEffect(() => {
     const intervalId = setInterval(() => {
       // Actualiza la página automáticamente
       window.location.reload();
@@ -88,7 +88,7 @@ const Mampara = () => {
 
     // Limpia el intervalo al desmontar el componente
     return () => clearInterval(intervalId);
-  }, []);
+  }, []); */
 
   //cambio de color de las etiquetas
   const verificarDuplicados = (etiquetas) => {
@@ -97,6 +97,15 @@ const Mampara = () => {
       nombres.filter((nombre, index) => nombres.indexOf(nombre) !== index)
     );
     return duplicados;
+  };
+
+  const verificarDuplicadosEntreComponentes = () => {
+    const duplicados = etiquetas54_2.filter((etiqueta54_2) =>
+      etiquetasBuss1.some(
+        (etiquetaBuss1) => etiquetaBuss1.nombre === etiqueta54_2.nombre
+      )
+    );
+    return duplicados.length > 0;
   };
 
   return (
@@ -111,18 +120,20 @@ const Mampara = () => {
         <EtiquetasAgregadas etiquetas={etiquetas} setEtiquetas={setEtiquetas} />
         <ToastContainer />
         {/* estilo para etiquetas agregadas al extrusor */}
-        <div className="fondo">
+        <div className="fondo ">
           <div>
             <EtiquetasExt54_2
               verificarDuplicados={verificarDuplicados}
               etiquetas54_2={etiquetas54_2}
               setEtiquetas54_2={setEtiquetas54_2}
             />
+
             <EtiquetasBuss1
               verificarDuplicados={verificarDuplicados}
               etiquetasBuss1={etiquetasBuss1}
               setEtiquetasBuss1={setEtiquetasBuss1}
             />
+
             <EtiquetasExt70_2
               etiquetasExt70_2={etiquetasExt70_2}
               setEtiquetasExt70_2={setEtiquetasExt70_2}

@@ -151,9 +151,7 @@ const EtiquetaTableBuss1 = ({
             <div
               key={item.id}
               className={`etiqueta ${
-                duplicados.has(etiquetasBuss1.nombre)
-                  ? "etiqueta-duplicada"
-                  : ""
+                duplicados.has(item.nombre) ? "etiqueta-duplicada" : ""
               }`}
               data-id={item.id}
             >

@@ -100,7 +100,7 @@ const data = [
     id: "01",
     name: "Entradas",
     icon: <DesktopMacIcon />,
-    link: "/",
+    link: "/mampara",
   },
   /*   {
     id: "02",
@@ -125,8 +125,8 @@ const data = [
     name: "Entradas MOL",
     icon: <DesktopMacIcon />,
     link: "/entrada-molinos",
-  },
-  {
+  }, */
+  /* {
     id: "06",
     name: "Molinos",
     icon: <ImSpinner9 />,

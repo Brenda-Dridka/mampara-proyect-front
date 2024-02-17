@@ -1,0 +1,10 @@
+.body{
+    background-image: url("https://firebasestorage.googleapis.com/v0/b/mampara-e5ebb.appspot.com/o/login.jpg?alt=media&token=2c61cc06-a73c-4254-8bc2-b612b5513230");
+      /* background-image: url("../../../public/img/fondo.svg"); */
+      background-repeat: no-repeat;
+      background-size: cover;
+      margin: 0;
+      display: flex;
+      place-items: center;
+      min-width: 320px;
+      min-height: 100vh;}
