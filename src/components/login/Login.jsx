@@ -4,9 +4,26 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { apiUrl } from "../../api/login/usuario";
 import "../../style/login/login.css";
-import { red } from "@mui/material/colors";
+
+//user
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import IconButton from "@mui/material/IconButton";
+import Input from "@mui/material/Input";
+import InputLabel from "@mui/material/InputLabel";
+import InputAdornment from "@mui/material/InputAdornment";
+import FormControl from "@mui/material/FormControl";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 const Login = () => {
+  const [showPassword, setShowPassword] = React.useState(false);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -34,31 +51,88 @@ const Login = () => {
   };
 
   return (
-    <>
-      <div className="body" style={{ display: "grid" }}>
-        <h2>Login</h2>
-        <label>
-          Username:
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </label>
-        <br />
-        <label>
-          Password:
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </label>
-        <br />
-        <button onClick={handleLogin}>Login</button>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-      </div>{" "}
-    </>
+    <div>
+      <div className="container">
+        <div className="login-container">
+          <div className="register"></div>
+          <div className="login" style={{}}>
+            <h2
+              style={{
+                color: "#000000",
+              }}
+            >
+              Bienvenido
+            </h2>
+            <div>
+              {/*    <label>
+                Username:
+                <input
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </label>
+ */}
+              <Box sx={{ display: "flex", alignItems: "flex-end" }}>
+                <AccountCircle sx={{ color: "#000000", mr: 1, my: 0.5 }} />
+                <TextField
+                  style={{ color: "#6d6d6d !important" }}
+                  id="input-with-sx"
+                  label="Nombre de Usuario"
+                  variant="standard"
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </Box>
+              <br />
+              {/* <label>
+                Password:
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </label> */}
+              <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
+                <InputLabel htmlFor="standard-adornment-password">
+                  Contraseña
+                </InputLabel>
+                <Input
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  id="standard-adornment-password"
+                  type={showPassword ? "text" : "password"}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        sx={{ color: "#6d6d6d", mr: 1, my: 0.5 }}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
+              <br />
+              <button
+                onClick={handleLogin}
+                style={{
+                  width: "70%",
+                  background: "#00192F",
+                }}
+              >
+                Iniciar secion
+              </button>
+              {error && <p style={{ color: "red" }}>{error}</p>}
+            </div>{" "}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
