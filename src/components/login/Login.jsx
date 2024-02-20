@@ -1,11 +1,10 @@
-// src/components/Login.js
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { apiUrl } from "../../api/login/usuario";
 import "../../style/login/login.css";
 
-//user
+// user
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import AccountCircle from "@mui/icons-material/AccountCircle";
@@ -28,6 +27,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const [error, setError] = useState("");
+  const [authenticated, setAuthenticated] = useState(false);
 
   const handleLogin = async () => {
     try {
@@ -38,10 +38,11 @@ const Login = () => {
 
       if (user) {
         // Login successful
+        setAuthenticated(true);
         navigate(`/mampara`);
       } else {
         // Credenciales incorrectas
-        setError("Credenciales incorrectas");
+        setError("Credenciales incorrectas, verificar usuario o contraseña");
       }
     } catch (error) {
       console.error("Error al iniciar sesión:", error);
@@ -50,29 +51,21 @@ const Login = () => {
     }
   };
 
+  // Redirigir si el usuario ya está autenticado
+  React.useEffect(() => {
+    if (authenticated) {
+      navigate("/mampara");
+    }
+  }, [authenticated, navigate]);
+
   return (
     <div>
       <div className="container">
         <div className="login-container">
           <div className="register"></div>
           <div className="login" style={{}}>
-            <h2
-              style={{
-                color: "#000000",
-              }}
-            >
-              Bienvenido
-            </h2>
+            <h2 style={{ color: "#000000" }}>Bienvenido</h2>
             <div>
-              {/*    <label>
-                Username:
-                <input
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
-              </label>
- */}
               <Box sx={{ display: "flex", alignItems: "flex-end" }}>
                 <AccountCircle sx={{ color: "#000000", mr: 1, my: 0.5 }} />
                 <TextField
@@ -86,14 +79,6 @@ const Login = () => {
                 />
               </Box>
               <br />
-              {/* <label>
-                Password:
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </label> */}
               <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
                 <InputLabel htmlFor="standard-adornment-password">
                   Contraseña
@@ -125,10 +110,10 @@ const Login = () => {
                   background: "#00192F",
                 }}
               >
-                Iniciar secion
+                Iniciar sesión
               </button>
               {error && <p style={{ color: "red" }}>{error}</p>}
-            </div>{" "}
+            </div>
           </div>
         </div>
       </div>

@@ -26,6 +26,7 @@ import { SiLaravelnova } from "react-icons/si";
 import { BiSolidTimeFive } from "react-icons/bi";
 import { BiSolidTimer } from "react-icons/bi";
 import { HiMiniCloud } from "react-icons/hi2";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const drawerWidth = 240;
 
@@ -185,7 +186,16 @@ export default function MiniDrawer() {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar
+        position="fixed"
+        open={open}
+        style={{
+          background: "rgb(17 81 137)",
+          display: "grid",
+          gridTemplateColumns: "6fr 1fr",
+          justifyContent: "space-around",
+        }}
+      >
         <Toolbar>
           <IconButton
             color="inherit"
@@ -201,6 +211,12 @@ export default function MiniDrawer() {
           </IconButton>
           <Typography variant="h6" noWrap component="div">
             Produccion
+          </Typography>
+        </Toolbar>
+        <Toolbar>
+          <AccountCircleIcon />
+          <Typography variant="h6" noWrap component="div">
+            user
           </Typography>
         </Toolbar>
       </AppBar>
