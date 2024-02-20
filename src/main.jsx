@@ -4,8 +4,8 @@ import {
   createBrowserRouter,
   RouterProvider,
   BrowserRouter as Router,
-  Route,
   Routes,
+  Route,
 } from "react-router-dom";
 import "./index.css";
 import Root from "./routes/root";
@@ -13,57 +13,59 @@ import ErrorPage from "./error-page";
 import Mampara from "./components/mampara/mampara";
 import Productos from "./components/productos/productos";
 import Terminados from "./components/extrusion/productoExtruidoPrueba1/TableProductoExtruido";
-
 import Login from "./components/login/Login";
-import Welcome from "./components/login/Welcome";
-/* import EntradasMolinos from "./components/Molinos/entradasmolinos/entradas";
- */
-const router = createBrowserRouter([
-  {
-    /* path: "/", */
-    element: <Root />,
+import PrivateRoute from "./PrivateRoute";
 
-    errorElement: <ErrorPage />,
+const App = () => {
+  const [authenticated, setAuthenticated] = React.useState(false);
 
-    children: [
-      {
-        path: "/mampara",
-        element: <Mampara />,
-      },
-      {
-        path: "/productos",
-        element: <Productos />,
-      },
-      {
-        path: "/terminados",
-        element: <Terminados />,
-      },
-      /*   {
-        path: "/entrada-molinos",
-        element: <EntradasMolinos />,
-      }, */
-    ],
-  },
-  {
-    path: "/",
-    element: <Login />,
-  },
-]);
+  const router = createBrowserRouter([
+    {
+      element: <Root />,
+      errorElement: <ErrorPage />,
+      children: [
+        {
+          path: "/mampara",
+          element: (
+            <PrivateRoute authenticated={authenticated} element={<Mampara />} />
+          ),
+        },
+        {
+          path: "/productos",
+          element: (
+            <PrivateRoute
+              authenticated={authenticated}
+              element={<Productos />}
+            />
+          ),
+        },
+        {
+          path: "/terminados",
+          element: (
+            <PrivateRoute
+              authenticated={authenticated}
+              element={<Terminados />}
+            />
+          ),
+        },
+      ],
+    },
+    {
+      path: "/",
+      element: (
+        <Login
+          setAuthenticated={setAuthenticated}
+          authenticated={authenticated}
+        />
+      ),
+    },
+  ]);
 
-/* const App = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/welcome/:username" element={<Welcome />} />
-      </Routes>
-    </Router>
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>
   );
 };
- */
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-    {/*     <App /> */}
-  </React.StrictMode>
-);
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);

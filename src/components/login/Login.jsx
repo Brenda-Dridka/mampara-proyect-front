@@ -1,10 +1,10 @@
+// Login.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { apiUrl } from "../../api/login/usuario";
 import "../../style/login/login.css";
 
-// user
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import AccountCircle from "@mui/icons-material/AccountCircle";
@@ -16,18 +16,17 @@ import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-const Login = () => {
+const Login = ({ setAuthenticated, authenticated }) => {
   const [showPassword, setShowPassword] = React.useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
-  const [error, setError] = useState("");
-  const [authenticated, setAuthenticated] = useState(false);
 
   const handleLogin = async () => {
     try {
@@ -35,11 +34,10 @@ const Login = () => {
       const user = users.data.find(
         (u) => u.username === username && u.password === password
       );
-
       if (user) {
         // Login successful
         setAuthenticated(true);
-        navigate(`/mampara`);
+        navigate("/mampara");
       } else {
         // Credenciales incorrectas
         setError("Credenciales incorrectas, verificar usuario o contraseña");
@@ -51,7 +49,7 @@ const Login = () => {
     }
   };
 
-  // Redirigir si el usuario ya está autenticado
+  /// Redirigir si el usuario ya está autenticado
   React.useEffect(() => {
     if (authenticated) {
       navigate("/mampara");
