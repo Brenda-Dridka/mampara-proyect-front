@@ -27,6 +27,9 @@ import { BiSolidTimeFive } from "react-icons/bi";
 import { BiSolidTimer } from "react-icons/bi";
 import { HiMiniCloud } from "react-icons/hi2";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
+import { IoLogOut } from "react-icons/io5";
 
 const drawerWidth = 240;
 
@@ -174,6 +177,8 @@ const data = [
 export default function MiniDrawer() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [authenticated, setAuthenticated] = React.useState(false); // Estado de autenticación
+  const [username, setUsername] = React.useState("");
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -181,6 +186,21 @@ export default function MiniDrawer() {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+  const handleLogout = () => {
+    /*     const navigate = useNavigate(); */
+    console.log("Cerrando sesión...");
+    setAuthenticated(false);
+    sessionStorage.removeItem("authenticated");
+    // Puedes realizar otras acciones necesarias al cerrar sesión
+    /*     navigate("/"); */
+  };
+
+  const handleLogin = (username) => {
+    console.log(username, "etso");
+    setAuthenticated(true);
+    sessionStorage.setItem("authenticated", true);
+    setUsername(username);
   };
 
   return (
@@ -190,9 +210,9 @@ export default function MiniDrawer() {
         position="fixed"
         open={open}
         style={{
-          background: "rgb(17 81 137)",
+          background: "#115189",
           display: "grid",
-          gridTemplateColumns: "6fr 1fr",
+          gridTemplateColumns: "6fr 1fr 1fr",
           justifyContent: "space-around",
         }}
       >
@@ -216,9 +236,35 @@ export default function MiniDrawer() {
         <Toolbar>
           <AccountCircleIcon />
           <Typography variant="h6" noWrap component="div">
-            user
+            {authenticated ? username : "Invitado"}
           </Typography>
         </Toolbar>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <Button
+            onClick={handleLogout}
+            variant="outlined"
+            style={{
+              background: "#835eb3",
+              color: "rgb(255, 255, 255)",
+              borderRadius: "20px",
+            }}
+          >
+            <IoLogOut
+              style={{
+                color: "#FFFFFF",
+                fontSize: "20PX",
+              }}
+            />
+            <Link to="/" style={{ color: "#FFFFFF" }}>
+              Salir
+            </Link>
+          </Button>
+        </div>
       </AppBar>
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
@@ -265,25 +311,6 @@ export default function MiniDrawer() {
       <Box className="margenGlobal">
         <DrawerHeader />
         <Outlet />
-        {/*  <div
-          style={{
-            paddingBottom: "1.5rem",
-            display: "flex",
-            gap: "5rem",
-          }}
-        >
-          <AgregarBoton /> <ImportDocument /> <BotonEtrusion /> 
-          <Consumo />
-        </div>
- */}
-        {/*   
-
-        <Container className="mampara-style">
-          <Card />
-        </Container> */}
-
-        {/*   <EtiquetasMampara /> */}
-        {/*    <ImplementacionDrag /> */}
       </Box>
     </Box>
   );

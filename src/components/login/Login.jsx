@@ -1,5 +1,5 @@
 // Login.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { apiUrl } from "../../api/login/usuario";
@@ -16,7 +16,7 @@ import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-const Login = ({ setAuthenticated, authenticated }) => {
+const Login = ({ setAuthenticated }) => {
   const [showPassword, setShowPassword] = React.useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -37,6 +37,7 @@ const Login = ({ setAuthenticated, authenticated }) => {
       if (user) {
         // Login successful
         setAuthenticated(true);
+        sessionStorage.setItem("authenticated", "true");
         navigate("/mampara");
       } else {
         // Credenciales incorrectas
@@ -49,12 +50,13 @@ const Login = ({ setAuthenticated, authenticated }) => {
     }
   };
 
-  /// Redirigir si el usuario ya está autenticado
-  React.useEffect(() => {
-    if (authenticated) {
+  useEffect(() => {
+    const storedAuth = sessionStorage.getItem("authenticated");
+    if (storedAuth === "true") {
+      setAuthenticated(true);
       navigate("/mampara");
     }
-  }, [authenticated, navigate]);
+  }, [setAuthenticated, navigate]);
 
   return (
     <div>
