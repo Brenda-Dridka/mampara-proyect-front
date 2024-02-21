@@ -27,7 +27,10 @@ const NotFound = () => {
               ...transitionStyles[state],
             }}
           >
-            <img src="https://example.com/error-image.png" alt="Error 404" />
+            <img
+              src="https://firebasestorage.googleapis.com/v0/b/mampara-e5ebb.appspot.com/o/erro%20404.gif?alt=media&token=7f908512-2e50-4b7f-9ab1-7b27881dd020"
+              alt="Error 404"
+            />
           </div>
         )}
       </Transition>

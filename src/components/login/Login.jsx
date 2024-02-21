@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { apiUrl } from "../../api/login/usuario";
 import "../../style/login/login.css";
-
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import AccountCircle from "@mui/icons-material/AccountCircle";
@@ -38,7 +37,8 @@ const Login = ({ setAuthenticated }) => {
         // Login successful
         setAuthenticated(true);
         sessionStorage.setItem("authenticated", "true");
-        navigate("/mampara");
+        // Ahora llamamos a handleLogin después de la autenticación exitosa
+        handleLoginAfterAuthentication(username);
       } else {
         // Credenciales incorrectas
         setError("Credenciales incorrectas, verificar usuario o contraseña");
@@ -48,6 +48,13 @@ const Login = ({ setAuthenticated }) => {
       // Manejar el error de manera apropiada, por ejemplo, mostrar un mensaje de error
       setError("Error al iniciar sesión");
     }
+  };
+
+  const handleLoginAfterAuthentication = (username) => {
+    // Llamar a handleLogin con el nombre de usuario
+    handleLogin(username);
+    // Redirigir a la página deseada
+    navigate("/mampara");
   };
 
   useEffect(() => {
@@ -104,7 +111,8 @@ const Login = ({ setAuthenticated }) => {
               </FormControl>
               <br />
               <button
-                onClick={handleLogin}
+                onClick={() => handleLogin(username)}
+                /* onClick={handleLogin} */
                 style={{
                   width: "70%",
                   background: "#00192F",

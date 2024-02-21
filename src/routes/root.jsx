@@ -197,7 +197,6 @@ export default function MiniDrawer() {
   };
 
   const handleLogin = (username) => {
-    console.log(username, "etso");
     setAuthenticated(true);
     sessionStorage.setItem("authenticated", true);
     setUsername(username);
