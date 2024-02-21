@@ -129,7 +129,7 @@ const EtiquetaTable54_3 = ({ etiquetas54_3, setEtiquetas54_3 }) => {
 
   return (
     <div className="position etiquetasAgregadas">
-      <h6 className="text-center tittleEtiquetas">Ext 54 III</h6>
+      <h6 className="text-center tittleEtiquetas">54 III</h6>
       {loading ? (
         <CircularProgress color="secondary" />
       ) : (

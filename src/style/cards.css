@@ -43,3 +43,8 @@
     border-radius: 50%;
 
 }
+.acomodoEtiquetas{
+    display: flex;
+    align-items: center;
+    height: 180px;
+}
