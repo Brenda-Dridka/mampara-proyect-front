@@ -14,6 +14,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useUser } from "./users/UserContext";
 
 const Login = ({ setAuthenticated }) => {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -21,6 +22,7 @@ const Login = ({ setAuthenticated }) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { setUser } = useUser();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event) => {
@@ -39,6 +41,7 @@ const Login = ({ setAuthenticated }) => {
         sessionStorage.setItem("authenticated", "true");
         // Ahora llamamos a handleLogin después de la autenticación exitosa
         handleLoginAfterAuthentication(username);
+        setUser(username);
       } else {
         // Credenciales incorrectas
         setError("Credenciales incorrectas, verificar usuario o contraseña");

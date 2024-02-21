@@ -30,6 +30,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import { IoLogOut } from "react-icons/io5";
+import UsuariosLogueados from "../components/login/users/usauriosLogeados";
 
 const drawerWidth = 240;
 
@@ -233,10 +234,11 @@ export default function MiniDrawer() {
           </Typography>
         </Toolbar>
         <Toolbar>
-          <AccountCircleIcon />
+          {/*   <AccountCircleIcon />
           <Typography variant="h6" noWrap component="div">
             {authenticated ? username : "Invitado"}
-          </Typography>
+          </Typography> */}
+          <UsuariosLogueados />
         </Toolbar>
         <div
           style={{

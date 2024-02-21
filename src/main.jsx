@@ -15,6 +15,7 @@ import Productos from "./components/productos/productos";
 import Terminados from "./components/extrusion/productoExtruidoPrueba1/TableProductoExtruido";
 import Login from "./components/login/Login";
 import PrivateRoute from "./PrivateRoute";
+import { UserProvider } from "./components/login/users/UserContext";
 
 const App = () => {
   const [authenticated, setAuthenticated] = React.useState(false);
@@ -63,7 +64,9 @@ const App = () => {
 
   return (
     <React.StrictMode>
-      <RouterProvider router={router} />
+      <UserProvider>
+        <RouterProvider router={router} />
+      </UserProvider>
     </React.StrictMode>
   );
 };
