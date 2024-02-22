@@ -31,6 +31,9 @@ import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import { IoLogOut } from "react-icons/io5";
 import UsuariosLogueados from "../components/login/users/usauriosLogeados";
+import { PiCardsBold } from "react-icons/pi";
+import { AiOutlineFileDone } from "react-icons/ai";
+import { BsArchive } from "react-icons/bs";
 
 const drawerWidth = 240;
 
@@ -103,8 +106,8 @@ console.log("esto es una data");
 const data = [
   {
     id: "01",
-    name: "Entradas",
-    icon: <DesktopMacIcon />,
+    name: "Etiqietas Extrusores",
+    icon: <PiCardsBold color="#084EA2" />,
     link: "/mampara",
   },
   /*   {
@@ -121,8 +124,8 @@ const data = [
   }, */
   {
     id: "04",
-    name: "Terminado",
-    icon: <FaCheck />,
+    name: "Productos Extruidos",
+    icon: <AiOutlineFileDone color="#03A678" />,
     link: "/terminados",
   },
   /*   {
@@ -170,8 +173,8 @@ const data = [
   {
     id: "12",
     name: "Productos",
-    icon: <HiMiniCloud color="blue" />,
-    link: "/productos",
+    icon: <BsArchive color="#026873" />,
+    link: "/Productos",
   },
 ];
 
@@ -234,10 +237,6 @@ export default function MiniDrawer() {
           </Typography>
         </Toolbar>
         <Toolbar>
-          {/*   <AccountCircleIcon />
-          <Typography variant="h6" noWrap component="div">
-            {authenticated ? username : "Invitado"}
-          </Typography> */}
           <UsuariosLogueados />
         </Toolbar>
         <div
@@ -258,7 +257,7 @@ export default function MiniDrawer() {
             <IoLogOut
               style={{
                 color: "#FFFFFF",
-                fontSize: "20PX",
+                fontSize: "25PX",
               }}
             />
             <Link to="/" style={{ color: "#FFFFFF" }}>
@@ -294,6 +293,9 @@ export default function MiniDrawer() {
                       minWidth: 0,
                       mr: open ? 3 : "auto",
                       justifyContent: "center",
+                    }}
+                    style={{
+                      fontSize: "30px",
                     }}
                   >
                     {data.icon}
