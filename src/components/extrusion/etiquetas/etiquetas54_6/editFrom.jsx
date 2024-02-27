@@ -42,7 +42,7 @@ const ExtrusionFormDialog = ({ open, onClose, etiqueta }) => {
   const handleUpdate = async () => {
     try {
       const response = await axios.put(
-        `http://localhost:3000/etiquetasExt54_6/${etiqueta.id}`,
+        `https://mampara-backend.vercel.app/etiquetasExt54_6/${etiqueta.id}`,
         formData
       );
       console.log("Datos actualizados:", response.data);

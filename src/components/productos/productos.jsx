@@ -23,7 +23,7 @@ export default function StickyHeadTable() {
   const [articulos, setArticulos] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/productos")
+    fetch("https://mampara-backend.vercel.app/productos")
       .then((response) => {
         return response.json();
       })

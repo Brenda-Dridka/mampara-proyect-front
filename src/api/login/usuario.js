@@ -1,7 +1,7 @@
 // api.js
 import axios from "axios";
 
-export const apiUrl = "http://localhost:3000/users";
+export const apiUrl = "https://mampara-backend.vercel.app/users";
 
 export const fetchUsuarios = async () => {
   const response = await axios.get(apiUrl);
@@ -9,7 +9,7 @@ export const fetchUsuarios = async () => {
 };
 
 export const createUser = async (userData) => {
-  const response = await fetch("http://localhost:3000/users", {
+  const response = await fetch("https://mampara-backend.vercel.app/users", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
