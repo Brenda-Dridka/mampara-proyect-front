@@ -80,16 +80,16 @@ const Mampara = () => {
   };
 
   //Acitualizacion de componentes
-  useEffect(() => {
+  /*   useEffect(() => {
     const intervalId = setInterval(() => {
       // Actualiza la página automáticamente
       window.location.reload();
-    }, 1 * 60 * 1000); // 1 minuto en milisegundos
+    }, 1 * 20 * 1000); // 1 minuto en milisegundos
 
     // Limpia el intervalo al desmontar el componente
     return () => clearInterval(intervalId);
   }, []);
-
+ */
   //cambio de color de las etiquetas
   const verificarDuplicados = (etiquetas) => {
     const nombres = etiquetas.map((etiqueta) => etiqueta.nombre);
