@@ -34,6 +34,8 @@ import UsuariosLogueados from "../components/login/users/usauriosLogeados";
 import { PiCardsBold } from "react-icons/pi";
 import { AiOutlineFileDone } from "react-icons/ai";
 import { BsArchive } from "react-icons/bs";
+import validateAction from "../validacion/extrusores/validacionExtrusores";
+import rolesConfig from "../api/permisos/rolesConfig";
 
 const drawerWidth = 240;
 
@@ -109,67 +111,14 @@ const data = [
     name: "Etiqietas Extrusores",
     icon: <PiCardsBold color="#084EA2" />,
     link: "/mampara",
+    rol: "extrusores.mostrar",
   },
-  /*   {
-    id: "02",
-    name: "Extrusion",
-    icon: <FaList />,
-    link: "/extrusion",
-  },
-  {
-    id: "03",
-    name: "Graficado",
-    icon: <HiChartBar />,
-    link: "/graficado",
-  }, */
   {
     id: "04",
     name: "Productos Extruidos",
     icon: <AiOutlineFileDone color="#03A678" />,
     link: "/terminados",
   },
-  /*   {
-    id: "05",
-    name: "Entradas MOL",
-    icon: <DesktopMacIcon />,
-    link: "/entrada-molinos",
-  }, */
-  /* {
-    id: "06",
-    name: "Molinos",
-    icon: <ImSpinner9 />,
-    link: "/molinos",
-  },
-  {
-    id: "07",
-    name: "Entradas MEZ",
-    icon: <DesktopMacIcon />,
-    link: "/entrada-mezcladoras",
-  },
-  {
-    id: "08",
-    name: "Mezcladoras",
-    icon: <SiLaravelnova />,
-    link: "/mezcladoras",
-  },
-  {
-    id: "09",
-    name: "Terminados Mezcladoras",
-    icon: <FaCheck />,
-    link: "/terminados mezcladoras",
-  },
-  {
-    id: "10",
-    name: "TIMESET",
-    icon: <BiSolidTimeFive />,
-    link: "/time-set",
-  },
-  {
-    id: "11",
-    name: "SETUP",
-    icon: <BiSolidTimer />,
-    link: "/setup",
-  }, */
   {
     id: "12",
     name: "Productos",
