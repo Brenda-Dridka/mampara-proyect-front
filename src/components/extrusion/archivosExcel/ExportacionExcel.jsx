@@ -48,7 +48,7 @@ const ExportToExcel = () => {
   /* const fetchData = async () => {
     try {
       const response = await axios.get(
-        "https://mampara-backend.vercel.app/etiquetas"
+        "http://localhost:3000/etiquetas"
       );
       setData(response.data);
     } catch (error) {
@@ -59,7 +59,7 @@ const ExportToExcel = () => {
   const fetchData54_2 = async () => {
     try {
       const response = await axios.get(
-        "https://mampara-backend.vercel.app/etiquetasExt54_2"
+        "http://localhost:3000/etiquetasExt54_2"
       );
       setEtiquetas54_2(response.data);
     } catch (error) {
@@ -68,9 +68,7 @@ const ExportToExcel = () => {
   };
   const fetchDataBuss1 = async () => {
     try {
-      const response = await axios.get(
-        "https://mampara-backend.vercel.app/etiquetasBussl"
-      );
+      const response = await axios.get("http://localhost:3000/etiquetasBussl");
       setEtiquetasBussl(response.data);
     } catch (error) {
       console.error("Error al obtener datos desde la API:", error);
@@ -79,7 +77,7 @@ const ExportToExcel = () => {
   const fetchData70_2 = async () => {
     try {
       const response = await axios.get(
-        "https://mampara-backend.vercel.app/etiquetasExt70_2"
+        "http://localhost:3000/etiquetasExt70_2"
       );
       setEtiquetasExt70_2(response.data);
     } catch (error) {
@@ -89,7 +87,7 @@ const ExportToExcel = () => {
   const fetchData54_4 = async () => {
     try {
       const response = await axios.get(
-        "https://mampara-backend.vercel.app/etiquetasExt54_4"
+        "http://localhost:3000/etiquetasExt54_4"
       );
       setEtiquetasExt54_4(response.data);
     } catch (error) {
@@ -99,7 +97,7 @@ const ExportToExcel = () => {
   const fetchData54_5 = async () => {
     try {
       const response = await axios.get(
-        "https://mampara-backend.vercel.app/etiquetasExt54_5"
+        "http://localhost:3000/etiquetasExt54_5"
       );
       setEtiquetasExt54_5(response.data);
     } catch (error) {
@@ -109,7 +107,7 @@ const ExportToExcel = () => {
   const fetchData54_1 = async () => {
     try {
       const response = await axios.get(
-        "https://mampara-backend.vercel.app/etiquetasExt54_1"
+        "http://localhost:3000/etiquetasExt54_1"
       );
       setEtiquetasExt54_1(response.data);
     } catch (error) {
@@ -118,9 +116,7 @@ const ExportToExcel = () => {
   };
   const fetchData58 = async () => {
     try {
-      const response = await axios.get(
-        "https://mampara-backend.vercel.app/etiquetasExt58"
-      );
+      const response = await axios.get("http://localhost:3000/etiquetasExt58");
       setEtiquetasExt58(response.data);
     } catch (error) {
       console.error("Error al obtener datos desde la API:", error);
@@ -128,9 +124,7 @@ const ExportToExcel = () => {
   };
   const fetchData40 = async () => {
     try {
-      const response = await axios.get(
-        "https://mampara-backend.vercel.app/etiquetasExt40"
-      );
+      const response = await axios.get("http://localhost:3000/etiquetasExt40");
       setEtiquetasExt40(response.data);
     } catch (error) {
       console.error("Error al obtener datos desde la API:", error);
@@ -139,7 +133,7 @@ const ExportToExcel = () => {
   const fetchData54_3 = async () => {
     try {
       const response = await axios.get(
-        "https://mampara-backend.vercel.app/etiquetasExt54_3"
+        "http://localhost:3000/etiquetasExt54_3"
       );
       setEtiquetasExt54_3(response.data);
     } catch (error) {
@@ -149,7 +143,7 @@ const ExportToExcel = () => {
   const fetchData54_7 = async () => {
     try {
       const response = await axios.get(
-        "https://mampara-backend.vercel.app/etiquetasExt54_7"
+        "http://localhost:3000/etiquetasExt54_7"
       );
       setEtiquetasExt54_7(response.data);
     } catch (error) {
@@ -159,7 +153,7 @@ const ExportToExcel = () => {
   const fetchData70_1 = async () => {
     try {
       const response = await axios.get(
-        "https://mampara-backend.vercel.app/etiquetasExt70_1"
+        "http://localhost:3000/etiquetasExt70_1"
       );
       setEtiquetasExt70_1(response.data);
     } catch (error) {
@@ -168,9 +162,7 @@ const ExportToExcel = () => {
   };
   const fetchDataBuss2 = async () => {
     try {
-      const response = await axios.get(
-        "https://mampara-backend.vercel.app/etiquetasBussll"
-      );
+      const response = await axios.get("http://localhost:3000/etiquetasBussll");
       setEtiquetasBuss2(response.data);
     } catch (error) {
       console.error("Error al obtener datos desde la API:", error);
@@ -179,7 +171,7 @@ const ExportToExcel = () => {
   const fetchData26_1 = async () => {
     try {
       const response = await axios.get(
-        "https://mampara-backend.vercel.app/etiquetasExt26_1"
+        "http://localhost:3000/etiquetasExt26_1"
       );
       setEtiquetasExt26_1(response.data);
     } catch (error) {
@@ -189,7 +181,7 @@ const ExportToExcel = () => {
   const fetchData26_2 = async () => {
     try {
       const response = await axios.get(
-        "https://mampara-backend.vercel.app/etiquetasExt26_2"
+        "http://localhost:3000/etiquetasExt26_2"
       );
       setEtiquetasExt26_2(response.data);
     } catch (error) {
@@ -199,7 +191,7 @@ const ExportToExcel = () => {
   const fetchData54_6 = async () => {
     try {
       const response = await axios.get(
-        "https://mampara-backend.vercel.app/etiquetasExt54_6"
+        "http://localhost:3000/etiquetasExt54_6"
       );
       setEtiquetasExt54_6(response.data);
     } catch (error) {
@@ -209,7 +201,7 @@ const ExportToExcel = () => {
   const fetchData70_3 = async () => {
     try {
       const response = await axios.get(
-        "https://mampara-backend.vercel.app/etiquetasExt70_3"
+        "http://localhost:3000/etiquetasExt70_3"
       );
       setEtiquetasExt70_3(response.data);
     } catch (error) {
@@ -219,7 +211,7 @@ const ExportToExcel = () => {
   const fetchData54_8 = async () => {
     try {
       const response = await axios.get(
-        "https://mampara-backend.vercel.app/etiquetasExt54_8"
+        "http://localhost:3000/etiquetasExt54_8"
       );
       setEtiquetasExt54_8(response.data);
     } catch (error) {
