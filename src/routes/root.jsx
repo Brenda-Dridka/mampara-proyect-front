@@ -36,6 +36,7 @@ import { AiOutlineFileDone } from "react-icons/ai";
 import { BsArchive } from "react-icons/bs";
 import validateAction from "../validacion/extrusores/validacionExtrusores";
 import rolesConfig from "../api/permisos/rolesConfig";
+import { FaUserCircle } from "react-icons/fa";
 
 const drawerWidth = 240;
 
@@ -124,6 +125,12 @@ const data = [
     name: "Productos",
     icon: <BsArchive color="#026873" />,
     link: "/Productos",
+  },
+  {
+    id: "12",
+    name: "Usuarios",
+    icon: <FaUserCircle color="#AB65FC" />,
+    link: "/usuarios",
   },
 ];
 

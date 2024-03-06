@@ -16,6 +16,7 @@ import Terminados from "./components/extrusion/productoExtruidoPrueba1/TableProd
 import Login from "./components/login/Login";
 import PrivateRoute from "./PrivateRoute";
 import { UserProvider } from "./components/login/users/UserContext";
+import UserTable from "./components/login/users/TableUser";
 
 const App = () => {
   const [authenticated, setAuthenticated] = React.useState(false);
@@ -46,6 +47,15 @@ const App = () => {
             <PrivateRoute
               authenticated={authenticated}
               element={<Terminados />}
+            />
+          ),
+        },
+        {
+          path: "/usuarios",
+          element: (
+            <PrivateRoute
+              authenticated={authenticated}
+              element={<UserTable />}
             />
           ),
         },
