@@ -32,7 +32,7 @@ const Login = ({ setAuthenticated }) => {
   const handleLogin = async () => {
     try {
       const users = await axios.get(apiUrl);
-      const user = users.data.data.find(
+      const user = users.data.find(
         (u) => u.username === username && u.password === password
       );
       if (user) {
