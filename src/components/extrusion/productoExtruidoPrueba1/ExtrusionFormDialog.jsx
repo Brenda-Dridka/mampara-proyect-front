@@ -1,4 +1,3 @@
-// ExtrusionFormDialog.js
 import React, { useState, useEffect } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -17,6 +16,7 @@ const ExtrusionFormDialog = ({
   etiqueta,
   productoExtruido,
   setProductoExtruido,
+  onDeleteEtiqueta, // Agregar esta línea
 }) => {
   const [formData, setFormData] = useState({
     nombre: etiqueta ? etiqueta.nombre : "",
@@ -89,13 +89,9 @@ const ExtrusionFormDialog = ({
 
       console.log("Datos del formulario guardados con éxito:", formData);
 
-      // Verificar si productoExtruido está definido antes de filtrar
-      if (productoExtruido) {
-        const etiquetaId = etiqueta?.id;
-        const updatedExtruidos = productoExtruido.filter(
-          (item) => item.id !== etiquetaId
-        );
-        setProductoExtruido(updatedExtruidos);
+      // Eliminar la etiqueta después de guardar los datos
+      if (onDeleteEtiqueta) {
+        onDeleteEtiqueta();
       }
 
       setSuccessMessage("Datos guardados con éxito");
