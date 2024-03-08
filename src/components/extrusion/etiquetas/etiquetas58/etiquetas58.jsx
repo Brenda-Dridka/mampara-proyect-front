@@ -101,29 +101,15 @@ const EtiquetaTable58 = ({ etiquetas58, setEtiquetas58 }) => {
   };
 
   //opcion de producto extruido
-  const handleExtrudeEtiqueta = async (etiquetaId) => {
-    try {
-      // Buscar la etiqueta seleccionada
-      const selected2 = etiquetas58.find(
-        (etiqueta) => etiqueta.id === etiquetaId
-      );
-      setSelectedEtiqueta2(selected2);
+  const handleExtrudeEtiqueta = (etiquetaId) => {
+    // Buscar la etiqueta seleccionada
+    const selected2 = etiquetas58.find(
+      (etiqueta) => etiqueta.id === etiquetaId
+    );
+    setSelectedEtiqueta2(selected2);
 
-      // Abrir el diálogo de extrusión
-      setOpenDialog2(true);
-
-      // Filtrar etiquetas58 eliminando la etiqueta
-      const updatedEtiquetas58 = etiquetas58.filter(
-        (item) => item.id !== etiquetaId
-      );
-      setEtiquetas58(updatedEtiquetas58);
-
-      // Guardar las etiquetas actualizadas en la API
-      await axios.post(apiUrlEtiquetasExt58, updatedEtiquetas58);
-      console.log("Etiqueta extruida y guardada con éxito");
-    } catch (error) {
-      console.error("Error al extruir la etiqueta", error);
-    }
+    // Abrir el diálogo de extrusión
+    setOpenDialog2(true);
   };
 
   return (
@@ -203,6 +189,7 @@ const EtiquetaTable58 = ({ etiquetas58, setEtiquetas58 }) => {
           setSelectedEtiqueta2(null);
         }}
         etiqueta={selectedEtiqueta2}
+        onDeleteEtiqueta={() => handleDeleteEtiqueta(selectedEtiqueta2.id)}
       />
     </div>
   );

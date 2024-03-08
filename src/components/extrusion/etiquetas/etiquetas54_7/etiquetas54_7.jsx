@@ -99,28 +99,14 @@ const EtiquetaTable54_7 = ({ etiquetas54_7, setEtiquetas54_7 }) => {
     setOpenDialog(true);
   };
   const handleExtrudeEtiqueta = async (etiquetaId) => {
-    try {
-      // Buscar la etiqueta seleccionada
-      const selected2 = etiquetas54_7.find(
-        (etiqueta) => etiqueta.id === etiquetaId
-      );
-      setSelectedEtiqueta2(selected2);
+    // Buscar la etiqueta seleccionada
+    const selected2 = etiquetas54_7.find(
+      (etiqueta) => etiqueta.id === etiquetaId
+    );
+    setSelectedEtiqueta2(selected2);
 
-      // Abrir el diálogo de extrusión
-      setOpenDialog2(true);
-
-      // Filtrar etiquetas54_7 eliminando la etiqueta
-      const updatedEtiquetas54_7 = etiquetas54_7.filter(
-        (item) => item.id !== etiquetaId
-      );
-      setEtiquetas54_7(updatedEtiquetas54_7);
-
-      // Guardar las etiquetas actualizadas en la API
-      await axios.post(apiUrlEtiquetasExt54_7, updatedEtiquetas54_7);
-      console.log("Etiqueta extruida y guardada con éxito");
-    } catch (error) {
-      console.error("Error al extruir la etiqueta", error);
-    }
+    // Abrir el diálogo de extrusión
+    setOpenDialog2(true);
   };
   return (
     <div className="position etiquetasAgregadas">
@@ -199,6 +185,7 @@ const EtiquetaTable54_7 = ({ etiquetas54_7, setEtiquetas54_7 }) => {
           setSelectedEtiqueta2(null);
         }}
         etiqueta={selectedEtiqueta2}
+        onDeleteEtiqueta={() => handleDeleteEtiqueta(selectedEtiqueta2.id)}
       />
     </div>
   );

@@ -98,29 +98,15 @@ const EtiquetaTableBuss2 = ({ etiquetasBuss2, setEtiquetasBuss2 }) => {
   };
 
   //opcion de producto extruido
-  const handleExtrudeEtiqueta = async (etiquetaId) => {
-    try {
-      // Buscar la etiqueta seleccionada
-      const selected2 = etiquetasBuss2.find(
-        (etiqueta) => etiqueta.id === etiquetaId
-      );
-      setSelectedEtiqueta2(selected2);
+  const handleExtrudeEtiqueta = (etiquetaId) => {
+    // Buscar la etiqueta seleccionada
+    const selected2 = etiquetasBuss2.find(
+      (etiqueta) => etiqueta.id === etiquetaId
+    );
+    setSelectedEtiqueta2(selected2);
 
-      // Abrir el diálogo de extrusión
-      setOpenDialog2(true);
-
-      // Filtrar etiquetasBuss2 eliminando la etiqueta
-      const updatedEtiquetasBuss2 = etiquetasBuss2.filter(
-        (item) => item.id !== etiquetaId
-      );
-      setEtiquetasBuss2(updatedEtiquetasBuss2);
-
-      // Guardar las etiquetas actualizadas en la API
-      await axios.post(apiUrlEtiquetasExt54_2, updatedEtiquetasBuss2);
-      console.log("Etiqueta extruida y guardada con éxito");
-    } catch (error) {
-      console.error("Error al extruir la etiqueta", error);
-    }
+    // Abrir el diálogo de extrusión
+    setOpenDialog2(true);
   };
 
   return (
@@ -198,6 +184,7 @@ const EtiquetaTableBuss2 = ({ etiquetasBuss2, setEtiquetasBuss2 }) => {
               setSelectedEtiqueta2(null);
             }}
             etiqueta={selectedEtiqueta2}
+            onDeleteEtiqueta={() => handleDeleteEtiqueta(selectedEtiqueta2.id)}
           />
         </ReactSortable>
       )}

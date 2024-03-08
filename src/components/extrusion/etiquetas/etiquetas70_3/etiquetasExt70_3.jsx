@@ -102,29 +102,15 @@ const EtiquetaTableExt70_3 = ({ etiquetasExt70_3, setEtiquetasExt70_3 }) => {
   };
 
   //opcion de producto extruido
-  const handleExtrudeEtiqueta = async (etiquetaId) => {
-    try {
-      // Buscar la etiqueta seleccionada
-      const selected2 = etiquetasExt70_3.find(
-        (etiqueta) => etiqueta.id === etiquetaId
-      );
-      setSelectedEtiqueta2(selected2);
+  const handleExtrudeEtiqueta = (etiquetaId) => {
+    // Buscar la etiqueta seleccionada
+    const selected2 = etiquetasExt70_3.find(
+      (etiqueta) => etiqueta.id === etiquetaId
+    );
+    setSelectedEtiqueta2(selected2);
 
-      // Abrir el diálogo de extrusión
-      setOpenDialog2(true);
-
-      // Filtrar etiquetasExt70_3 eliminando la etiqueta
-      const updatedEtiquetasExt70_3 = etiquetasExt70_3.filter(
-        (item) => item.id !== etiquetaId
-      );
-      setEtiquetasExt70_3(updatedEtiquetasExt70_3);
-
-      // Guardar las etiquetas actualizadas en la API
-      await axios.post(apiUrlEtiquetasExtExt70_3, updatedEtiquetasExt70_3);
-      console.log("Etiqueta extruida y guardada con éxito");
-    } catch (error) {
-      console.error("Error al extruir la etiqueta", error);
-    }
+    // Abrir el diálogo de extrusión
+    setOpenDialog2(true);
   };
 
   return (
@@ -204,6 +190,7 @@ const EtiquetaTableExt70_3 = ({ etiquetasExt70_3, setEtiquetasExt70_3 }) => {
           setSelectedEtiqueta2(null);
         }}
         etiqueta={selectedEtiqueta2}
+        onDeleteEtiqueta={() => handleDeleteEtiqueta(selectedEtiqueta2.id)}
       />
     </div>
   );
