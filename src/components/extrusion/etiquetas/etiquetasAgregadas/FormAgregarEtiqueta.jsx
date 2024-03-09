@@ -159,54 +159,59 @@ const EtiquetaForm = ({ onEtiquetaCreated }) => {
               </div>
 
               <hr className="linea-etiqueta" />
-              <div className="sepadadorInferior">
-                <div
-                  style={{
-                    marginTop: "-9px",
-                  }}
-                >
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={["DatePicker"]}>
-                      <DemoItem label="Agregar fecha de entrega">
-                        <DatePicker
-                          label="Fecha de entrega"
-                          value={etiquetaData.fecha.value}
-                          onChange={(date) =>
-                            setEtiquetaData((prevData) => ({
-                              ...prevData,
-                              fecha: { value: date },
-                            }))
-                          }
-                        />
-                      </DemoItem>
-                    </DemoContainer>
-                  </LocalizationProvider>
-                </div>
-
-                <DemoItem label="Clve de producto">
-                  <TextField
-                    id="outlined-basic"
-                    label="Clave de Producto"
-                    variant="outlined"
-                    disabled
-                    value={selectedArticle ? selectedArticle.clave : ""}
-                  />
-                </DemoItem>
-                <FormControl sx={{ width: "34%" }} variant="outlined">
-                  <DemoItem label="Agregar los kilogramos">
-                    <OutlinedInput
-                      value={etiquetaData.kilos}
-                      id="outlined-adornment-weight"
-                      onChange={(e) =>
-                        handleChange({ name: "kilos", value: e.target.value })
-                      }
-                      endAdornment={
-                        <InputAdornment position="end">kg</InputAdornment>
-                      }
-                      aria-describedby="outlined-weight-helper-text"
+              <div
+                style={{
+                  display: "flex",
+                }}
+              >
+                <div>
+                  <DemoItem label="Fecha de Orden">
+                    <TextField
+                      margin="dense"
+                      type="date"
+                      fullWidth
+                      name="fecha"
+                      value={etiquetaData.fecha.value}
+                      // onChange={handleInputChange}
                     />
                   </DemoItem>
-                </FormControl>
+                  <DemoItem label="Fecha de entrega de producto">
+                    <TextField
+                      margin="dense"
+                      type="date"
+                      fullWidth
+                      name="fecha"
+                      value={etiquetaData.fecha.value}
+                      // onChange={handleInputChange}
+                    />
+                  </DemoItem>
+                </div>
+                <div>
+                  <DemoItem label="Clve de producto">
+                    <TextField
+                      id="outlined-basic"
+                      label="Clave de Producto"
+                      variant="outlined"
+                      disabled
+                      value={selectedArticle ? selectedArticle.clave : ""}
+                    />
+                  </DemoItem>
+                  <FormControl sx={{ width: "34%" }} variant="outlined">
+                    <DemoItem label="Agregar los kilogramos">
+                      <OutlinedInput
+                        value={etiquetaData.kilos}
+                        id="outlined-adornment-weight"
+                        onChange={(e) =>
+                          handleChange({ name: "kilos", value: e.target.value })
+                        }
+                        endAdornment={
+                          <InputAdornment position="end">kg</InputAdornment>
+                        }
+                        aria-describedby="outlined-weight-helper-text"
+                      />
+                    </DemoItem>
+                  </FormControl>
+                </div>
               </div>
 
               {alertMessage && (

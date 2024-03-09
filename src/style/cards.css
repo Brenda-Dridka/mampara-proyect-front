@@ -48,3 +48,17 @@
     align-items: center;
     height: 180px;
 }
+
+.interlineadoP{
+    margin: 0px;
+    margin-block-end: -1rem;
+}
+
+.fechasOrdenes{
+    text-decoration: underline;
+    font-weight: bold;
+
+}
+.styleKilos{
+  width: 30%;
+}
