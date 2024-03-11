@@ -33,6 +33,7 @@ const EtiquetaForm = ({ onEtiquetaCreated }) => {
     nombre: "",
     kilos: "",
     polvos: false,
+    fecha_entrega: { value: null },
   });
 
   useEffect(() => {
@@ -67,8 +68,17 @@ const EtiquetaForm = ({ onEtiquetaCreated }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("Fecha:", etiquetaData.fecha);
+    console.log("Artículo seleccionado:", selectedArticle);
+    console.log("Kilos:", etiquetaData.kilos);
+    console.log("fecha_entrega:", etiquetaData.fecha_entrega);
 
-    if (!etiquetaData.fecha.value || !selectedArticle || !etiquetaData.kilos) {
+    if (
+      !etiquetaData.fecha ||
+      !selectedArticle ||
+      !etiquetaData.kilos ||
+      !etiquetaData.fecha_entrega
+    ) {
       console.error("Todos los campos obligatorios deben estar llenos.");
 
       setAlertMessage("Todos los campos obligatorios deben estar llenos.");
@@ -79,17 +89,19 @@ const EtiquetaForm = ({ onEtiquetaCreated }) => {
       nombre: selectedArticle.nombre,
       clave: selectedArticle.clave,
       kilos: etiquetaData.kilos,
-      fecha: etiquetaData.fecha.value,
-      polvos, // Utilizar el valor actual de 'polvos'
+      fecha: etiquetaData.fecha,
+      polvos,
       estado: "activo",
       extrusor: " ",
       posicion: " ",
+      fecha_entrega: etiquetaData.fecha_entrega,
     };
 
     onEtiquetaCreated(datosAEnviar);
 
     setEtiquetaData({
-      fecha: { value: null },
+      fecha: "",
+      fecha_entrega: "",
       clave: "",
       nombre: "",
       kilos: "",
@@ -99,7 +111,7 @@ const EtiquetaForm = ({ onEtiquetaCreated }) => {
       posicion: " ",
     });
 
-    setPolvos(false); // Restablecer 'polvos' a falso después de guardar
+    setPolvos(false);
     setAlertMessage("");
 
     if (!alertMessage) {
@@ -162,6 +174,7 @@ const EtiquetaForm = ({ onEtiquetaCreated }) => {
               <div
                 style={{
                   display: "flex",
+                  gap: "1rem",
                 }}
               >
                 <div>
@@ -171,8 +184,10 @@ const EtiquetaForm = ({ onEtiquetaCreated }) => {
                       type="date"
                       fullWidth
                       name="fecha"
-                      value={etiquetaData.fecha.value}
-                      // onChange={handleInputChange}
+                      value={etiquetaData.fecha}
+                      onChange={(e) =>
+                        handleChange({ name: "fecha", value: e.target.value })
+                      }
                     />
                   </DemoItem>
                   <DemoItem label="Fecha de entrega de producto">
@@ -180,9 +195,14 @@ const EtiquetaForm = ({ onEtiquetaCreated }) => {
                       margin="dense"
                       type="date"
                       fullWidth
-                      name="fecha"
-                      value={etiquetaData.fecha.value}
-                      // onChange={handleInputChange}
+                      name="fecha_entrega"
+                      value={etiquetaData.fecha_entrega}
+                      onChange={(e) =>
+                        handleChange({
+                          name: "fecha_entrega",
+                          value: e.target.value,
+                        })
+                      }
                     />
                   </DemoItem>
                 </div>
@@ -196,7 +216,7 @@ const EtiquetaForm = ({ onEtiquetaCreated }) => {
                       value={selectedArticle ? selectedArticle.clave : ""}
                     />
                   </DemoItem>
-                  <FormControl sx={{ width: "34%" }} variant="outlined">
+                  <FormControl sx={{ width: "90%" }} variant="outlined">
                     <DemoItem label="Agregar los kilogramos">
                       <OutlinedInput
                         value={etiquetaData.kilos}
