@@ -6,11 +6,17 @@ import "../../../../style/global/global.css";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 import { apiUrl } from "../../../../api/apiEtiquetas";
-import Opciones from "./opciones/option";
+import Opciones from "../../global/opciones/option";
 import Container from "@mui/material/Container";
+import EditFormDialog from "./editFrom";
 
-const EtiquetaTable = ({ etiquetas, setEtiquetas }) => {
+const EtiquetaTable = ({ etiquetas, setEtiquetas, verificarDuplicados }) => {
   const [loading, setLoading] = useState(true);
+  const [selectedEtiqueta, setSelectedEtiqueta] = useState(null); // Nuevo estado
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const [selectedEtiqueta2, setSelectedEtiqueta2] = useState(null); // Nuevo estado
+  const [openDialog2, setOpenDialog2] = useState(false);
 
   useEffect(() => {
     const cargarEtiquetasDesdeApi = async () => {
@@ -70,6 +76,15 @@ const EtiquetaTable = ({ etiquetas, setEtiquetas }) => {
     setEtiquetas(updatedEtiquetas);
     guardarEtiquetas(updatedEtiquetas);
   };
+  //implementacion de edicin de etiqueta
+  const handleEditEtiqueta = (etiquetaId) => {
+    // Buscar la etiqueta seleccionada
+    const selected = etiquetas.find((etiqueta) => etiqueta.id === etiquetaId);
+    setSelectedEtiqueta(selected);
+
+    // Abrir el diálogo de edición
+    setOpenDialog(true);
+  };
 
   return (
     <>
@@ -114,9 +129,9 @@ const EtiquetaTable = ({ etiquetas, setEtiquetas }) => {
                         <Opciones
                           onDeleteClick={() => handleDeleteEtiqueta(item.id)}
                           onEstadoChange={() => handleEstadoChange(item.id)}
-                          /* onEditClick={() => handleEditEtiqueta(item.id)} // Agregar esta línea
-                        onExtrudeClick={() => handleExtrudeEtiqueta(item.id)} // Agregar esta línea
-                        id={item.id} */
+                          onEditClick={() => handleEditEtiqueta(item.id)} // Agregar esta línea
+                          onExtrudeClick={() => handleExtrudeEtiqueta(item.id)} // Agregar esta línea
+                          id={item.id}
                         />
                       </div>
                     </div>
@@ -131,11 +146,16 @@ const EtiquetaTable = ({ etiquetas, setEtiquetas }) => {
                     )}
                   </strong>
                   <hr className="linea-etiqueta" />
-                  <Container
+                  <div
                     className="position2 spaciadoEtiquetaLetras"
-                    style={{ display: "flex" }}
+                    style={{ display: "flex", margin: "0px", padding: "0px" }}
                   >
-                    <Container>
+                    <Container
+                      style={{
+                        margin: "0px",
+                        padding: "0.5px",
+                      }}
+                    >
                       <p className="interlineadoP">Fecha de Orden</p>
                       <p className="tamañoLetra fechasOrdenes">
                         {formatDateWithoutTime(item.fecha)}
@@ -143,10 +163,12 @@ const EtiquetaTable = ({ etiquetas, setEtiquetas }) => {
 
                       <p className="interlineadoP">Fecha de Entrega</p>
                       <p className="tamañoLetra fechasOrdenes">
-                        {item.fecha_entrega}
+                        {formatDateWithoutTime(item.fecha_entrega)}
                       </p>
                     </Container>
-                    <Container style={{ width: "40%" }}>
+                    <Container
+                      style={{ width: "40%", margin: "0px", padding: "0.5px" }}
+                    >
                       <p>Kilos</p>
                       <p
                         className="tamañoLetra interlineadoP"
@@ -155,12 +177,20 @@ const EtiquetaTable = ({ etiquetas, setEtiquetas }) => {
                         {item.kilos}kg
                       </p>
                     </Container>
-                  </Container>
+                  </div>
                 </div>
               </div>
             ))}
           </ReactSortable>
         )}
+        <EditFormDialog
+          open={openDialog}
+          onClose={() => {
+            setOpenDialog(false);
+            setSelectedEtiqueta(null);
+          }}
+          etiqueta={selectedEtiqueta}
+        />
       </div>
     </>
   );

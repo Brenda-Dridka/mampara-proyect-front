@@ -1,6 +1,7 @@
 import "../../../../style/DragAnDrop/DragAnDrop.css";
 import "../../../../style/cards.css";
 import "../../../../style/global/global.css";
+import Container from "@mui/material/Container";
 
 import "../../../../style/etiquetas.css";
 import React, { useEffect, useState } from "react";
@@ -78,14 +79,6 @@ const EtiquetaTable54_2 = ({
     }
   };
 
-  const formatDateWithoutTime = (date) => {
-    const parsedDate = new Date(date);
-    const formattedDate = `${parsedDate.getDate()}/${
-      parsedDate.getMonth() + 1
-    }/${parsedDate.getFullYear()}`;
-    return formattedDate;
-  };
-
   const handleEstadoChange = (etiquetaId) => {
     const updatedEtiquetas = etiquetas54_2.map((etiqueta) =>
       etiqueta.id === etiquetaId
@@ -122,7 +115,13 @@ const EtiquetaTable54_2 = ({
     // Abrir el diálogo de extrusión
     setOpenDialog2(true);
   };
-
+  const formatDateWithoutTime = (date) => {
+    const parsedDate = new Date(date);
+    const formattedDate = `${parsedDate.getDate()}/${
+      parsedDate.getMonth() + 1
+    }/${parsedDate.getFullYear()}`;
+    return formattedDate;
+  };
   return (
     <div className="position etiquetasAgregadas">
       <h6 className="text-center tittleEtiquetas">54 II</h6>
@@ -151,7 +150,10 @@ const EtiquetaTable54_2 = ({
                 <div className="espaciadoEtiqueta posicionamientoEtiquetas">
                   <div
                     className="card-body titulosTyle "
-                    style={{ display: "flex", justifyContent: " space-around" }}
+                    style={{
+                      display: "flex",
+                      justifyContent: " space-around",
+                    }}
                   >
                     {item.nombre}
 
@@ -180,12 +182,37 @@ const EtiquetaTable54_2 = ({
                   )}
                 </strong>
                 <hr className="linea-etiqueta" />
-                <div className="position2 spaciadoEtiquetaLetras">
-                  <p className="tamañoLetra ">
-                    {formatDateWithoutTime(item.fecha)}
-                  </p>
+                <div
+                  className="position2 spaciadoEtiquetaLetras"
+                  style={{ display: "flex", margin: "0px", padding: "0px" }}
+                >
+                  <Container
+                    style={{
+                      margin: "0px",
+                      padding: "0.5px",
+                    }}
+                  >
+                    <p className="interlineadoP">Fecha de Orden</p>
+                    <p className="tamañoLetra fechasOrdenes">
+                      {formatDateWithoutTime(item.fecha)}
+                    </p>
 
-                  <p className="tamañoLetra">{item.kilos}kg</p>
+                    <p className="interlineadoP">Fecha de Entrega</p>
+                    <p className="tamañoLetra fechasOrdenes">
+                      {formatDateWithoutTime(item.fecha_entrega)}
+                    </p>
+                  </Container>
+                  <Container
+                    style={{ width: "40%", margin: "0px", padding: "0.5px" }}
+                  >
+                    <p>Kilos</p>
+                    <p
+                      className="tamañoLetra interlineadoP"
+                      style={{ fontWeight: "bold" }}
+                    >
+                      {item.kilos}kg
+                    </p>
+                  </Container>
                 </div>
               </div>
             </div>

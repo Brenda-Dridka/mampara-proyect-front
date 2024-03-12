@@ -7,6 +7,7 @@ import axios from "axios";
 import { apiUrlEtiquetasExt26_2 } from "../../../../api/extrusores/apiExt26_2";
 import CircularProgress from "@mui/material/CircularProgress";
 import Opciones from "../../global/opciones/option";
+import Container from "@mui/material/Container";
 
 import EditFormDialog from "./editFrom";
 import ExtrusionFormDialog from "../../productoExtruidoPrueba1/ExtrusionFormDialog";
@@ -135,7 +136,10 @@ const EtiquetaTable26_2 = ({ etiquetas26_2, setEtiquetas26_2 }) => {
                 <div className="espaciadoEtiqueta posicionamientoEtiquetas">
                   <div
                     className="card-body titulosTyle "
-                    style={{ display: "flex", justifyContent: " space-around" }}
+                    style={{
+                      display: "flex",
+                      justifyContent: " space-around",
+                    }}
                   >
                     {item.nombre}
 
@@ -164,12 +168,37 @@ const EtiquetaTable26_2 = ({ etiquetas26_2, setEtiquetas26_2 }) => {
                   )}
                 </strong>
                 <hr className="linea-etiqueta" />
-                <div className="position2 spaciadoEtiquetaLetras">
-                  <p className="tamañoLetra ">
-                    {formatDateWithoutTime(item.fecha)}
-                  </p>
+                <div
+                  className="position2 spaciadoEtiquetaLetras"
+                  style={{ display: "flex", margin: "0px", padding: "0px" }}
+                >
+                  <Container
+                    style={{
+                      margin: "0px",
+                      padding: "0.5px",
+                    }}
+                  >
+                    <p className="interlineadoP">Fecha de Orden</p>
+                    <p className="tamañoLetra fechasOrdenes">
+                      {formatDateWithoutTime(item.fecha)}
+                    </p>
 
-                  <p className="tamañoLetra">{item.kilos}kg</p>
+                    <p className="interlineadoP">Fecha de Entrega</p>
+                    <p className="tamañoLetra fechasOrdenes">
+                      {formatDateWithoutTime(item.fecha_entrega)}
+                    </p>
+                  </Container>
+                  <Container
+                    style={{ width: "40%", margin: "0px", padding: "0.5px" }}
+                  >
+                    <p>Kilos</p>
+                    <p
+                      className="tamañoLetra interlineadoP"
+                      style={{ fontWeight: "bold" }}
+                    >
+                      {item.kilos}kg
+                    </p>
+                  </Container>
                 </div>
               </div>
             </div>
