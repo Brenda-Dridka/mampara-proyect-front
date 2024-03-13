@@ -12,7 +12,12 @@ import axios from "axios";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 
-const ExtrusionFormDialog = ({ open, onClose, etiqueta }) => {
+const ExtrusionFormDialog = ({
+  open,
+  onClose,
+  etiqueta,
+  editedKilosGreater,
+}) => {
   const [formData, setFormData] = useState({
     nombre: etiqueta ? etiqueta.nombre : "",
     clave: etiqueta ? etiqueta.clave : "",
@@ -50,10 +55,14 @@ const ExtrusionFormDialog = ({ open, onClose, etiqueta }) => {
       [name]: value,
     });
 
-    if (name === "kilos" && parseFloat(value) > parseFloat(etiqueta.kilos)) {
+    if (name === "kilos" && parseFloat(value) > parseFloat(formData.kilos)) {
       setKilosColor("lightgreen");
+      // Establecer editedKilosGreater a true si la cantidad editada es mayor
+      editedKilosGreater(true);
     } else {
       setKilosColor("");
+      // Establecer editedKilosGreater a false si la cantidad editada es menor o igual
+      editedKilosGreater(false);
     }
   };
 
@@ -150,7 +159,6 @@ const ExtrusionFormDialog = ({ open, onClose, etiqueta }) => {
             value={formData.fecha_entrega}
             onChange={handleInputChange}
           />
-
           <TextField
             margin="dense"
             label="Kilos"
@@ -160,7 +168,7 @@ const ExtrusionFormDialog = ({ open, onClose, etiqueta }) => {
             value={formData.kilos}
             onChange={handleInputChange}
             style={{
-              backgroundColor: kilosColor,
+              backgroundColor: kilosColor ? "lightgreen" : "",
             }}
           />
         </div>

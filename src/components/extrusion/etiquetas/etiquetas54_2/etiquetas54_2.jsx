@@ -25,14 +25,6 @@ const EtiquetaTable54_2 = ({
   };
 
   const [editedKilosGreater, setEditedKilosGreater] = useState(false); // Nuevo estado
-  const [kilosColors, setKilosColors] = useState({});
-  // Función para actualizar los colores de kilos en el estado
-  const updateKilosColor = (etiquetaId, color) => {
-    setKilosColors((prevColors) => ({
-      ...prevColors,
-      [etiquetaId]: color,
-    }));
-  };
 
   const [loading, setLoading] = useState(true);
   const [selectedEtiqueta, setSelectedEtiqueta] = useState(null); // Nuevo estado
@@ -40,16 +32,6 @@ const EtiquetaTable54_2 = ({
 
   const [selectedEtiqueta2, setSelectedEtiqueta2] = useState(null); // Nuevo estado
   const [openDialog2, setOpenDialog2] = useState(false);
-
-  // Dentro del useEffect que carga las etiquetas, inicializar los colores de kilos
-  useEffect(() => {
-    // Inicializar los colores de kilos para cada etiqueta con un objeto vacío
-    const initialColors = etiquetas54_2.reduce((acc, etiqueta) => {
-      acc[etiqueta.id] = "";
-      return acc;
-    }, {});
-    setKilosColors(initialColors);
-  }, [etiquetas54_2]);
 
   useEffect(() => {
     const cargarEtiquetasDesdeApi = async () => {
@@ -119,13 +101,6 @@ const EtiquetaTable54_2 = ({
     );
     setSelectedEtiqueta(selected);
     setOpenDialog(true);
-
-    // Verificar si la cantidad editada es mayor a la cantidad original
-    if (parseFloat(selectedEtiqueta.kilos) < parseFloat(selected.kilos)) {
-      setEditedKilosGreater(true);
-    } else {
-      setEditedKilosGreater(false);
-    }
   };
 
   //opcion de producto extruido
@@ -231,7 +206,7 @@ const EtiquetaTable54_2 = ({
                   >
                     <div
                       style={{
-                        backgroundColor: kilosColors[item.id],
+                        background: editedKilosGreater ? "lightgreen" : "",
                       }}
                     >
                       <p>Kilos</p>
@@ -256,6 +231,8 @@ const EtiquetaTable54_2 = ({
           setSelectedEtiqueta(null);
         }}
         etiqueta={selectedEtiqueta}
+        editedKilosGreater={editedKilosGreater} // Pasar el estado como prop
+        onDeleteEtiqueta={() => handleDeleteEtiqueta(selectedEtiqueta.id)}
       />
       <ExtrusionFormDialog
         open={openDialog2}
