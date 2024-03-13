@@ -62,3 +62,11 @@
 .styleKilos{
   width: 30%;
 }
+
+
+/* incremneto de los kilos */
+/* Agregar en tu hoja de estilos CSS */
+.kilos-mayores {
+    color: rgb(223, 182, 0); /* Cambiar a tu color deseado */
+  }
+  

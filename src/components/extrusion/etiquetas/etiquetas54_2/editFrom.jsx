@@ -1,3 +1,6 @@
+import "../../../../style/DragAnDrop/DragAnDrop.css";
+import "../../../../style/cards.css";
+import "../../../../style/global/global.css";
 import React, { useState, useEffect } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -6,10 +9,8 @@ import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import axios from "axios";
-
-import "../../../../style/DragAnDrop/DragAnDrop.css";
-import "../../../../style/cards.css";
-import "../../../../style/global/global.css";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 
 const ExtrusionFormDialog = ({ open, onClose, etiqueta }) => {
   const [formData, setFormData] = useState({
@@ -17,16 +18,28 @@ const ExtrusionFormDialog = ({ open, onClose, etiqueta }) => {
     clave: etiqueta ? etiqueta.clave : "",
     kilos: etiqueta ? etiqueta.kilos : "",
     fecha: etiqueta ? etiqueta.fecha : "",
+    fecha_entrega: etiqueta ? etiqueta.fecha_entrega : "",
+    polvos: etiqueta ? etiqueta.polvos : "",
   });
 
+  const [kilosColor, setKilosColor] = useState("");
+
+  const [tienePolvos, setTienePolvos] = useState(
+    etiqueta && etiqueta.polvos === true
+  );
+
   useEffect(() => {
+    console.log("Etiqueta:", etiqueta);
+    console.log("Polvos:", etiqueta ? etiqueta.polvos : null);
     if (etiqueta) {
       setFormData({
         nombre: etiqueta.nombre,
         clave: etiqueta.clave,
         kilos: etiqueta.kilos,
         fecha: etiqueta.fecha,
+        fecha_entrega: etiqueta.fecha_entrega,
       });
+      setTienePolvos(etiqueta.polvos === true);
     }
   }, [etiqueta]);
 
@@ -36,13 +49,19 @@ const ExtrusionFormDialog = ({ open, onClose, etiqueta }) => {
       ...formData,
       [name]: value,
     });
+
+    if (name === "kilos" && parseFloat(value) > parseFloat(etiqueta.kilos)) {
+      setKilosColor("lightgreen");
+    } else {
+      setKilosColor("");
+    }
   };
 
   const handleUpdate = async () => {
     try {
       const response = await axios.put(
         `http://localhost:3000/etiquetasExt54_2/${etiqueta.id}`,
-        formData
+        { ...formData, polvos: tienePolvos ? 1 : 0 }
       );
       console.log("Datos actualizados:", response.data);
       onClose();
@@ -53,12 +72,16 @@ const ExtrusionFormDialog = ({ open, onClose, etiqueta }) => {
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>
-        {etiqueta ? "Editar Etiqueta" : "Nueva Etiqueta"}
-      </DialogTitle>
+      <DialogTitle>{"Editar Etiqueta"}</DialogTitle>
 
       <DialogContent>
-        <div className="posicionamientoEtiquetas">
+        <div
+          className="posicionamientoEtiquetas"
+          style={{
+            display: "grid",
+            justifyItems: "center",
+          }}
+        >
           <TextField
             disabled
             autoFocus
@@ -69,12 +92,10 @@ const ExtrusionFormDialog = ({ open, onClose, etiqueta }) => {
             name="nombre"
             value={formData.nombre}
             onChange={handleInputChange}
+            style={{
+              width: "400px",
+            }}
           />
-        </div>
-        <hr className="linea-etiqueta " />
-
-        <hr className="linea-etiqueta " />
-        <div className="sepadadorInferior">
           <TextField
             disabled
             margin="dense"
@@ -84,16 +105,52 @@ const ExtrusionFormDialog = ({ open, onClose, etiqueta }) => {
             name="clave"
             value={formData.clave}
             onChange={handleInputChange}
+            style={{
+              width: "150px",
+            }}
           />
+        </div>
+        <hr className="linea-etiqueta " />
+
+        <FormControlLabel
+          style={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+          value="end"
+          control={
+            <Checkbox
+              checked={tienePolvos}
+              onChange={(event) => setTienePolvos(event.target.checked)}
+            />
+          }
+          label="POLVOS"
+          labelPlacement="end"
+        />
+
+        <hr className="linea-etiqueta " />
+        <div className="sepadadorInferior">
           <TextField
+            disabled
+            autoFocus
             margin="dense"
-            label="Fecha"
-            type="date"
+            label="Fecha de Orden"
+            type="text"
             fullWidth
             name="fecha"
             value={formData.fecha}
             onChange={handleInputChange}
           />
+          <TextField
+            margin="dense"
+            label="Fecha entrega"
+            type="date"
+            fullWidth
+            name="fecha_entrega"
+            value={formData.fecha_entrega}
+            onChange={handleInputChange}
+          />
+
           <TextField
             margin="dense"
             label="Kilos"
@@ -102,6 +159,9 @@ const ExtrusionFormDialog = ({ open, onClose, etiqueta }) => {
             name="kilos"
             value={formData.kilos}
             onChange={handleInputChange}
+            style={{
+              backgroundColor: kilosColor,
+            }}
           />
         </div>
       </DialogContent>
@@ -112,8 +172,15 @@ const ExtrusionFormDialog = ({ open, onClose, etiqueta }) => {
           onClick={onClose}
         >
           Cancelar
-        </Button>
-        <Button variant="contained" color="success" onClick={handleUpdate}>
+        </Button>{" "}
+        <Button
+          variant="contained"
+          color="success"
+          onClick={() => {
+            handleUpdate();
+            window.location.href = "/mampara";
+          }}
+        >
           Actualizar
         </Button>
       </DialogActions>

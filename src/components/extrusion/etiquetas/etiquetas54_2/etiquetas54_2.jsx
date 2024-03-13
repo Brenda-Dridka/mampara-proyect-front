@@ -24,12 +24,32 @@ const EtiquetaTable54_2 = ({
     return verificarDuplicados.includes(nombre);
   };
 
+  const [editedKilosGreater, setEditedKilosGreater] = useState(false); // Nuevo estado
+  const [kilosColors, setKilosColors] = useState({});
+  // Función para actualizar los colores de kilos en el estado
+  const updateKilosColor = (etiquetaId, color) => {
+    setKilosColors((prevColors) => ({
+      ...prevColors,
+      [etiquetaId]: color,
+    }));
+  };
+
   const [loading, setLoading] = useState(true);
   const [selectedEtiqueta, setSelectedEtiqueta] = useState(null); // Nuevo estado
   const [openDialog, setOpenDialog] = useState(false);
 
   const [selectedEtiqueta2, setSelectedEtiqueta2] = useState(null); // Nuevo estado
   const [openDialog2, setOpenDialog2] = useState(false);
+
+  // Dentro del useEffect que carga las etiquetas, inicializar los colores de kilos
+  useEffect(() => {
+    // Inicializar los colores de kilos para cada etiqueta con un objeto vacío
+    const initialColors = etiquetas54_2.reduce((acc, etiqueta) => {
+      acc[etiqueta.id] = "";
+      return acc;
+    }, {});
+    setKilosColors(initialColors);
+  }, [etiquetas54_2]);
 
   useEffect(() => {
     const cargarEtiquetasDesdeApi = async () => {
@@ -94,14 +114,18 @@ const EtiquetaTable54_2 = ({
 
   //implementacion de edicin de etiqueta
   const handleEditEtiqueta = (etiquetaId) => {
-    // Buscar la etiqueta seleccionada
     const selected = etiquetas54_2.find(
       (etiqueta) => etiqueta.id === etiquetaId
     );
     setSelectedEtiqueta(selected);
-
-    // Abrir el diálogo de edición
     setOpenDialog(true);
+
+    // Verificar si la cantidad editada es mayor a la cantidad original
+    if (parseFloat(selectedEtiqueta.kilos) < parseFloat(selected.kilos)) {
+      setEditedKilosGreater(true);
+    } else {
+      setEditedKilosGreater(false);
+    }
   };
 
   //opcion de producto extruido
@@ -205,13 +229,19 @@ const EtiquetaTable54_2 = ({
                   <Container
                     style={{ width: "40%", margin: "0px", padding: "0.5px" }}
                   >
-                    <p>Kilos</p>
-                    <p
-                      className="tamañoLetra interlineadoP"
-                      style={{ fontWeight: "bold" }}
+                    <div
+                      style={{
+                        backgroundColor: kilosColors[item.id],
+                      }}
                     >
-                      {item.kilos}kg
-                    </p>
+                      <p>Kilos</p>
+                      <p
+                        className="tamañoLetra interlineadoP"
+                        style={{ fontWeight: "bold" }}
+                      >
+                        {item.kilos}kg
+                      </p>
+                    </div>
                   </Container>
                 </div>
               </div>
