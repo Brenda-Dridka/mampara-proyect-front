@@ -24,7 +24,13 @@ const EtiquetaTable54_2 = ({
     return verificarDuplicados.includes(nombre);
   };
 
-  const [editedKilosGreater, setEditedKilosGreater] = useState(false); // Nuevo estado
+  const [editedKilosGreater, setEditedKilosGreater] = useState(
+    localStorage.getItem("editedKilosGreater") === "true" || false
+  );
+  const updateEditedKilosGreater = (value) => {
+    setEditedKilosGreater(value);
+    localStorage.setItem("editedKilosGreater", value.toString());
+  };
 
   const [loading, setLoading] = useState(true);
   const [selectedEtiqueta, setSelectedEtiqueta] = useState(null); // Nuevo estado

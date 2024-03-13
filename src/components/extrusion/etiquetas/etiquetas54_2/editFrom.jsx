@@ -34,8 +34,8 @@ const ExtrusionFormDialog = ({
   );
 
   useEffect(() => {
-    console.log("Etiqueta:", etiqueta);
-    console.log("Polvos:", etiqueta ? etiqueta.polvos : null);
+    /*     console.log("Etiqueta:", etiqueta);
+    console.log("Polvos:", etiqueta ? etiqueta.polvos : null); */
     if (etiqueta) {
       setFormData({
         nombre: etiqueta.nombre,
