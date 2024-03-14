@@ -70,7 +70,8 @@ const ExtrusionFormDialog = ({
     try {
       const response = await axios.put(
         `http://localhost:3000/etiquetasBussll/${etiqueta.id}`,
-        { ...formData, polvos: tienePolvos ? 1 : 0 }
+        { ...formData, polvos: tienePolvos ? 1 : 0 },
+        (window.location.href = "/mampara")
       );
       console.log("Datos actualizados:", response.data);
       onClose();
@@ -186,7 +187,7 @@ const ExtrusionFormDialog = ({
           color="success"
           onClick={() => {
             handleUpdate();
-            window.location.href = "/mampara";
+            /*   window.location.href = "/mampara"; */
           }}
         >
           Actualizar
