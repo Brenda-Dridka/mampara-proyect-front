@@ -178,12 +178,13 @@ const EtiquetaTable54_3 = ({ etiquetas54_3, setEtiquetas54_3 }) => {
                   >
                     <p className="interlineadoP">Fecha de Orden</p>
                     <p className="tamañoLetra fechasOrdenes">
-                      {formatDateWithoutTime(item.fecha)}
+                      {/* fecha de orden */}
+                      {formatDateWithoutTime(item.fecha_entrega)}
                     </p>
 
                     <p className="interlineadoP">Fecha de Entrega</p>
                     <p className="tamañoLetra fechasOrdenes">
-                      {formatDateWithoutTime(item.fecha_entrega)}
+                      {formatDateWithoutTime(item.fecha)}
                     </p>
                   </Container>
                   <Container
