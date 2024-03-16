@@ -18,15 +18,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DesktopMacIcon from "@mui/icons-material/DesktopMac";
 import { Outlet, Link } from "react-router-dom";
-import { FaList } from "react-icons/fa";
-import { HiChartBar } from "react-icons/hi";
-import { FaCheck } from "react-icons/fa6";
-import { ImSpinner9 } from "react-icons/im";
-import { SiLaravelnova } from "react-icons/si";
-import { BiSolidTimeFive } from "react-icons/bi";
-import { BiSolidTimer } from "react-icons/bi";
-import { HiMiniCloud } from "react-icons/hi2";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import { IoLogOut } from "react-icons/io5";
@@ -34,9 +26,9 @@ import UsuariosLogueados from "../components/login/users/usauriosLogeados";
 import { PiCardsBold } from "react-icons/pi";
 import { AiOutlineFileDone } from "react-icons/ai";
 import { BsArchive } from "react-icons/bs";
-import validateAction from "../validacion/extrusores/validacionExtrusores";
-import rolesConfig from "../api/permisos/rolesConfig";
+
 import { FaUserCircle } from "react-icons/fa";
+import PermissionValidator from "../components/login/PermissionValidator"; // Importa el componente PermissionValidator
 
 const drawerWidth = 240;
 
@@ -105,7 +97,6 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-console.log("esto es una data");
 const data = [
   {
     id: "01",
@@ -119,18 +110,21 @@ const data = [
     name: "Productos Extruidos",
     icon: <AiOutlineFileDone color="#03A678" />,
     link: "/terminados",
+    rol: "productos_estruidos.mostrar",
   },
   {
     id: "12",
     name: "Productos",
     icon: <BsArchive color="#026873" />,
     link: "/Productos",
+    rol: "productos.crear",
   },
   {
     id: "12",
     name: "Usuarios",
     icon: <FaUserCircle color="#AB65FC" />,
     link: "/usuarios",
+    rol: "usuario.mostra",
   },
 ];
 
@@ -234,35 +228,41 @@ export default function MiniDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-          {data.map((data, index) => (
-            <ListItem key={data.id} disablePadding sx={{ display: "block" }}>
-              <Link to={data.link} style={{ color: "black" }}>
-                <ListItemButton
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? "initial" : "center",
-                    px: 2.5,
-                  }}
-                >
-                  <ListItemIcon
+          {data.map((dataItem) => (
+            <PermissionValidator key={dataItem.id} action={dataItem.rol}>
+              <ListItem
+                key={dataItem.id}
+                disablePadding
+                sx={{ display: "block" }}
+              >
+                <Link to={dataItem.link} style={{ color: "black" }}>
+                  <ListItemButton
                     sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
-                    }}
-                    style={{
-                      fontSize: "30px",
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
                     }}
                   >
-                    {data.icon}
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={data.name}
-                    sx={{ opacity: open ? 1 : 0 }}
-                  />
-                </ListItemButton>{" "}
-              </Link>
-            </ListItem>
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                      style={{
+                        fontSize: "30px",
+                      }}
+                    >
+                      {dataItem.icon}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={dataItem.name}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>{" "}
+                </Link>
+              </ListItem>
+            </PermissionValidator>
           ))}
         </List>
         <Divider />

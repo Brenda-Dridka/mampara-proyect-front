@@ -1,39 +1,45 @@
-// validationConfig.js
-
+import { useEffect, useState } from "react";
 import axios from "axios";
+import { useUser } from "./users/UserContext";
 
-// Función para obtener los datos del usuario logeado y validar los roles y permisos
-export const validateRolesAndPermissions = async () => {
-  const user = JSON.parse(localStorage.getItem("currentUserActive"));
+const PermissionValidator = ({ action, children }) => {
+  const { username } = useUser();
+  const [hasPermission, setHasPermission] = useState(false);
 
-  if (!user) {
-    return null;
-  }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Obtener el rol del usuario desde la API de usuarios
+        const userResponse = await axios.get(
+          `http://localhost:3000/users/${username}`
+        );
+        const userRole = userResponse.data.rol_usuario;
 
-  try {
-    // Realiza una solicitud HTTP a tu API para obtener la información del usuario
-    const response = await axios.get(`http://localhost:3000/users/${user.id}`);
-    const userData = response.data;
+        // Obtener los roles desde la API de roles
+        const rolesResponse = await axios.get(`http://localhost:3000/roles`);
+        const roles = rolesResponse.data;
 
-    // Aquí deberías ajustar el código según la estructura de tu API
-    const role = userData.role;
-    const permissions = role.permissions;
+        // Verificar si el rol del usuario tiene los permisos necesarios
+        const roleWithPermissions = roles.find(
+          (role) => role.nombre === userRole
+        );
+        if (roleWithPermissions) {
+          const permissions = roleWithPermissions.permisos;
+          const hasNeededPermission = permissions.includes(action);
+          setHasPermission(hasNeededPermission);
+        } else {
+          setHasPermission(false);
+        }
+      } catch (error) {
+        console.error("Error al obtener los permisos:", error);
+        setHasPermission(false); // En caso de error, no conceder permisos
+      }
+    };
 
-    user.role = role;
-    user.role.permissions = permissions;
+    fetchData();
+  }, [action, username]);
 
-    return user;
-  } catch (error) {
-    console.error("Error al obtener información del usuario:", error);
-    return null;
-  }
+  return hasPermission ? children : null;
 };
 
-// Función para validar si el usuario tiene permiso para una acción específica
-export const validateAction = (user, permiso) => {
-  if (user && user.role && user.role.permissions) {
-    return user.role.permissions.map((p) => p.permission).includes(permiso);
-  }
-
-  return false;
-};
+export default PermissionValidator;
