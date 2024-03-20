@@ -28,7 +28,8 @@ import { AiOutlineFileDone } from "react-icons/ai";
 import { BsArchive } from "react-icons/bs";
 
 import { FaUserCircle } from "react-icons/fa";
-import PermissionValidator from "../components/login/PermissionValidator"; // Importa el componente PermissionValidator
+//import PermisoValidator from "../components/login/PermissionValidator"; // Importa el componente PermissionValidator
+import PermisoValidator from "../components/login/PermissionValidator";
 
 const drawerWidth = 240;
 
@@ -106,21 +107,21 @@ const data = [
     rol: "extrusores.mostrar",
   },
   {
-    id: "04",
+    id: "02",
     name: "Productos Extruidos",
     icon: <AiOutlineFileDone color="#03A678" />,
     link: "/terminados",
     rol: "productos_estruidos.mostrar",
   },
   {
-    id: "12",
+    id: "03",
     name: "Productos",
     icon: <BsArchive color="#026873" />,
     link: "/Productos",
-    rol: "productos.crear",
+    rol: "productos.mostrar",
   },
   {
-    id: "12",
+    id: "04",
     name: "Usuarios",
     icon: <FaUserCircle color="#AB65FC" />,
     link: "/usuarios",
@@ -141,19 +142,24 @@ export default function MiniDrawer() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  //const handleLogout = () => {
+  /*     const navigate = useNavigate(); */
+  //console.log("Cerrando sesión...");
+  //setAuthenticated(false);
+  //sessionStorage.removeItem("authenticated");
+  // Puedes realizar otras acciones necesarias al cerrar sesión
+  /*     navigate("/"); */
+  //};
+
   const handleLogout = () => {
-    /*     const navigate = useNavigate(); */
     console.log("Cerrando sesión...");
     setAuthenticated(false);
     sessionStorage.removeItem("authenticated");
-    // Puedes realizar otras acciones necesarias al cerrar sesión
-    /*     navigate("/"); */
-  };
 
-  const handleLogin = (username) => {
-    setAuthenticated(true);
-    sessionStorage.setItem("authenticated", true);
-    setUsername(username);
+    // Limpieza de la caché del usuario al cerrar sesión
+    sessionStorage.clear(); // Limpiar toda la caché de la sesión actual
+
+    // Puedes realizar otras acciones necesarias al cerrar sesión
   };
 
   return (
@@ -229,7 +235,7 @@ export default function MiniDrawer() {
         <Divider />
         <List>
           {data.map((dataItem) => (
-            <PermissionValidator key={dataItem.id} action={dataItem.rol}>
+            <PermisoValidator key={dataItem.id} permiso={dataItem.rol}>
               <ListItem
                 key={dataItem.id}
                 disablePadding
@@ -262,7 +268,7 @@ export default function MiniDrawer() {
                   </ListItemButton>{" "}
                 </Link>
               </ListItem>
-            </PermissionValidator>
+            </PermisoValidator>
           ))}
         </List>
         <Divider />

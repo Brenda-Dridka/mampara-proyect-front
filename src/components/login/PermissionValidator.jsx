@@ -1,71 +1,64 @@
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useUser } from "./users/UserContext";
 
-const Validacion = () => {
+const PermisoValidator = ({ permiso, children }) => {
   const { username } = useUser();
+  const [tienePermiso, setTienePermiso] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (!username) {
-          console.log("Error: Nombre de usuario no proporcionado.");
-          return;
-        }
+        // Obtener el usuario desde la API
+        const userResponse = await axios.get(
+          `http://localhost:3000/users?username=${username}`
+        );
+        const userData = userResponse.data.find(
+          (user) => user.username === username
+        );
+        console.log("Usuario que esta logueado", userData);
 
-        // Obtener el usuario actual de la API
-        const userResponse = await axios.get("http://localhost:3000/users", {
-          params: {
-            username: username,
-          },
-        });
-
-        console.log("Respuesta de la API de usuarios:", userResponse.data);
-
-        const user = userResponse.data;
-
-        if (!user) {
-          console.log(
-            "Error: No se encontró ningún usuario con el nombre de usuario proporcionado."
+        if (!userData) {
+          console.error(
+            "No se encontró el usuario con el nombre proporcionado."
           );
           return;
         }
 
-        // Obtener el rol del usuario
-        const roleId = user.rol_usuario;
+        const roleId = userData.rol_usuario;
+        console.log("PERMISOS", roleId);
 
-        // Consultar los permisos asociados al rol
+        // Obtener el rol del usuario desde la API
         const roleResponse = await axios.get(
           `http://localhost:3000/roles/${roleId}`
         );
+        const roleData = roleResponse.data;
+        console.log("permisos Rol", roleData.data.permisos);
 
-        const role = roleResponse.data;
+        if (!roleData) {
+          console.error("No se encontró el rol del usuario.");
+          return;
+        }
 
-        // Verificar si el rol tiene los permisos necesarios
-        const hasPermission = role.permisos.includes("extrusores.mostrar");
-
-        // Realizar acciones según los permisos
-        if (hasPermission) {
-          // Aquí puedes realizar las acciones permitidas
-          console.log(
-            "Acceso concedido. El usuario tiene permisos para mostrar los componentes."
-          );
-        } else {
-          // Aquí puedes manejar la lógica para restringir el acceso
-          // Por ejemplo, redireccionar a una página de acceso denegado
-          console.log(
-            "Acceso denegado. El usuario no tiene permisos para mostrar los componentes."
-          );
+        // Verificar si el permiso del usuario es igual al permiso de validación
+        if (
+          roleData.data.permisos &&
+          roleData.data.permisos.includes(permiso)
+        ) {
+          setTienePermiso(true);
+          console.log("Permisos tomados:", roleData.data.permisos);
         }
       } catch (error) {
-        console.error("Error al obtener los permisos:", error);
+        console.error("Error al verificar permisos:", error);
       }
     };
 
+    console.log("Llamando a la función fetchData con permiso:", permiso);
     fetchData();
-  }, [username]);
+  }, [permiso, username]);
+  console.log("username", username);
 
-  return null; // No necesitamos renderizar nada en este componente
+  return tienePermiso ? children : null;
 };
 
-export default Validacion;
+export default PermisoValidator;

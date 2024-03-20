@@ -22,11 +22,6 @@ function UsuariosLogeados() {
         gap: "0.3rem",
       }}
     >
-      {/* <AccountCircleIcon
-        style={{
-          fontSize: "30px",
-        }}
-      /> */}
       <Avatar sx={{ bgcolor: deepPurple[500] }}>{userInitial}</Avatar>
       {username}
     </div>

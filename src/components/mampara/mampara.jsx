@@ -32,6 +32,8 @@ import EtiquetasExt54_8 from "../extrusion/etiquetas/etiquetas54_8/etiquetas54_8
 import ExportacionExcel from "../extrusion/archivosExcel/ExportacionExcel";
 import "../../style/etiquetas.css";
 
+import PermisoValidator from "../login/PermissionValidator";
+
 const Mampara = () => {
   const [etiquetas, setEtiquetas] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
@@ -122,11 +124,13 @@ const Mampara = () => {
         {/* estilo para etiquetas agregadas al extrusor */}
         <div className="fondo ">
           <div>
-            <EtiquetasExt54_2
-              verificarDuplicados={verificarDuplicados}
-              etiquetas54_2={etiquetas54_2}
-              setEtiquetas54_2={setEtiquetas54_2}
-            />
+            <PermisoValidator permiso="extrusores.mostrar">
+              <EtiquetasExt54_2
+                verificarDuplicados={verificarDuplicados}
+                etiquetas54_2={etiquetas54_2}
+                setEtiquetas54_2={setEtiquetas54_2}
+              />
+            </PermisoValidator>
 
             <EtiquetasBuss1
               verificarDuplicados={verificarDuplicados}
