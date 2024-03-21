@@ -115,8 +115,10 @@ const Mampara = () => {
       <div>
         {/* Agregar formulario */}
         <div style={{ marginBottom: "0.5rem", display: "flex", gap: ".5rem" }}>
-          <EtiquetaForm onEtiquetaCreated={handleEtiquetaCreated} />
-          <ExportacionExcel />
+          <PermisoValidator permiso="extrusores.exportacion">
+            <EtiquetaForm onEtiquetaCreated={handleEtiquetaCreated} />
+            <ExportacionExcel />
+          </PermisoValidator>
         </div>
 
         <EtiquetasAgregadas etiquetas={etiquetas} setEtiquetas={setEtiquetas} />
@@ -124,13 +126,11 @@ const Mampara = () => {
         {/* estilo para etiquetas agregadas al extrusor */}
         <div className="fondo ">
           <div>
-            <PermisoValidator permiso="extrusores.mostrar">
-              <EtiquetasExt54_2
-                verificarDuplicados={verificarDuplicados}
-                etiquetas54_2={etiquetas54_2}
-                setEtiquetas54_2={setEtiquetas54_2}
-              />
-            </PermisoValidator>
+            <EtiquetasExt54_2
+              verificarDuplicados={verificarDuplicados}
+              etiquetas54_2={etiquetas54_2}
+              setEtiquetas54_2={setEtiquetas54_2}
+            />
 
             <EtiquetasBuss1
               verificarDuplicados={verificarDuplicados}

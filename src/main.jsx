@@ -11,6 +11,7 @@ import "./index.css";
 import Root from "./routes/root";
 import ErrorPage from "./error-page";
 import Mampara from "./components/mampara/mampara";
+
 import Productos from "./components/productos/productos";
 import Terminados from "./components/extrusion/productoExtruidoPrueba1/TableProductoExtruido";
 import Login from "./components/login/Login";
@@ -32,6 +33,7 @@ const App = () => {
             <PrivateRoute authenticated={authenticated} element={<Mampara />} />
           ),
         },
+
         {
           path: "/productos",
           element: (

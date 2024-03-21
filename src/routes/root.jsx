@@ -106,6 +106,7 @@ const data = [
     link: "/mampara",
     rol: "extrusores.mostrar",
   },
+
   {
     id: "02",
     name: "Productos Extruidos",
