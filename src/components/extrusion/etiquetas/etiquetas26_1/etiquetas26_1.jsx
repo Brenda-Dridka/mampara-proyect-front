@@ -265,15 +265,19 @@ const EtiquetaTable26_1 = ({ etiquetas26_1, setEtiquetas26_1 }) => {
                               : ""
                           }`}
                         >
-                          <Opciones
-                            onDeleteClick={() => handleDeleteEtiqueta(item.id)}
-                            onEstadoChange={() => handleEstadoChange(item.id)}
-                            onEditClick={() => handleEditEtiqueta(item.id)} // Agregar esta línea
-                            onExtrudeClick={() =>
-                              handleExtrudeEtiqueta(item.id)
-                            } // Agregar esta línea
-                            id={item.id}
-                          />
+                          <PermisoValidator permiso="extrusores.mostrarOpciones">
+                            <Opciones
+                              onDeleteClick={() =>
+                                handleDeleteEtiqueta(item.id)
+                              }
+                              onEstadoChange={() => handleEstadoChange(item.id)}
+                              onEditClick={() => handleEditEtiqueta(item.id)} // Agregar esta línea
+                              onExtrudeClick={() =>
+                                handleExtrudeEtiqueta(item.id)
+                              } // Agregar esta línea
+                              id={item.id}
+                            />
+                          </PermisoValidator>
                         </div>
                       </div>
                     </div>

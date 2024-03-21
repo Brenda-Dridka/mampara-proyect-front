@@ -115,8 +115,11 @@ const Mampara = () => {
       <div>
         {/* Agregar formulario */}
         <div style={{ marginBottom: "0.5rem", display: "flex", gap: ".5rem" }}>
-          <PermisoValidator permiso="extrusores.exportacion">
+          <PermisoValidator permiso="extrusores.crear">
             <EtiquetaForm onEtiquetaCreated={handleEtiquetaCreated} />
+          </PermisoValidator>
+
+          <PermisoValidator permiso="extrusores.exportacion">
             <ExportacionExcel />
           </PermisoValidator>
         </div>

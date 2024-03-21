@@ -259,15 +259,19 @@ const EtiquetaTable54_4 = ({ etiquetas54_4, setEtiquetas54_4 }) => {
                               : ""
                           }`}
                         >
-                          <Opciones
-                            onDeleteClick={() => handleDeleteEtiqueta(item.id)}
-                            onEstadoChange={() => handleEstadoChange(item.id)}
-                            onEditClick={() => handleEditEtiqueta(item.id)} // Agregar esta línea
-                            onExtrudeClick={() =>
-                              handleExtrudeEtiqueta(item.id)
-                            } // Agregar esta línea
-                            id={item.id}
-                          />
+                          <PermisoValidator permiso="extrusores.mostrarOpciones">
+                            <Opciones
+                              onDeleteClick={() =>
+                                handleDeleteEtiqueta(item.id)
+                              }
+                              onEstadoChange={() => handleEstadoChange(item.id)}
+                              onEditClick={() => handleEditEtiqueta(item.id)} // Agregar esta línea
+                              onExtrudeClick={() =>
+                                handleExtrudeEtiqueta(item.id)
+                              } // Agregar esta línea
+                              id={item.id}
+                            />
+                          </PermisoValidator>
                         </div>
                       </div>
                     </div>

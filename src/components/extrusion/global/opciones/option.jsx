@@ -9,6 +9,8 @@ import { BsClockHistory } from "react-icons/bs";
 
 import Tooltip from "@mui/material/Tooltip";
 
+import PermisoValidator from "../../../login/PermissionValidator";
+
 export default function BasicPopover({
   onDeleteClick,
   onEstadoChange,
@@ -86,11 +88,13 @@ export default function BasicPopover({
               <DeleteIcon style={{ color: "red" }} />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Editar" placement="right">
-            <IconButton onClick={handleEditClick}>
-              <EditIcon style={{ color: "F5B707" }} />
-            </IconButton>
-          </Tooltip>
+          <PermisoValidator permiso="extrusores.editar">
+            <Tooltip title="Editar" placement="right">
+              <IconButton onClick={handleEditClick}>
+                <EditIcon style={{ color: "F5B707" }} />
+              </IconButton>
+            </Tooltip>
+          </PermisoValidator>
           <Tooltip title="Pendiente" placement="right">
             <IconButton onClick={handleEstadoChangeClick}>
               <BsClockHistory style={{ color: "5DBF00" }} />
