@@ -22,14 +22,15 @@ const Login = ({ setAuthenticated }) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { setUser } = useUser();
+  // const { setUser } = useUser();
+  const { setUser, username: storedUsername } = useUser();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
 
-  const handleLogin = async () => {
+  /*  const handleLogin = async () => {
     try {
       const users = await axios.get(apiUrl);
       const user = users.data.find(
@@ -49,6 +50,36 @@ const Login = ({ setAuthenticated }) => {
     } catch (error) {
       console.error("Error al iniciar sesión:", error);
       // Manejar el error de manera apropiada, por ejemplo, mostrar un mensaje de error
+      setError("Error al iniciar sesión");
+    }
+  }; */
+
+  const handleLogin = async () => {
+    try {
+      let user;
+      if (storedUsername) {
+        // Si ya tenemos el usuario almacenado en el contexto, no hacemos una nueva solicitud
+        user = { username: storedUsername };
+      } else {
+        // Hacemos una solicitud a la API para obtener los datos del usuario
+        const users = await axios.get(apiUrl);
+        user = users.data.find(
+          (u) => u.username === username && u.password === password
+        );
+      }
+
+      if (user) {
+        // Login successful
+        setAuthenticated(true);
+        sessionStorage.setItem("authenticated", "true");
+        setUser(user.username); // Almacenamos el nombre de usuario en el contexto
+        navigate("/mampara");
+      } else {
+        // Credenciales incorrectas
+        setError("Credenciales incorrectas, verificar usuario o contraseña");
+      }
+    } catch (error) {
+      console.error("Error al iniciar sesión:", error);
       setError("Error al iniciar sesión");
     }
   };

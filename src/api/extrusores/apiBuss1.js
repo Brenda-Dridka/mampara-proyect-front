@@ -4,7 +4,6 @@ import axios from "axios";
 export const apiUrlBuss1 = "http://localhost:3000/etiquetasBussl";
 
 export const fetchEtiquetasBuss1 = async () => {
-  console.log("muestra data", data);
   const response = await axios.get(apiUrlEtiquetasExtBuss1);
   return response.data;
 };

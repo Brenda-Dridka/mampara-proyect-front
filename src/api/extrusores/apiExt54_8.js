@@ -4,7 +4,6 @@ import axios from "axios";
 export const apiUrlEtiquetasExt54_8 = "http://localhost:3000/etiquetasExt54_8";
 
 export const fetchEtiquetas54_8 = async () => {
-  console.log("muestra data", data);
   const response = await axios.get(apiUrlEtiquetasExt54_8);
   return response.data;
 };

@@ -83,6 +83,7 @@ const EtiquetaTable54_2 = ({
 
       // Realizar el guardado de las etiquetas
       await axios.post(apiUrlEtiquetasExt54_2, etiquetasConExtrusor);
+      console.log("extrusor", etiquetasConExtrusor);
       console.log("Etiquetas guardadas con éxito");
     } catch (error) {
       console.error("Error al guardar las etiquetas", error);

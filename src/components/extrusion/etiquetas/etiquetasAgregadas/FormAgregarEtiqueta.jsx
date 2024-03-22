@@ -65,10 +65,10 @@ const EtiquetaForm = ({ onEtiquetaCreated }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Fecha:", etiquetaData.fecha);
-    console.log("Artículo seleccionado:", selectedArticle);
-    console.log("Kilos:", etiquetaData.kilos);
-    console.log("fecha_entrega:", etiquetaData.fecha_entrega);
+    //console.log("Fecha:", etiquetaData.fecha);
+    //console.log("Artículo seleccionado:", selectedArticle);
+    //console.log("Kilos:", etiquetaData.kilos);
+    //console.log("fecha_entrega:", etiquetaData.fecha_entrega);
 
     if (
       !etiquetaData.fecha ||
