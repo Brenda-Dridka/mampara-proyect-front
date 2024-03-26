@@ -69,7 +69,7 @@ const ExtrusionFormDialog = ({
   const handleUpdate = async () => {
     try {
       const response = await axios.put(
-        `https://mampara-backend.vercel.app/etiquetasBussll/${etiqueta.id}`,
+        `http://localhost:3000/etiquetasBussll/${etiqueta.id}`,
         { ...formData, polvos: tienePolvos ? 1 : 0 },
         (window.location.href = "/mampara")
       );

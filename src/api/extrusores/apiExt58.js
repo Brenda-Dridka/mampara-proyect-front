@@ -1,8 +1,7 @@
 // api.js
 import axios from "axios";
 
-export const apiUrlEtiquetasExt58 =
-  "https://mampara-backend.vercel.app/etiquetasExt58";
+export const apiUrlEtiquetasExt58 = "http://localhost:3000/etiquetasExt58";
 
 export const fetchEtiquetas58 = async () => {
   const response = await axios.get(apiUrlEtiquetasExt58);

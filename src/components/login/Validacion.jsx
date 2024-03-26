@@ -11,14 +11,12 @@ const PermissionValidator = ({ action, children }) => {
       try {
         // Obtener el rol del usuario desde la API de usuarios
         const userResponse = await axios.get(
-          `https://mampara-backend.vercel.app/users/${username}`
+          `http://localhost:3000/users/${username}`
         );
         const userRole = userResponse.data.rol_usuario;
 
         // Obtener los roles desde la API de roles
-        const rolesResponse = await axios.get(
-          `https://mampara-backend.vercel.app/roles`
-        );
+        const rolesResponse = await axios.get(`http://localhost:3000/roles`);
         const roles = rolesResponse.data;
 
         // Verificar si el rol del usuario tiene los permisos necesarios

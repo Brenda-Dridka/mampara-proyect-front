@@ -11,7 +11,7 @@ const PermisoValidator = ({ permiso, children }) => {
       try {
         // Obtener el usuario desde la API
         const userResponse = await axios.get(
-          `https://mampara-backend.vercel.app/users?username=${username}`
+          `http://localhost:3000/users?username=${username}`
         );
         const userData = userResponse.data.find(
           (user) => user.username === username
@@ -30,7 +30,7 @@ const PermisoValidator = ({ permiso, children }) => {
 
         // Obtener el rol del usuario desde la API
         const roleResponse = await axios.get(
-          `https://mampara-backend.vercel.app/roles/${roleId}`
+          `http://localhost:3000/roles/${roleId}`
         );
         const roleData = roleResponse.data;
         //console.log("permisos Rol", roleData.data.permisos);

@@ -2,9 +2,7 @@ import axios from "axios";
 
 export const fetchProductos = async () => {
   try {
-    const response = await fetch(
-      "https://mampara-backend.vercel.app/productos"
-    );
+    const response = await fetch("http://localhost:3000/productos");
     if (!response.ok) {
       throw new Error("Error al obtener productos");
     }
