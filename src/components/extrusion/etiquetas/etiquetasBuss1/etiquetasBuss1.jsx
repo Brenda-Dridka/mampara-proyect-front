@@ -11,7 +11,6 @@ import EditFormDialog from "./editFrom";
 import ExtrusionFormDialog from "../../productoExtruidoPrueba1/ExtrusionFormDialog";
 import "../../../../style/etiquetas.css";
 import Container from "@mui/material/Container";
-
 import PermisoValidator from "../../../login/PermissionValidator";
 
 const EtiquetaTableBuss1 = ({
