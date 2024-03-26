@@ -1,7 +1,7 @@
 // api.js
 import axios from "axios";
 
-export const apiUrl = "http://localhost:3000/users";
+export const apiUrl = "https://mampara-backend.vercel.app/users";
 
 export const fetchUsuarios = async () => {
   try {

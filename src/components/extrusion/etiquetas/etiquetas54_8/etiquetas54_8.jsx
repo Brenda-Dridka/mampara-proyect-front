@@ -243,15 +243,7 @@ const EtiquetaTable54_8 = ({ etiquetas54_8, setEtiquetas54_8 }) => {
           {loading ? (
             <CircularProgress color="secondary" />
           ) : (
-            <ReactSortable
-              group="groupName"
-              animation={200}
-              setList={handleEtiquetasChange}
-              delayOnTouchStart={true}
-              delay={2}
-              list={etiquetas54_8}
-              className="position"
-            >
+            <div className="position">
               {etiquetas54_8.map((item, index) => (
                 <div key={item.id} className="etiqueta" data-id={item.id}>
                   <div className="m-3 cursor-draggable">
@@ -338,7 +330,7 @@ const EtiquetaTable54_8 = ({ etiquetas54_8, setEtiquetas54_8 }) => {
                   </div>
                 </div>
               ))}
-            </ReactSortable>
+            </div>
           )}
           <EditFormDialog
             open={openDialog}

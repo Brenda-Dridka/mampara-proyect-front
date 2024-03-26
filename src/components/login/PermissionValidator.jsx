@@ -11,12 +11,12 @@ const PermisoValidator = ({ permiso, children }) => {
       try {
         // Obtener el usuario desde la API
         const userResponse = await axios.get(
-          `http://localhost:3000/users?username=${username}`
+          `https://mampara-backend.vercel.app/users?username=${username}`
         );
         const userData = userResponse.data.find(
           (user) => user.username === username
         );
-        //  console.log("Usuario que esta logueado", userData);
+        console.log("Usuario que esta logueado", userData);
 
         if (!userData) {
           console.error(
@@ -30,7 +30,7 @@ const PermisoValidator = ({ permiso, children }) => {
 
         // Obtener el rol del usuario desde la API
         const roleResponse = await axios.get(
-          `http://localhost:3000/roles/${roleId}`
+          `https://mampara-backend.vercel.app/roles/${roleId}`
         );
         const roleData = roleResponse.data;
         //console.log("permisos Rol", roleData.data.permisos);

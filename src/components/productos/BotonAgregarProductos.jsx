@@ -59,7 +59,7 @@ export default function AlertDialog() {
     };
 
     axios
-      .post("http://localhost:3000/productos", data)
+      .post("https://mampara-backend.vercel.app/productos", data)
       .then((response) => {
         // Aquí puedes manejar la respuesta de la API
         console.log("Producto Guardado con excito", response.data);

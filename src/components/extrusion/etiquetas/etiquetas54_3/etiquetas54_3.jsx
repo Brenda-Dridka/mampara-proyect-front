@@ -240,15 +240,7 @@ const EtiquetaTable54_3 = ({ etiquetas54_3, setEtiquetas54_3 }) => {
           {loading ? (
             <CircularProgress color="secondary" />
           ) : (
-            <ReactSortable
-              group="groupName"
-              animation={200}
-              setList={handleEtiquetasChange}
-              delayOnTouchStart={true}
-              delay={2}
-              list={etiquetas54_3}
-              className="position"
-            >
+            <div className="position">
               {etiquetas54_3.map((item, index) => (
                 <div key={item.id} className="etiqueta" data-id={item.id}>
                   <div className="m-3 cursor-draggable">
@@ -354,7 +346,7 @@ const EtiquetaTable54_3 = ({ etiquetas54_3, setEtiquetas54_3 }) => {
                   handleDeleteEtiqueta(selectedEtiqueta2.id)
                 }
               />
-            </ReactSortable>
+            </div>
           )}
         </div>
       </PermisoValidator>

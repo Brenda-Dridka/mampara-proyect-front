@@ -44,7 +44,7 @@ export default function StickyHeadTable() {
 
   const fetchUsuariosData = async () => {
     try {
-      const response = await fetch("http://localhost:3000/users");
+      const response = await fetch("https://mampara-backend.vercel.app/users");
       if (!response.ok) {
         throw new Error("Error al obtener usuarios");
       }

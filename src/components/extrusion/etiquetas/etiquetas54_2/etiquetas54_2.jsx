@@ -135,107 +135,117 @@ const EtiquetaTable54_2 = ({
       <PermisoValidator permiso="extrusores.mover">
         <div className="position etiquetasAgregadas">
           <h6 className="text-center tittleEtiquetas">54 II</h6>
-
-          <ReactSortable
-            value="EXT54-II"
-            group="groupName"
-            animation={200}
-            setList={handleEtiquetasChange}
-            delayOnTouchStart={true}
-            delay={2}
-            list={etiquetas54_2}
-            className="position"
-            sort={false}
-          >
-            {etiquetas54_2.map((item, index) => (
-              <div
-                key={item.id}
-                className={`etiqueta ${
-                  duplicados.has(item.nombre) ? "etiqueta-duplicada" : ""
-                }`}
-                data-id={item.id}
-                style={{}}
-              >
-                <div className="m-3 cursor-draggable">
-                  <div className="espaciadoEtiqueta posicionamientoEtiquetas">
-                    <div
-                      className="card-body titulosTyle "
-                      style={{
-                        display: "flex",
-                        justifyContent: " space-around",
-                      }}
-                    >
-                      {item.nombre}
-
+          {loading ? (
+            <CircularProgress color="secondary" />
+          ) : (
+            <ReactSortable
+              value="EXT54-II"
+              group="groupName"
+              animation={200}
+              setList={handleEtiquetasChange}
+              delayOnTouchStart={true}
+              delay={2}
+              list={etiquetas54_2}
+              className="position"
+              sort={false}
+            >
+              {etiquetas54_2.map((item, index) => (
+                <div
+                  key={item.id}
+                  className={`etiqueta ${
+                    duplicados.has(item.nombre) ? "etiqueta-duplicada" : ""
+                  }`}
+                  data-id={item.id}
+                  style={{}}
+                >
+                  <div className="m-3 cursor-draggable">
+                    <div className="espaciadoEtiqueta posicionamientoEtiquetas">
                       <div
-                        className={`etiqueta2 ${
-                          item.estado === "inactivo" ? "etiqueta-inactiva" : ""
-                        }`}
-                      >
-                        <Opciones
-                          onDeleteClick={() => handleDeleteEtiqueta(item.id)}
-                          onEstadoChange={() => handleEstadoChange(item.id)}
-                          onEditClick={() => handleEditEtiqueta(item.id)} // Agregar esta línea
-                          onExtrudeClick={() => handleExtrudeEtiqueta(item.id)} // Agregar esta línea
-                          id={item.id}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="tamañoLetraClave">{item.clave}</div>
-                  <hr className="linea-etiqueta" />
-                  <strong>
-                    {item.polvos === true && (
-                      <p className="tamañoLetra posicionamientoEtiquetas spaciadoEtiquetaLetras">
-                        POLVOS
-                      </p>
-                    )}
-                  </strong>
-                  <hr className="linea-etiqueta" />
-                  <div
-                    className="position2 spaciadoEtiquetaLetras"
-                    style={{ display: "flex", margin: "0px", padding: "0px" }}
-                  >
-                    <Container
-                      style={{
-                        margin: "0px",
-                        padding: "0.5px",
-                      }}
-                    >
-                      <p className="interlineadoP">Fecha de Orden</p>
-                      <p className="tamañoLetra fechasOrdenes">
-                        {/* fecha de orden */}
-                        {formatDateWithoutTime(item.fecha_entrega)}
-                      </p>
-
-                      <p className="interlineadoP">Fecha de Entrega</p>
-                      <p className="tamañoLetra fechasOrdenes">
-                        {formatDateWithoutTime(item.fecha)}
-                      </p>
-                    </Container>
-                    <Container
-                      style={{ width: "40%", margin: "0px", padding: "0.5px" }}
-                    >
-                      <div
+                        className="card-body titulosTyle "
                         style={{
-                          background: editedKilosGreater ? "lightgreen" : "",
+                          display: "flex",
+                          justifyContent: " space-around",
                         }}
                       >
-                        <p>Kilos</p>
-                        <p
-                          className="tamañoLetra interlineadoP"
-                          style={{ fontWeight: "bold" }}
+                        {item.nombre}
+
+                        <div
+                          className={`etiqueta2 ${
+                            item.estado === "inactivo"
+                              ? "etiqueta-inactiva"
+                              : ""
+                          }`}
                         >
-                          {item.kilos}kg
-                        </p>
+                          <Opciones
+                            onDeleteClick={() => handleDeleteEtiqueta(item.id)}
+                            onEstadoChange={() => handleEstadoChange(item.id)}
+                            onEditClick={() => handleEditEtiqueta(item.id)} // Agregar esta línea
+                            onExtrudeClick={() =>
+                              handleExtrudeEtiqueta(item.id)
+                            } // Agregar esta línea
+                            id={item.id}
+                          />
+                        </div>
                       </div>
-                    </Container>
+                    </div>
+                    <div className="tamañoLetraClave">{item.clave}</div>
+                    <hr className="linea-etiqueta" />
+                    <strong>
+                      {item.polvos === true && (
+                        <p className="tamañoLetra posicionamientoEtiquetas spaciadoEtiquetaLetras">
+                          POLVOS
+                        </p>
+                      )}
+                    </strong>
+                    <hr className="linea-etiqueta" />
+                    <div
+                      className="position2 spaciadoEtiquetaLetras"
+                      style={{ display: "flex", margin: "0px", padding: "0px" }}
+                    >
+                      <Container
+                        style={{
+                          margin: "0px",
+                          padding: "0.5px",
+                        }}
+                      >
+                        <p className="interlineadoP">Fecha de Orden</p>
+                        <p className="tamañoLetra fechasOrdenes">
+                          {/* fecha de orden */}
+                          {formatDateWithoutTime(item.fecha_entrega)}
+                        </p>
+
+                        <p className="interlineadoP">Fecha de Entrega</p>
+                        <p className="tamañoLetra fechasOrdenes">
+                          {formatDateWithoutTime(item.fecha)}
+                        </p>
+                      </Container>
+                      <Container
+                        style={{
+                          width: "40%",
+                          margin: "0px",
+                          padding: "0.5px",
+                        }}
+                      >
+                        <div
+                          style={{
+                            background: editedKilosGreater ? "lightgreen" : "",
+                          }}
+                        >
+                          <p>Kilos</p>
+                          <p
+                            className="tamañoLetra interlineadoP"
+                            style={{ fontWeight: "bold" }}
+                          >
+                            {item.kilos}kg
+                          </p>
+                        </div>
+                      </Container>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </ReactSortable>
-
+              ))}
+            </ReactSortable>
+          )}
           <EditFormDialog
             open={openDialog}
             onClose={() => {
