@@ -10,7 +10,7 @@ import Opciones from "../../global/opciones/option";
 import Container from "@mui/material/Container";
 import EditFormDialog from "./editFrom";
 
-const EtiquetaTable = ({ etiquetas, setEtiquetas, verificarDuplicados }) => {
+const EtiquetaTable = ({ etiquetas, setEtiquetas }) => {
   const [loading, setLoading] = useState(true);
   const [selectedEtiqueta, setSelectedEtiqueta] = useState(null); // Nuevo estado
   const [openDialog, setOpenDialog] = useState(false);

@@ -13,13 +13,7 @@ import "../../../../style/etiquetas.css";
 import Container from "@mui/material/Container";
 import PermisoValidator from "../../../login/PermissionValidator";
 
-const EtiquetaTableBuss1 = ({
-  etiquetasBuss1,
-  setEtiquetasBuss1,
-  verificarDuplicados,
-}) => {
-  const duplicados = verificarDuplicados(etiquetasBuss1);
-
+const EtiquetaTableBuss1 = ({ etiquetasBuss1, setEtiquetasBuss1 }) => {
   const [loading, setLoading] = useState(true);
   const [selectedEtiqueta, setSelectedEtiqueta] = useState(null); // Nuevo estado
   const [openDialog, setOpenDialog] = useState(false);
@@ -139,13 +133,7 @@ const EtiquetaTableBuss1 = ({
               className="position"
             >
               {etiquetasBuss1.map((item, index) => (
-                <div
-                  key={item.id}
-                  className={`etiqueta ${
-                    duplicados.has(item.nombre) ? "etiqueta-duplicada" : ""
-                  }`}
-                  data-id={item.id}
-                >
+                <div key={item.id} className="etiqueta " data-id={item.id}>
                   <div className="m-3 cursor-draggable">
                     <div className="espaciadoEtiqueta posicionamientoEtiquetas">
                       <div
@@ -253,13 +241,7 @@ const EtiquetaTableBuss1 = ({
 
           <div className="position">
             {etiquetasBuss1.map((item, index) => (
-              <div
-                key={item.id}
-                className={`etiqueta ${
-                  duplicados.has(item.nombre) ? "etiqueta-duplicada" : ""
-                }`}
-                data-id={item.id}
-              >
+              <div key={item.id} className="etiqueta" data-id={item.id}>
                 <div className="m-3 cursor-draggable">
                   <div className="espaciadoEtiqueta posicionamientoEtiquetas">
                     <div

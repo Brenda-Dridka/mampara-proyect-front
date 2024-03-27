@@ -40,11 +40,10 @@ const EtiquetaTable54_2 = ({ etiquetas54_2, setEtiquetas54_2 }) => {
   // Función para manejar el cambio en la lista de etiquetas
   const handleEtiquetasChange = (newState) => {
     setEtiquetas54_2(newState); // Actualizar el estado con las etiquetas
-
     console.log("Etiquetas54_2 posicionadas:", newState);
-
     guardarEtiquetas(newState);
   };
+
   const handleDeleteEtiqueta = (etiquetaId) => {
     // Lógica para eliminar la etiqueta con el ID proporcionado
     const updatedEtiquetas = etiquetas54_2.filter(
@@ -71,6 +70,7 @@ const EtiquetaTable54_2 = ({ etiquetas54_2, setEtiquetas54_2 }) => {
       console.error("Error al guardar las etiquetas", error);
     }
   };
+
   const formatDateWithoutTime = (date) => {
     const parsedDate = new Date(date);
     const formattedDate = `${parsedDate.getDate()}/${
