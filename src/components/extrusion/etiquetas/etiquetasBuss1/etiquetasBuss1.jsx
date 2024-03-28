@@ -63,6 +63,7 @@ const EtiquetaTableBuss1 = ({ etiquetasBuss1, setEtiquetasBuss1 }) => {
 
       // Realizar el guardado de las etiquetas
       await axios.post(apiUrlBuss1, etiquetasConExtrusor);
+
       console.log("Etiquetas guardadas con éxito");
     } catch (error) {
       console.error("Error al guardar las etiquetas", error);

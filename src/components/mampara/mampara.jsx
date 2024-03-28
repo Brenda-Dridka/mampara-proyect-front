@@ -122,7 +122,7 @@ const Mampara = () => {
               setEtiquetasBuss1={setEtiquetasBuss1}
             />
 
-            <EtiquetasExt70_2
+            {/*     <EtiquetasExt70_2
               etiquetasExt70_2={etiquetasExt70_2}
               setEtiquetasExt70_2={setEtiquetasExt70_2}
             />
@@ -181,7 +181,7 @@ const Mampara = () => {
             <EtiquetasExt54_8
               etiquetas54_8={etiquetas54_8}
               setEtiquetas54_8={setEtiquetas54_8}
-            />
+            /> */}
           </div>
         </div>
       </div>

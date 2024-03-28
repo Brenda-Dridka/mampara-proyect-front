@@ -21,6 +21,7 @@ const EtiquetaTable54_2 = ({ etiquetas54_2, setEtiquetas54_2 }) => {
 
   const [selectedEtiqueta2, setSelectedEtiqueta2] = useState(null); // Nuevo estado
   const [openDialog2, setOpenDialog2] = useState(false);
+  const [guardandoEtiquetas, setGuardandoEtiquetas] = useState(false);
 
   useEffect(() => {
     const cargarEtiquetasDesdeApi = async () => {
